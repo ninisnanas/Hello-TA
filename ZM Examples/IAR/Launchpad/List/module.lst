@@ -1,0 +1,1190 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:19 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\module.c                              #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\module.c" -D LAUNCHPAD -D ZM_PHY_SPI  #
+#                     -D REGION_NORTH_AMERICA -D DISPLAY_NETWORK_INFORMATION  #
+#                     -lc "C:\Documents and Settings\Nisrina                  #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\" -o      #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\"          #
+#                     --no_cse --no_unroll --no_inline --no_code_motion       #
+#                     --no_tbaa --debug -D__MSP430G2553__ -e --double=32      #
+#                     --dlib_config "C:\Program Files\IAR Systems\Embedded    #
+#                     Workbench 6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents  #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\module.ls #
+#                     t                                                       #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\module.r43 #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM\module.c
+      1          /**
+      2          * @file module.c
+      3          *
+      4          * @brief Interface to the Zigbee Module
+      5          * 
+      6          * This file contains library methods as well as error checking and return values.
+      7          *
+      8          * Requires one physical interface to be defined, e.g. ZM_PHY_SPI.
+      9          *
+     10          * @note To output SPI transmit information, define MODULE_INTERFACE_VERBOSE. 
+     11          * It is recommended to define this on a per-project basis. 
+     12          * In IAR, this can be done in Project Options : C/C++ compiler : Preprocessor
+     13          * In the defined symbols box, add:
+     14          * MODULE_INTERFACE_VERBOSE
+     15          *
+     16          * $Rev: 1642 $
+     17          * $Author: dsmith $
+     18          * $Date: 2012-10-31 11:17:04 -0700 (Wed, 31 Oct 2012) $
+     19          *
+     20          * @section support Support
+     21          * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     22          * is available via email at the following addresses:
+     23          * - Questions on how to use the product: AIR@anaren.com
+     24          * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     25          * - Consulting engagements: sales@teslacontrols.com
+     26          *
+     27          * @section license License
+     28          * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     29          * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     30          * source and binary forms, with or without modification, are subject to the Software License 
+     31          * Agreement in the file "anaren_eula.txt"
+     32          * 
+     33          * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     34          * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     35          * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     36          * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     37          * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     38          * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     39          * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     40          * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     41          * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     42          */
+     43          
+     44          #include "module.h"
+     45          #include <string.h>                     //for memcpy
+     46          #include "../HAL/hal.h"
+     47          #include "../Common/utilities.h"
+     48          #include "zm_phy.h"
+     49          #include "module_errors.h"
+     50          #include <stddef.h>                     //for NULL
+     51          #include <stdint.h>
+     52          
+     53          extern uint8_t zmBuf[ZIGBEE_MODULE_BUFFER_SIZE];
+     54          
+     55          /** 
+     56          Initializes the module's physical interface, either SPI or UART, depending on which phy file is included.
+     57          */
+     58          void moduleInit()
+     59          {
+     60            zm_phy_init();  //this is phy dependent.
+     61          }
+     62          
+     63          #define METHOD_MODULE_RESET        0x0100
+     64          /** 
+     65          Resets the Module using hardware and retrieves the SYS_RESET_IND message. This method is used to 
+     66          restart the Module's internal state machine and apply changes to startup options, zigbee device type, etc.
+     67          @post zmBuf contains the version structure, starting at MODULE_RESET_RESULT_START_FIELD
+     68          @see Interface Specification for order of fields
+     69          */
+     70          moduleResult_t moduleReset()
+     71          {
+     72              RADIO_OFF();
+     73              delayMs(1);
+     74              RADIO_ON(); 
+     75          #define MODULE_RESET_INITIAL_DELAY_MS   400
+     76              delayMs(MODULE_RESET_INITIAL_DELAY_MS);                        //Necessary to allow proper module startup
+     77              
+     78          #ifdef ZM_PHY_SPI
+     79          
+     80          #define TEST_SRDY_INTERVAL_MS           10        // check SRDY every 10 mSec
+     81          #define TEST_SRDY_TIMEOUT_MS            2000      // ...and timeout after 1500mSec
+     82          #define TEST_SRDY_MINIMUM_TIMEOUT_MS    100       // If SRDY transitions less then this than an error.
+     83              unsigned int elapsedTime = 0;       //now, poll for SRDY going low...
+     84              do
+     85              {
+     86                  delayMs(TEST_SRDY_INTERVAL_MS);
+     87                  elapsedTime += TEST_SRDY_INTERVAL_MS;
+     88              }
+     89              while ((elapsedTime < TEST_SRDY_TIMEOUT_MS) && (!(MODULE_HAS_MESSAGE_WAITING())));
+     90          
+     91              RETURN_RESULT_IF_EXPRESSION_TRUE(((SRDY_IS_HIGH()) || (elapsedTime < TEST_SRDY_MINIMUM_TIMEOUT_MS)), METHOD_MODULE_RESET, TIMEOUT);
+     92          #ifdef MODULE_INTERFACE_VERBOSE
+     93              printf("Module ready in %umS\r\n", elapsedTime + MODULE_RESET_INITIAL_DELAY_MS);
+     94          #endif
+     95              return (getMessage());
+     96          
+     97          #elif defined ZM_PHY_UART
+     98              return (receiveAreq(20, 2000));
+     99          #else
+    100          #error "No ZM PHY option selected"
+    101          #endif
+    102          }
+    103          
+    104          /** 
+    105          Displays the contents of a SYS_RESET_IND message. These are returned from the module after a 
+    106          hard or soft reset. 
+    107          @pre zmBuf contains a valid SYS_RESET_IND message. 
+    108          */
+    109          void displaySysResetInd()
+    110          {
+    111              if (IS_SYS_RESET_IND())
+    112              {
+    113                  uint8_t* v = zmBuf + SYS_RESET_IND_START_FIELD;
+    114                  printf("%s (%u), TransportRev=%u, ProductId=0x%02X, FW Rev=%u.%u.%u\r\n",
+    115                         getResetReason(v[0]), v[0], v[1], v[2], v[3], v[4], v[5]);
+    116              } else {
+    117                  printf("Error - not a SYS_RESET_IND. Expected type 0x%04X; Received type 0x%04X; Contents:\r\n", SYS_RESET_IND, MODULE_COMMAND());
+    118                  displayZmBuf(); 
+    119              }
+    120          }
+    121          
+    122          /** 
+    123          Utility method for displaying the reset reason from a SYS_RESET_IND message.
+    124          @param reason the reset reason
+    125          @return A string containing the name of the reset reason, or "Unknown" if it is not known.
+    126          */
+    127          char* getResetReason(uint8_t reason)
+    128          {
+    129              switch (reason)
+    130              {
+    131              case 0:     return "Power-up";
+    132              case 1:     return "External";
+    133              case 2:     return "Watch-dog";
+    134              default:    return "Unknown";
+    135              }
+    136          }
+    137          
+    138          #define METHOD_SYS_VERSION	0x0200
+    139          /** 
+    140          Retrieves the Module's version information using SYS_VERSION command.
+    141          @post zmBuf contains the version structure, starting at SYS_VERSION_RESULT_START_FIELD
+    142          */
+    143          moduleResult_t sysVersion()
+    144          {
+    145          #define SYS_VERSION_PAYLOAD_LEN 0
+    146              zmBuf[0] = SYS_VERSION_PAYLOAD_LEN;
+    147              zmBuf[1] = MSB(SYS_VERSION);
+    148              zmBuf[2] = LSB(SYS_VERSION);   
+    149              RETURN_RESULT(sendMessage(), METHOD_SYS_VERSION);     
+    150          }
+    151          
+    152          /** 
+    153          Displays a SYS_VERSION message. These are returned from the module after a call to sysVersion(). 
+    154          @pre zmBuf contains a valid SYS_VERSION message 
+    155          */
+    156          void displaySysVersion()
+    157          {
+    158              if (IS_SYS_VERSION_SRSP())
+    159              {
+    160                  uint8_t* v = zmBuf + SYS_VERSION_RESULT_START_FIELD;
+    161                  printf("Version: TransportRev=%u, ProductId=0x%02X, FW Rev=%u.%u.%u\r\n", 
+    162                         v[0], v[1], v[2], v[3], v[4]);    
+    163              } else {
+    164                  printf("Error - not a SYS_VERSION SRSP. Expected type 0x%04X; Received type 0x%04X; Contents:\r\n", (SYS_VERSION + SRSP), MODULE_COMMAND());
+    165                  displayZmBuf();
+    166              }
+    167          }
+    168          
+    169          #define METHOD_SYS_RANDOM	0x0300
+    170          /** 
+    171          Retrieves a random number from the Module using SYS_RANDOM command. The Module has a hardware random
+    172          number generator that uses RF noise to derive the random number.
+    173          @post The random number is contained in zmBuf[SYS_RANDOM_RESULT_LSB_FIELD] and zmBuf[SYS_RANDOM_RESULT_MSB_FIELD].
+    174          @note You can also use utility macro SYS_RANDOM_RESULT() to extract the random number from zmBuf.
+    175          */
+    176          moduleResult_t sysRandom()
+    177          {
+    178          #define SYS_RANDOM_PAYLOAD_LEN 0
+    179              zmBuf[0] = SYS_RANDOM_PAYLOAD_LEN;
+    180              zmBuf[1] = MSB(SYS_RANDOM);
+    181              zmBuf[2] = LSB(SYS_RANDOM);  
+    182              RETURN_RESULT(sendMessage(), METHOD_SYS_RANDOM);    
+    183          }
+    184          
+    185          #define METHOD_SYS_SET_TX_POWER                    0x1100  // Out of sequence because it was added later
+    186          /** 
+    187          Sets the Tx power of the module.
+    188          @param txPowerSetting the desired RF Tx setting. This modifies the CC2530's internal PA. Refer to module 
+    189          documentation for information about which setting corresponds to which RF output power. This will
+    190          vary based on the type of module used (range extender vs. no range extender).
+    191          @param actualTxPowerSetting the actual output power setting that the module applies. It will be the
+    192          same as txPowerSetting unless that value was not valid.
+    193          @post The module's transmit power has been set accordingly.
+    194          @warning Improper use of this command may invalidate FCC/ETSI certification. Use with caution.
+    195          @since Module Firmware version 2.5.1. This function will not work on 2.4.0 firmware; instead you
+    196          will receive a SRSP of 0x6000 (error)
+    197          @note this method modifies the Tx power of the IC. The emitted RF power will be slightly less due
+    198          to matching network, balun (if not a module with range-extender), and antenna. See documentation.
+    199          */
+    200          moduleResult_t sysSetTxPower(uint8_t txPowerSetting, uint8_t* actualTxPowerSetting)
+    201          {
+    202          #ifdef MODULE_INTERFACE_VERBOSE     
+    203              printf("Setting TX_POWER to %u requested; ", txPowerSetting);
+    204          #endif
+    205          #define SYS_SET_TX_POWER_PAYLOAD_LEN 1
+    206              zmBuf[0] = SYS_SET_TX_POWER_PAYLOAD_LEN;
+    207              zmBuf[1] = MSB(SYS_SET_TX_POWER);
+    208              zmBuf[2] = LSB(SYS_SET_TX_POWER);
+    209              
+    210              zmBuf[3] = txPowerSetting;
+    211              RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_SYS_SET_TX_POWER); 
+    212          #ifdef MODULE_INTERFACE_VERBOSE     
+    213              printf("Actual TX_POWER set to %d\r\n", zmBuf[SYS_SET_TX_POWER_RESULT_FIELD]);
+    214          #endif
+    215              *actualTxPowerSetting = zmBuf[SYS_SET_TX_POWER_RESULT_FIELD];
+    216             return MODULE_SUCCESS;
+    217          }
+    218          
+    219          
+    220          //note: no method ID for this one; it should be wrapped by others.
+    221          /** 
+    222          Private utility method to write configuration data to the Module
+    223          @param zcd the Zigbee configuration data ID
+    224          @param zcdLength the length of above
+    225          @param data an array containing the data to write.
+    226          @note All ZB_WRITE_CONFIGURATION commands take approx. 3.5mSec between SREQ & SRSP; presumably to 
+    227          write to flash inside the Module. 
+    228          */
+    229          moduleResult_t zbWriteConfiguration(uint8_t zcd, uint8_t zcdLength, uint8_t* data)
+    230          {
+    231          #define ZB_WRITE_CONFIGURATION_LEN      2  //excluding payload length
+    232              zmBuf[0] = ZB_WRITE_CONFIGURATION_LEN + zcdLength;
+    233              zmBuf[1] = MSB(ZB_WRITE_CONFIGURATION);
+    234              zmBuf[2] = LSB(ZB_WRITE_CONFIGURATION);
+    235              
+    236              zmBuf[3] = zcd;
+    237              zmBuf[4] = zcdLength;
+    238              memcpy(zmBuf+5, data, zcdLength);
+    239              return (sendMessage()); 
+    240          }
+    241          
+    242          
+    243          #define METHOD_SET_PAN_ID	0x0400
+    244          /** 
+    245          Configures the Module to only join a network with the given panId. If panId = ANY_PAN (the default)
+    246          then the module will join any network.
+    247          @param panId the PANID to join, or ANY_PAN to join any PAN
+    248          @note be sure you know what you're doing if you're restricting your network to a specific PANID. In
+    249          normal operation this command should not be used, or else you may end up with two networks with the 
+    250          same PANID, which is bad.
+    251          */
+    252          moduleResult_t setPanId(uint16_t panId)
+    253          {
+    254          #ifdef MODULE_INTERFACE_VERBOSE 
+    255              printf("Setting Zigbee PAN ID to %04X\r\n", panId);
+    256          #endif     
+    257              uint8_t data[2];
+    258              data[0] = LSB(panId);
+    259              data[1] = MSB(panId);
+    260              RETURN_RESULT((zbWriteConfiguration(ZCD_NV_PANID, ZCD_NV_PANID_LEN, data)), METHOD_SET_PAN_ID);
+    261          }
+    262          
+    263          
+    264          #define METHOD_SET_CHANNEL	0x0500
+    265          /** 
+    266          Configures the Module to only join the specified channel. Simple wrapper method for setChannelMask 
+    267          if only one channel is desired. Overwrites the current channel mask.
+    268          @param channel must be 11..25, inclusive. If set to 0 then Module will scan ALL CHANNELS. If channel
+    269          is not 11..25 or 0 then the error INVALID_PARAMETER will be returned.
+    270          @note If channel or channel mask is NOT set then Module will use channel 11 only.
+    271          @note Channel 26 can only be used if INCLUDE_CHANNEL_26 in module.h is defined.
+    272          @see setChannelMask()
+    273          */
+    274          moduleResult_t setChannel(uint8_t channel)
+    275          {
+    276              RETURN_INVALID_PARAMETER_IF_TRUE( ((!IS_VALID_CHANNEL(channel)) && (channel != 0x00)), METHOD_SET_CHANNEL);
+    277          
+    278              uint32_t channelMask = 1;
+    279              return (setChannelMask((channel == 0) ? ANY_CHANNEL_MASK : (channelMask << channel)));
+    280          }
+    281          
+    282          
+    283          #define METHOD_SET_CHANNEL_MASK	        0x0600
+    284          /** 
+    285          Configures which RF channels the Module may use to join a network. The module will only use the
+    286          channels specified in the channel mask. Functionality depends on whether the device is a Coordinator 
+    287          or Router/End Device:
+    288           - <i>Coordinator</i> The Module will only create a network on one of the channels that matches the 
+    289          mask. When the coordinator starts up, it scans all the channels in its channel mask and picks the 
+    290          channel with the least noise. The coordinator will stay on the same channel until it is reset. 
+    291           - <i>Router or End Device</i> The Module will only search on channels that match the channel mask. 
+    292          The more channels in the channel mask, the longer startup will take since the device has to scan 
+    293          each channel.
+    294          
+    295          @param channelMask bitmap of which channels to use. If channelMask = ANY_CHANNEL then the radio will 
+    296          join a network on any channel. Must be between MIN_CHANNEL_MASK and MAX_CHANNEL_MASK, or ANY_CHANNEL.
+    297          @note The default channel after a CLEAR_CONFIG is channel 11, or (MSB first) 0x00000800, or binary 1000|0000|0000
+    298          @note For example, to allow only channels 11, 14, and 15, then set channel mask 0x980,  binary 1001|1000|0000
+    299          @note if using a packet sniffer, be sure to change the channel on the packet sniffer too or else 
+    300          you won't see any packets.
+    301          @note Channel 26 cannot be used on modules with a range extender due to FCC limits on radiated power.
+    302          If you would like to use channel 26, then #define INCLUDE_CHANNEL_26 in module.h
+    303          */
+    304          moduleResult_t setChannelMask(uint32_t channelMask)
+    305          {
+    306              RETURN_INVALID_PARAMETER_IF_TRUE( ((channelMask < MIN_CHANNEL_MASK) || (channelMask > MAX_CHANNEL_MASK)), METHOD_SET_CHANNEL_MASK);
+    307              
+    308              uint8_t data[4];
+    309              data[0] = LSB(channelMask);
+    310              data[1] = (channelMask & 0xFF00) >> 8;
+    311              data[2] = (channelMask & 0xFF0000) >> 16;
+    312              data[3] = channelMask >> 24;
+    313          #ifdef MODULE_INTERFACE_VERBOSE 
+    314              printf("Setting to Channel List (LSB first): %02X %02X %02X %02X\r\n", data[0], data[1], data[2], data[3]);
+    315          #endif    
+    316              RETURN_RESULT((zbWriteConfiguration(ZCD_NV_CHANLIST, ZCD_NV_CHANLIST_LEN, data)), METHOD_SET_CHANNEL_MASK);
+    317          }
+    318          
+    319          #define METHOD_GET_DEVICE_INFO              0x0700
+    320          /** 
+    321          Retrieves the specified Device Information Property (DIP) from the Module.
+    322          @param dip the device information property to retrieve
+    323          @post zmBuf holds the requested DIP, LSB first, starting at SRSP_DIP_VALUE_FIELD
+    324          */
+    325          moduleResult_t zbGetDeviceInfo(uint8_t dip)
+    326          {
+    327              RETURN_INVALID_PARAMETER_IF_TRUE( (dip > MAX_DEVICE_INFORMATION_PROPERTY), METHOD_GET_DEVICE_INFO);
+    328          
+    329          #define ZB_GET_DEVICE_INFO_PAYLOAD_LEN 1
+    330              zmBuf[0] = ZB_GET_DEVICE_INFO_PAYLOAD_LEN;
+    331              zmBuf[1] = MSB(ZB_GET_DEVICE_INFO);
+    332              zmBuf[2] = LSB(ZB_GET_DEVICE_INFO);
+    333              zmBuf[3] = dip;
+    334              RETURN_RESULT(sendMessage(), METHOD_GET_DEVICE_INFO); 
+    335          }
+    336          
+    337          
+    338          /*
+    339          *               NON-VOLATILE (NV) MEMORY ITEMS
+    340          */
+    341          
+    342          /** 
+    343          Retrieves the size of the selected Non-Volatile (NV) memory item. NV Items 1 through 4 are 2 bytes 
+    344          each; 5 and 6 are 16 bytes each. NV Items 8 & 9 are used internally by the module.
+    345          @param nvItem which Non-Volatile memory item to get the size of. Must be 1-6 inclusive.
+    346          @return The size of the given nvItem
+    347          */
+    348          uint8_t getNvItemSize(uint8_t nvItem)
+    349          {
+    350              if ((nvItem < 5) || (nvItem==8))
+    351              {
+    352                  return 2;
+    353              } else {
+    354                  return 16;
+    355              }
+    356          }
+    357          
+    358          #define METHOD_SYS_NV_READ              0x0800
+    359          /** 
+    360          Retrieves the specified Non-Volatile (NV) memory item from the Module. 
+    361          @pre Module was initialized.
+    362          @pre the nvItem was written to. If not then the NV item will contain indeterminate data.
+    363          @param nvItem which nvItem to write, 1 through 6 inclusive. If not one of these then INVALID_PARAMETER will be returned.
+    364          @post zmBuf contains the data read
+    365          @note does not verify the length of the returned nvItem was what we expected
+    366          */
+    367          moduleResult_t sysNvRead(uint8_t nvItem)
+    368          {
+    369              RETURN_INVALID_PARAMETER_IF_TRUE( ((nvItem < MIN_NV_ITEM) || (nvItem > MAX_NV_ITEM) || (nvItem == NV_ITEM_RESERVED)), METHOD_SYS_NV_READ);
+    370              
+    371          #define SYS_NV_READ_PAYLOAD_LEN 3  
+    372              zmBuf[0] = SYS_NV_READ_PAYLOAD_LEN;
+    373              zmBuf[1] = MSB(SYS_NV_READ);
+    374              zmBuf[2] = LSB(SYS_NV_READ);  
+    375              
+    376              zmBuf[3] = nvItem;         //item number, 1-6
+    377              zmBuf[4] = 0x0F;           //MSB of item number, but only items 1-6 are supported
+    378              zmBuf[5] = 0;              //offset from beginning of the NV item, not used
+    379              RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_SYS_NV_READ); 
+    380              RETURN_RESULT(zmBuf[SYS_NV_READ_STATUS_FIELD], METHOD_SYS_NV_READ);
+    381          }
+    382          
+    383          #define METHOD_SYS_NV_WRITE              0x0900
+    384          /** 
+    385          Writes the specified Non-Volatile (NV) memory item to the Module. 
+    386          The contents of the selected nvItem will be overwritten from memory starting at data.
+    387          @pre Module was initialized.
+    388          @pre data points to the data to write into the non volatile memory item.
+    389          @param nvItem which nvItem to write. Items 1 through 6 are for user use; items 8 & 9 are for module
+    390          internal use. If not one of these then INVALID_PARAMETER will be returned.
+    391          @param data points to the data to be written
+    392          */
+    393          moduleResult_t sysNvWrite(uint8_t nvItem, uint8_t* data)
+    394          {
+    395              RETURN_INVALID_PARAMETER_IF_TRUE( ((nvItem < MIN_NV_ITEM) || (nvItem > MAX_NV_ITEM) || (nvItem == NV_ITEM_RESERVED)), METHOD_SYS_NV_WRITE);
+    396              
+    397              uint8_t nvItemSize = getNvItemSize(nvItem);
+    398          #ifdef MODULE_INTERFACE_VERBOSE
+    399              printf("Writing NV Item %u (length %u) with data: ", nvItem, nvItemSize);
+    400              printHexBytes(data, nvItemSize);
+    401          #endif      
+    402          #define SYS_NV_WRITE_PAYLOAD_LEN 4  //excludes length of NV item    
+    403              zmBuf[0] = SYS_NV_WRITE_PAYLOAD_LEN + nvItemSize;
+    404              zmBuf[1] = MSB(SYS_NV_WRITE);
+    405              zmBuf[2] = LSB(SYS_NV_WRITE);  
+    406              
+    407              zmBuf[3] = nvItem;         //item number, 1-6
+    408              zmBuf[4] = 0x0F;           //MSB of item number, but only items 1-6 are supported
+    409              zmBuf[5] = 0;              //offset from beginning of the NV item, not used
+    410              zmBuf[6] = nvItemSize;     //length
+    411              
+    412              memcpy(zmBuf+7, data, nvItemSize);
+    413              RETURN_RESULT(sendMessage(), METHOD_SYS_NV_WRITE);       
+    414          }
+    415          
+    416          #define METHOD_SYS_GPIO              0x0A00
+    417          /** 
+    418          The Module has four GPIO pins, which can be configured as inputs or outputs. This command performs 
+    419          the specified General Purpose Input/Output (GPIO) operation.
+    420          @param operation which GPIO operation to do: GPIO_SET_DIRECTION, GPIO_SET_INPUT_MODE, GPIO_SET, 
+    421          GPIO_CLEAR, GPIO_TOGGLE, GPIO_READ
+    422          @param value the value to write to the outputs (if doing a GPIO_SET command)
+    423          @post zmBuf[SYS_GPIO_READ_RESULT_FIELD] contains the value returned by the Module if the operation 
+    424          was a GPIO_READ; indeterminate value otherwise
+    425          */
+    426          moduleResult_t sysGpio(uint8_t operation, uint8_t value)
+    427          {
+    428              RETURN_INVALID_PARAMETER_IF_TRUE( ((operation > GPIO_OPERATION_MAX) || 
+    429                                                 ((value > 0x0F) && (operation != GPIO_SET_INPUT_MODE))), METHOD_SYS_GPIO);
+    430              
+    431          #define SYS_GPIO_PAYLOAD_LEN 2
+    432              zmBuf[0] = SYS_GPIO_PAYLOAD_LEN;
+    433              zmBuf[1] = MSB(SYS_GPIO);
+    434              zmBuf[2] = LSB(SYS_GPIO);
+    435              
+    436              zmBuf[3] = operation;
+    437              zmBuf[4] = value;
+    438              RETURN_RESULT(sendMessage(), METHOD_SYS_GPIO);        
+    439          }
+    440          
+    441          #define METHOD_SET_RF_TEST_MODE              0x0B00
+    442          /** 
+    443          Configures the Module to output RF test tone. Send a system reset command after this command to 
+    444          enable. Must do a hard reset of Module to stop test tone.
+    445          @param mode The RF test mode; 1=Rx On, 2=UnModulated Tx, 3=Modulated Tx, 0=none
+    446          @param channel The channel to output test tone on; 11-26
+    447          @param txPower The RF output power of the CC2530. Actual module power output may be higher with PA.
+    448          @param txTone See CC2530 and CC2531 family guide, MDMTEST0 register description. Leave as 0.
+    449          @note Not all fields are validated.
+    450          @todo refactor with void sysNvWrite(uint8_t nvItem, uint8_t* data) ?
+    451          */
+    452          moduleResult_t setRfTestMode(uint8_t mode, uint8_t channel, uint8_t txPower, uint8_t txTone)
+    453          {
+    454          #ifdef MODULE_INTERFACE_VERBOSE 
+    455              printf("RF Test Mode %u, channel %u, txPower 0x%02X,  txTone %02X\r\n", mode, channel, txPower, txTone);
+    456          #endif    
+    457              RETURN_INVALID_PARAMETER_IF_TRUE( ((!IS_VALID_CHANNEL(channel)) || (mode > RF_TEST_MODE_MAXIMUM)), METHOD_SET_RF_TEST_MODE);    
+    458                 
+    459          #define ZCD_NV_RF_TEST_MODE_LEN 4
+    460              zmBuf[0] = SYS_NV_WRITE_PAYLOAD_LEN + ZCD_NV_RF_TEST_MODE_LEN;
+    461              zmBuf[1] = MSB(SYS_NV_WRITE);
+    462              zmBuf[2] = LSB(SYS_NV_WRITE);  
+    463              
+    464              zmBuf[3] = 0x07;           //LSB of item number
+    465              zmBuf[4] = 0x0F;           //MSB of item number
+    466              zmBuf[5] = 0;              //offset from beginning of the NV item, not used
+    467              zmBuf[6] = ZCD_NV_RF_TEST_MODE_LEN;     //length
+    468              zmBuf[7] = mode;
+    469              zmBuf[8] = channel;
+    470              zmBuf[9] = txPower;
+    471              zmBuf[10] = txTone;
+    472              RETURN_RESULT(sendMessage(), METHOD_SET_RF_TEST_MODE); 
+    473          }
+    474          
+    475          /** 
+    476          Utility method for displaying the name of the RF Test Mode
+    477          @param mode the RF Test Mode
+    478          @return A string containing the name of the test mode, or "Unknown" if it is not known.
+    479          */
+    480          char* getRfTestModeName(uint8_t mode)
+    481          {
+    482              switch (mode)
+    483              {
+    484              case 0:                     return "None";
+    485              case RF_TEST_MODULATED:     return "RF_TEST_MODULATED";
+    486              case RF_TEST_UNMODULATED:   return "RF_TEST_UNMODULATED";
+    487              case RF_TEST_RECEIVE:       return "RF_TEST_RECEIVE";
+    488              default:                    return "Unknown";
+    489              }
+    490          }
+    491          
+    492          #define METHOD_SET_STARTUP_OPTIONS              0x0C00
+    493          /** 
+    494          Configures startup options on the Module. These will reset various parameters back to their 
+    495          factory defaults. The Module supports two types of clearing state, and both are supported:
+    496          - STARTOPT_CLEAR_CONFIG restores all settings to factory defaults. Must restart the Module after using this option.
+    497          - STARTOPT_CLEAR_STATE only clears network settings (PAN ID, channel, etc.)
+    498          
+    499          @param option which options to set. Must be zero, STARTOPT_CLEAR_CONFIG, or STARTOPT_CLEAR_STATE. If
+    500          not one of these then an INVALID_PARAMETER error will be returned.
+    501          */
+    502          moduleResult_t setStartupOptions(uint8_t option)
+    503          { 
+    504              RETURN_INVALID_PARAMETER_IF_TRUE( (option > (STARTOPT_CLEAR_CONFIG + STARTOPT_CLEAR_STATE)), METHOD_SET_STARTUP_OPTIONS);       
+    505              
+    506          #ifdef MODULE_INTERFACE_VERBOSE     
+    507              printf("Setting Startup Option to ");
+    508              if (option & STARTOPT_CLEAR_CONFIG)
+    509                  printf("STARTOPT_CLEAR_CONFIG ");
+    510              if (option & STARTOPT_CLEAR_STATE)
+    511                  printf("STARTOPT_CLEAR_STATE ");   
+    512              printf("\r\n");
+    513          #endif
+    514              uint8_t data[1];
+    515              data[0] = option;
+    516              RETURN_RESULT(zbWriteConfiguration(ZCD_NV_STARTUP_OPTION, ZCD_NV_STARTUP_OPTION_LEN, data), METHOD_SET_STARTUP_OPTIONS);     
+    517          }
+    518          
+    519          /** 
+    520          Retrieves the name of the device type in a human-readable format, e.g. Coordinator, Router, or End Device. 
+    521          @param deviceType the type of device
+    522          @return The name of the deviceType
+    523          */
+    524          char* getDeviceTypeName(uint8_t deviceType)
+    525          {
+    526              switch (deviceType)
+    527              {
+    528              case COORDINATOR:               return("Coordinator");
+    529              case ROUTER:                    return("Router");
+    530              case END_DEVICE:                return("End Device");          
+    531              default:                        return("Unknown");
+    532              }
+    533          }
+    534          
+    535          #define METHOD_SET_ZIGBEE_DEVICE_TYPE              0x0D00
+    536          /** 
+    537          Sets the Zigbee Device Type for the Module.
+    538          @param deviceType The type of Zigbee device. Must be COORDINATOR, ROUTER, or END_DEVICE 
+    539          */
+    540          moduleResult_t setZigbeeDeviceType(uint8_t deviceType)
+    541          {
+    542          #ifdef ZM_INTERFACE_VERBOSE 
+    543              printf("Setting Zigbee DeviceType to %s\r\n", getDeviceTypeName(deviceType));
+    544          #endif     
+    545              RETURN_INVALID_PARAMETER_IF_TRUE( (deviceType > END_DEVICE), METHOD_SET_ZIGBEE_DEVICE_TYPE);      
+    546              uint8_t data[1];
+    547              data[0] = deviceType;
+    548              RETURN_RESULT(zbWriteConfiguration(ZCD_NV_LOGICAL_TYPE, ZCD_NV_LOGICAL_TYPE_LEN, data), METHOD_SET_ZIGBEE_DEVICE_TYPE);
+    549          }
+    550          
+    551          #define METHOD_SET_CALLBACKS                    0x0E00
+    552          /** 
+    553          Enable/Disabless callbacks on the Module. 
+    554          @param cb must be either CALLBACKS_ENABLED or CALLBACKS_DISABLED. If not one of these values then
+    555          the error INVALID_PARAMETER will be returned.
+    556          @see section ZCD_NV_ZDO_DIRECT_CB in Module Interface Specification
+    557          */
+    558          moduleResult_t setCallbacks(uint8_t cb)
+    559          { 
+    560              RETURN_INVALID_PARAMETER_IF_TRUE( ((cb != CALLBACKS_ENABLED) && (cb != CALLBACKS_DISABLED)), METHOD_SET_CALLBACKS);      
+    561              
+    562          #ifdef ZM_INTERFACE_VERBOSE     
+    563              printf("Setting Callbacks to %s\r\n", (cb ? "ON" : "OFF"));
+    564          #endif
+    565              uint8_t data[1];
+    566              data[0] = cb;
+    567              RETURN_RESULT(zbWriteConfiguration(ZCD_NV_ZDO_DIRECT_CB, ZCD_NV_ZDO_DIRECT_CB_LEN, data), METHOD_SET_CALLBACKS);
+    568          }
+    569          
+    570          
+    571          //
+    572          //      Miscellaneous Utilities
+    573          //
+    574          #define METHOD_WAIT_FOR_MESSAGE                    0x0F00
+    575          /** 
+    576          Waits for the specified type of message. Ignores any other messages received. The received message 
+    577          will be in zmBuf[]. If the specified type of message isn't received by timeout then a TIMEOUT error
+    578          will be returned.
+    579          @param messageType the type of message that you are waiting for. Once this message type is received
+    580          the method will return with a status of SUCCESS.
+    581          @param timeoutSecs how many seconds to wait for the desired message type 
+    582          @note If you need to receive messages in the meantime then return control to application instead.
+    583          This is enabled by compile options in the various files. For example, in afSendData, define 
+    584          AF_DATA_CONFIRM_HANDLED_BY_APPLICATION.
+    585          */
+    586          moduleResult_t waitForMessage(uint16_t messageType, uint8_t timeoutSecs)
+    587          {
+    588              RETURN_INVALID_PARAMETER_IF_TRUE( ((messageType == 0) || (timeoutSecs == 0)), METHOD_WAIT_FOR_MESSAGE);     
+    589              
+    590              /** How often to check that the module has a message */
+    591          #define WFM_POLL_INTERVAL_MS   100
+    592              
+    593               uint16_t intervals = timeoutSecs * 1000 / WFM_POLL_INTERVAL_MS; //how many times to check   
+    594              //for (int i=0; i<intervals; i++)
+    595               while (intervals--)
+    596              {
+    597                  if (moduleHasMessageWaiting())                           // If there's a message waiting for us
+    598                  {
+    599                    getMessage();
+    600                    
+    601                      if (zmBuf[SRSP_LENGTH_FIELD] > 0)
+    602                      {
+    603                          if (CONVERT_TO_INT(zmBuf[2], zmBuf[1]) == messageType)
+    604                          {
+    605          #ifdef ZM_INTERFACE_VERBOSE
+    606                              printf("Received expected message %04X\r\n", messageType);
+    607          #endif
+    608                              return MODULE_SUCCESS;
+    609                          } else {                                            //not what we wanted; ignore
+    610          #ifdef ZM_INTERFACE_VERBOSE
+    611                              printf("Received message %04X\r\n", messageType);
+    612          #endif 
+    613                          }
+    614                      }
+    615                  }
+    616                  delayMs(WFM_POLL_INTERVAL_MS);
+    617              }
+    618                                                           // We've completed without receiving the state that we want
+    619              RETURN_RESULT(TIMEOUT, METHOD_WAIT_FOR_MESSAGE);    
+    620          }
+    621          
+    622          #define METHOD_GET_CONFIGURATION_PARAMETER                    0x1000
+    623          /** 
+    624          Retrieves the given configuration parameter from the Module. 
+    625          @param configId the configuration parameter to retrieve. See section "Z-Stack Common Definitions" in 
+    626          module.h for a list of valid config parameters. Not checked for validity.
+    627          @post zmBuf contains the specified parameter, starting at ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD
+    628          @note Does not verify configId is a valid configId
+    629          @note Does not verify length returned in the SRSP matches what the length should be for that configId.
+    630          */
+    631          moduleResult_t getConfigurationParameter(uint8_t configId)
+    632          {
+    633          #define LENGTH_OF_LARGEST_CONFIG_PARAMETER 17  //ZCD_NV_USERDESC is largest
+    634          #define ZB_READ_CONFIGURATION_PAYLOAD_LEN 1
+    635              zmBuf[0] = ZB_READ_CONFIGURATION_PAYLOAD_LEN;
+    636              zmBuf[1] = MSB(ZB_READ_CONFIGURATION);
+    637              zmBuf[2] = LSB(ZB_READ_CONFIGURATION);  
+    638              
+    639              zmBuf[3] = configId;
+    640              RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_GET_CONFIGURATION_PARAMETER);    
+    641          
+    642          #define ZB_READ_CONFIGURATION_STATUS_FIELD            SRSP_PAYLOAD_START
+    643              RETURN_RESULT(zmBuf[ZB_READ_CONFIGURATION_STATUS_FIELD], METHOD_GET_CONFIGURATION_PARAMETER);  
+    644          
+    645              /* If you would like to do more extensive error checking then replace the above line of code with:
+    646              
+    647          #define CONFIG_ID_FIELD         SRSP_PAYLOAD_START + 1
+    648          #define LENGTH_FIELD            SRSP_PAYLOAD_START + 2
+    649              //when using SPI, zmBuf[3] holds status, [4] holds configId, [5] holds length
+    650              if ((zmBuf[STATUS_FIELD] != SRSP_STATUS_SUCCESS) ||                  //if status was success...
+    651              (zmBuf[CONFIG_ID_FIELD] != configId) ||                          //and the requested configId was what we requested..
+    652              (zmBuf[LENGTH_FIELD] > LENGTH_OF_LARGEST_CONFIG_PARAMETER) ||    //if the length is valid
+    653              (zmBuf[LENGTH_FIELD] == 0))
+    654              {
+    655              *Return Error here* 
+    656          
+    657          } else {
+    658              RETURN_RESULT(zmBuf[ZB_READ_CONFIGURATION_STATUS_FIELD], METHOD_GET_CONFIGURATION_PARAMETER); 
+    659          }
+    660              */ 
+    661          }
+    662          
+    663          // Note: no method ID here since each call will report its error.
+    664          /** 
+    665          Utility method to display stored network configuration parameters. These are the configuration
+    666          parameters stored in NV memory and are used to initialize the Module.
+    667          @note These are just what is used on startup - this does not mean that the module is currently using
+    668          these settings. Use displayDeviceInformation() to see current values used.
+    669          */
+    670          moduleResult_t displayNetworkConfigurationParameters()
+    671          {
+    672              moduleResult_t result = MODULE_SUCCESS;
+    673              printf("Module Configuration Parameters\r\n");
+    674              
+    675              result = getConfigurationParameter(ZCD_NV_PANID);
+    676              if (result != MODULE_SUCCESS) return result;
+    677              printf("    ZCD_NV_PANID                %04X\r\n", 
+    678                     (CONVERT_TO_INT(zmBuf[ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD], 
+    679                                     zmBuf[ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD+1])));
+    680              
+    681              result = getConfigurationParameter(ZCD_NV_CHANLIST);
+    682              if (result != MODULE_SUCCESS) return result;
+    683              printf("    ZCD_NV_CHANLIST             %02X %02X %02X %02X\r\n", 
+    684                     zmBuf[ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD], 
+    685                     zmBuf[ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD + 1], 
+    686                     zmBuf[ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD + 2], 
+    687                     zmBuf[ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD + 3]);
+    688              
+    689              result = getConfigurationParameter(ZCD_NV_SECURITY_MODE);
+    690              if (result != MODULE_SUCCESS) return result;
+    691              printf("    ZCD_NV_SECURITY_MODE        %02X\r\n", zmBuf[ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD]);
+    692              
+    693              result = getConfigurationParameter(ZCD_NV_PRECFGKEYS_ENABLE);
+    694              if (result != MODULE_SUCCESS) return result;
+    695              printf("    ZCD_NV_PRECFGKEYS_ENABLE    %02X\r\n", zmBuf[ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD]);    
+    696              
+    697              result = getConfigurationParameter(ZCD_NV_PRECFGKEY);
+    698              if (result != MODULE_SUCCESS) return result;
+    699              printf("    ZCD_NV_PRECFGKEY            ");    
+    700              printHexBytes(zmBuf+ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD, ZCD_NV_PRECFGKEY_LEN);
+    701              
+    702              return MODULE_SUCCESS;
+    703          }
+    704          
+    705          /** 
+    706          Retrieves the name of the device state in a human-readable format.
+    707          @param state The integer value for the ZDO state
+    708          @return the name of the ZDO state, or "Unknown" if not known.
+    709          */
+    710          char* getDeviceStateName(uint8_t state)
+    711          {
+    712              switch (state)
+    713              {
+    714              case DEV_HOLD:              return("DEV_HOLD");
+    715              case DEV_INIT:              return("DEV_INIT");
+    716              case DEV_NWK_DISC:          return("DEV_NWK_DISC");    
+    717              case DEV_NWK_JOINING:       return("DEV_NWK_JOINING");
+    718              case DEV_NWK_REJOIN:        return("DEV_NWK_REJOIN");
+    719              case DEV_END_DEVICE_UNAUTH: return("DEV_END_DEVICE_UNAUTH");    
+    720              case DEV_END_DEVICE:        return("DEV_END_DEVICE");
+    721              case DEV_ROUTER:            return("DEV_ROUTER");    
+    722              case DEV_COORD_STARTING:    return("DEV_COORD_STARTING");
+    723              case DEV_ZB_COORD:          return("DEV_ZB_COORD");
+    724              case DEV_NWK_ORPHAN:        return("DEV_NWK_ORPHAN");       
+    725              default:                    return("Unknown");
+    726              }
+    727          }
+    728          
+    729          //Note: no unique error code for this method since it wraps other methods
+    730          /** 
+    731          Displays the radio's device Information Properties. Device Information Properties include: 
+    732          - <i>Device State</i> indicates whether the radio is on a network or not, and what type of device it is. 
+    733          This is a handy thing to check if things aren't operating correctly. 
+    734          If the device is starting as a coordinator, you'll see states of 01, 08, 08, then 09 once it has fully started.
+    735          - <i>MAC Address</i> (aka IEEE Address) is a globally unique serial number for this IC.
+    736          - <i>Device Short Address</i> is a network address assigned by the coordinator, similar to an IP Address in DHCP. 
+    737          The Coordinator always has a Short Address of 0.
+    738          - <i>Parent MAC Address</i> is the IEEE Address of this device's "parent", i.e. which device was used to join the network. 
+    739          For a router, once joined this parent MAC address is irrelevant. This DIP will NOT be updated if the network reforms.
+    740          For an end-device then this parent MAC address will always specify which router the end-device is joined to.
+    741          - <i>Channel</i> is which frequency channel the device is operating on.
+    742          - <i>PAN ID</i> (Personal Area Network Identifier) of the network is a unique number shared for all devices on the same network.
+    743          - <i>Extended PAN ID</i> of the network is the coordinator's MAC Address.
+    744          
+    745          If device is not connected to a network then the Short Address fields will be 0xFEFF, 
+    746          the Parent MAC Address and channel will be 0, and the Extended PAN ID will be this device's MAC Address.
+    747          */
+    748          moduleResult_t displayDeviceInformation()
+    749          {
+    750              int i;
+    751              printf("Device Information Properties (MSB first)\r\n");
+    752              moduleResult_t result = MODULE_SUCCESS;
+    753              
+    754              result = zbGetDeviceInfo(DIP_STATE);
+    755              if (result != MODULE_SUCCESS) return result;
+    756              printf("    Device State:               %s (%u)\r\n", getDeviceStateName(zmBuf[SRSP_DIP_VALUE_FIELD]), (zmBuf[SRSP_DIP_VALUE_FIELD])); 
+    757              
+    758              result = zbGetDeviceInfo(DIP_MAC_ADDRESS);
+    759              printf("    MAC Address:                ");
+    760              if (result != MODULE_SUCCESS) return result;
+    761              for (i = SRSP_DIP_VALUE_FIELD+7; i>=SRSP_DIP_VALUE_FIELD; i--)
+    762                  printf("%02X ", zmBuf[i]);
+    763              printf("\r\n");
+    764              
+    765              result = zbGetDeviceInfo(DIP_SHORT_ADDRESS);
+    766              if (result != MODULE_SUCCESS) return result;
+    767              printf("    Short Address:              %04X\r\n", CONVERT_TO_INT(zmBuf[SRSP_DIP_VALUE_FIELD] , zmBuf[SRSP_DIP_VALUE_FIELD+1]));
+    768              
+    769              result = zbGetDeviceInfo(DIP_PARENT_SHORT_ADDRESS);
+    770              if (result != MODULE_SUCCESS) return result;
+    771              printf("    Parent Short Address:       %04X\r\n", CONVERT_TO_INT(zmBuf[SRSP_DIP_VALUE_FIELD] , zmBuf[SRSP_DIP_VALUE_FIELD+1]));
+    772              
+    773              result = zbGetDeviceInfo(DIP_PARENT_MAC_ADDRESS);
+    774              if (result != MODULE_SUCCESS) return result;
+    775              printf("    Parent MAC Address:         ");
+    776              for (i = SRSP_DIP_VALUE_FIELD+7; i>=SRSP_DIP_VALUE_FIELD; i--)
+    777                  printf("%02X ", zmBuf[i]);
+    778              printf("\r\n");
+    779              
+    780              result = zbGetDeviceInfo(DIP_CHANNEL);
+    781              if (result != MODULE_SUCCESS) return result;
+    782              printf("    Device Channel:             %u\r\n", zmBuf[SRSP_DIP_VALUE_FIELD]);
+    783              
+    784              result = zbGetDeviceInfo(DIP_PANID);
+    785              if (result != MODULE_SUCCESS) return result;
+    786              printf("    PAN ID:                     %04X\r\n", CONVERT_TO_INT(zmBuf[SRSP_DIP_VALUE_FIELD], zmBuf[SRSP_DIP_VALUE_FIELD+1]));
+    787              
+    788              result = zbGetDeviceInfo(DIP_EXTENDED_PANID);
+    789              if (result != MODULE_SUCCESS) return result;
+    790              printf("    Extended PAN ID:            ");
+    791              for (i = SRSP_DIP_VALUE_FIELD+7; i>=SRSP_DIP_VALUE_FIELD; i--)
+    792                  printf("%02X ", zmBuf[i]);
+    793              printf("\r\n");
+    794              
+    795              return MODULE_SUCCESS;
+    796          }
+    797          
+    798          /** 
+    799          A minimalized version of displayDeviceInformation() for use on memory-constrained devices.
+    800          @see displayDeviceInformation() for description of fields.
+    801          */
+    802          moduleResult_t displayBasicDeviceInformation()
+    803          {
+    804              moduleResult_t result = MODULE_SUCCESS;    
+    805              int i;
+    806              result = zbGetDeviceInfo(DIP_MAC_ADDRESS);
+    807              printf("MAC Addr:0x");
+    808              if (result != MODULE_SUCCESS) return result;
+    809              for (i = SRSP_DIP_VALUE_FIELD+7; i>=SRSP_DIP_VALUE_FIELD; i--)
+    810                  printf("%02X", zmBuf[i]);
+    811              printf("; ");
+    812              
+    813              result = zbGetDeviceInfo(DIP_SHORT_ADDRESS);
+    814              if (result != MODULE_SUCCESS) return result;
+    815              printf("Short Addr:0x%04X; ", CONVERT_TO_INT(zmBuf[SRSP_DIP_VALUE_FIELD] , zmBuf[SRSP_DIP_VALUE_FIELD+1]));
+    816              
+    817              result = zbGetDeviceInfo(DIP_CHANNEL);
+    818              if (result != MODULE_SUCCESS) return result;
+    819              printf("Channel:%u; ", zmBuf[SRSP_DIP_VALUE_FIELD]);
+    820              
+    821              result = zbGetDeviceInfo(DIP_PANID);
+    822              if (result != MODULE_SUCCESS) return result;
+    823              printf("PAN ID:0x%04X\r\n", CONVERT_TO_INT(zmBuf[SRSP_DIP_VALUE_FIELD], zmBuf[SRSP_DIP_VALUE_FIELD+1]));
+    824          
+    825              return MODULE_SUCCESS;
+    826          }
+    827          
+    828          /** 
+    829          Utility method to display the entire contents of the Module Buffer, zmBuf. Not normally used in 
+    830          driver or examples but useful for debugging Module communications.
+    831          */
+    832          void displayZmBuf()
+    833          {
+    834              printf("zb: ");
+    835              printHexBytes(zmBuf, zmBuf[0]+3);
+    836              printf("\r\n");
+    837          }
+    838          
+    839          //
+    840          //  Security
+    841          //
+    842          
+    843          
+    844          /** 
+    845          Utility method for displaying the name of the security mode
+    846          @param securityMode the securityMode we want to know the name of
+    847          @return the name of the securityMode, or "Unknown" if it is not known.
+    848          */
+    849          char* getSecurityModeName(uint8_t securityMode)
+    850          {
+    851              switch (securityMode)
+    852              {
+    853              case SECURITY_MODE_OFF:                 return("OFF");
+    854              case SECURITY_MODE_PRECONFIGURED_KEYS:  return("USE PRECONFIGURED KEY");
+    855              case SECURITY_MODE_COORD_DIST_KEYS:     return("COORDINATOR DISTRIBUTE KEY");   
+    856              default:                                return("Unknown");
+    857              }
+    858          }
+    859          
+    860          #define METHOD_SET_SECURITY_MODE                    0x1200
+    861          /** 
+    862          Configures the Module for the specified security mode. If securityMode is SECURITY_MODE_OFF then 
+    863          only ZCD_NV_SECURITY_MODE is written. Otherwise ZCD_NV_SECURITY_MODE and ZCD_NV_PRECFGKEYS_ENABLE 
+    864          are written.
+    865          @note if NOT using pre-configured keys then the coordinator will distribute its key to all devices.
+    866          @param securityMode must be SECURITY_MODE_OFF, or SECURITY_MODE_PRECONFIGURED_KEYS, or 
+    867          SECURITY_MODE_COORD_DIST_KEYS. If none of these then an INVALID_PARAMETER error will be returned.
+    868          */
+    869          moduleResult_t setSecurityMode(uint8_t securityMode)
+    870          {
+    871              RETURN_INVALID_PARAMETER_IF_TRUE( (securityMode > SECURITY_MODE_COORD_DIST_KEYS), METHOD_SET_SECURITY_MODE);     
+    872              
+    873          #ifdef ZM_INTERFACE_VERBOSE     
+    874              printf("Setting Security = %s\r\n", getSecurityModeName(securityMode));      
+    875          #endif
+    876              uint8_t data[1];
+    877              data[0] = (securityMode > 0);               // Configure security on/off:
+    878          
+    879              RETURN_RESULT_IF_FAIL(zbWriteConfiguration(ZCD_NV_SECURITY_MODE, ZCD_NV_SECURITY_MODE_LEN, data), METHOD_SET_SECURITY_MODE);      
+    880              
+    881              if (securityMode != SECURITY_MODE_OFF)      // If turning security off, don't need to set pre-configured keys on/off
+    882              {
+    883                  data[0] = (securityMode == SECURITY_MODE_PRECONFIGURED_KEYS);        //Now, configure pre-configured keys on/off:
+    884                  RETURN_RESULT(zbWriteConfiguration(ZCD_NV_PRECFGKEYS_ENABLE, ZCD_NV_PRECFGKEYS_ENABLE_LEN, data), METHOD_SET_SECURITY_MODE);         
+    885              } else {
+    886                  return MODULE_SUCCESS;        
+    887              }
+    888          }
+    889          
+    890          
+    891          #define METHOD_SET_SECURITY_KEY                    0x1300
+    892          /** 
+    893          Loads the 16 byte security key pointed to by key into the Module. Does not change security mode, you
+    894          need to use setSecurityMode() too.
+    895          @note if NOT using pre-configured keys then the coordinator will distribute its key to all devices.
+    896          @param key preConfiguredKey a 16B key to use. Must not be null.
+    897          @pre setSecurityMode() called
+    898          @pre key points to the 16 byte security key you want to use
+    899          */
+    900          moduleResult_t setSecurityKey(uint8_t* key)
+    901          {
+    902              RETURN_INVALID_PARAMETER_IF_TRUE( (key == NULL), METHOD_SET_SECURITY_KEY);
+    903              
+    904          #ifdef MODULE_INTERFACE_VERBOSE     
+    905              printf("Setting Security Key: ");
+    906              printHexBytes(key, ZCD_NV_PRECFGKEY_LEN);
+    907          #endif
+    908              RETURN_RESULT(zbWriteConfiguration(ZCD_NV_PRECFGKEY, ZCD_NV_PRECFGKEY_LEN, key), METHOD_SET_SECURITY_KEY);
+    909          }
+    910          
+    911          #define METHOD_SET_POLL_RATE                    0x1400
+    912          /** 
+    913          Sets the ZCD_NV_POLL_RATE, which is used by end devices and controls how often an end device
+    914          polls its associated router for new data. The default is 2000 (2 seconds). Higher poll rates will 
+    915          increase latency but reduce average power consumption. If poll rate is set too high for the amount 
+    916          of data coming to the end device then packets may be dropped. If this parameter is set to zero, the 
+    917          device will not automatically wake up to poll for data. Instead, an external trigger or an internal 
+    918          event (for example, via a software timer event) can be used to wake up the device.
+    919          @param pollRate how often (in mSec) to poll; must be between 0 to 65000, inclusive.
+    920          @note for measuring sleep current consumption of an End Device, set pollRate to zero to turn off 
+    921          polling. This will stop the module from polling and make measurements easier.
+    922          @note This setting is only valid for End Devices
+    923          */
+    924          moduleResult_t setPollRate(uint16_t pollRate)
+    925          { 
+    926              RETURN_INVALID_PARAMETER_IF_TRUE((pollRate > 65000), METHOD_SET_POLL_RATE);      
+    927          
+    928          #ifdef MODULE_INTERFACE_VERBOSE     
+    929              printf("Setting ZCD_NV_POLL_RATE to %u\r\n", pollRate);
+    930          #endif
+    931              uint8_t data[2];
+    932              data[0] = LSB(pollRate);
+    933              data[1] = MSB(pollRate);
+    934              RETURN_RESULT((zbWriteConfiguration(ZCD_NV_POLL_RATE, ZCD_NV_POLL_RATE_LEN, data)), METHOD_SET_POLL_RATE);
+    935          }    
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      6   displayBasicDeviceInformation
+        4   -> tfp_printf
+        6   -> tfp_printf
+        4   -> zbGetDeviceInfo
+        6   -> zbGetDeviceInfo
+      8   displayDeviceInformation
+        4   -> getDeviceStateName
+        4   -> tfp_printf
+        6   -> tfp_printf
+        8   -> tfp_printf
+        4   -> zbGetDeviceInfo
+        6   -> zbGetDeviceInfo
+        8   -> zbGetDeviceInfo
+     12   displayNetworkConfigurationParameters
+       12   -> getConfigurationParameter
+        4   -> getConfigurationParameter
+        6   -> getConfigurationParameter
+        4   -> printHexBytes
+       12   -> tfp_printf
+        4   -> tfp_printf
+        6   -> tfp_printf
+     16   displaySysResetInd
+        6   -> displayZmBuf
+        2   -> getResetReason
+       16   -> tfp_printf
+        6   -> tfp_printf
+     12   displaySysVersion
+        6   -> displayZmBuf
+       12   -> tfp_printf
+        6   -> tfp_printf
+      2   displayZmBuf
+        2   -> printHexBytes
+        2   -> tfp_printf
+      2   getConfigurationParameter
+        2   -> sendMessage
+      2   getDeviceStateName
+      2   getDeviceTypeName
+      2   getNvItemSize
+      2   getResetReason
+      2   getRfTestModeName
+      2   getSecurityModeName
+      2   moduleInit
+        2   -> zm_phy_init
+      4   moduleReset
+        4   -> delayMs
+        4   -> getMessage
+      4   setCallbacks
+        4   -> zbWriteConfiguration
+      2   setChannel
+        2   -> setChannelMask
+      6   setChannelMask
+        6   -> zbWriteConfiguration
+      4   setPanId
+        4   -> zbWriteConfiguration
+      4   setPollRate
+        4   -> zbWriteConfiguration
+      4   setRfTestMode
+        4   -> sendMessage
+      2   setSecurityKey
+        2   -> zbWriteConfiguration
+      6   setSecurityMode
+        6   -> zbWriteConfiguration
+      4   setStartupOptions
+        4   -> zbWriteConfiguration
+      4   setZigbeeDeviceType
+        4   -> zbWriteConfiguration
+      2   sysGpio
+        2   -> sendMessage
+      2   sysNvRead
+        2   -> sendMessage
+      6   sysNvWrite
+        6   -> getNvItemSize
+        6   -> memcpy
+        6   -> sendMessage
+      2   sysRandom
+        2   -> sendMessage
+      4   sysSetTxPower
+        4   -> sendMessage
+      2   sysVersion
+        2   -> sendMessage
+      6   waitForMessage
+        6   -> delayMs
+        6   -> getMessage
+        6   -> moduleHasMessageWaiting
+      2   zbGetDeviceInfo
+        2   -> sendMessage
+      2   zbWriteConfiguration
+        2   -> memcpy
+        2   -> sendMessage
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      37  ?<Constant "    Device Channel:  ...">
+      42  ?<Constant "    Device State:    ...">
+      33  ?<Constant "    Extended PAN ID: ...">
+      33  ?<Constant "    MAC Address:     ...">
+      39  ?<Constant "    PAN ID:          ...">
+      33  ?<Constant "    Parent MAC Addres...">
+      39  ?<Constant "    Parent Short Addr...">
+      39  ?<Constant "    Short Address:   ...">
+      54  ?<Constant "    ZCD_NV_CHANLIST  ...">
+      39  ?<Constant "    ZCD_NV_PANID     ...">
+      33  ?<Constant "    ZCD_NV_PRECFGKEY ...">
+      39  ?<Constant "    ZCD_NV_PRECFGKEYS...">
+      39  ?<Constant "    ZCD_NV_SECURITY_M...">
+       6  ?<Constant "%02X ">
+       5  ?<Constant "%02X">
+      62  ?<Constant "%s (%u), TransportRev...">
+       3  ?<Constant "; ">
+      27  ?<Constant "COORDINATOR DISTRIBUT...">
+      13  ?<Constant "Channel:%u; ">
+      12  ?<Constant "Coordinator">
+      19  ?<Constant "DEV_COORD_STARTING">
+      15  ?<Constant "DEV_END_DEVICE">
+      22  ?<Constant "DEV_END_DEVICE_UNAUTH">
+       9  ?<Constant "DEV_HOLD">
+       9  ?<Constant "DEV_INIT">
+      13  ?<Constant "DEV_NWK_DISC">
+      16  ?<Constant "DEV_NWK_JOINING">
+      15  ?<Constant "DEV_NWK_ORPHAN">
+      15  ?<Constant "DEV_NWK_REJOIN">
+      11  ?<Constant "DEV_ROUTER">
+      13  ?<Constant "DEV_ZB_COORD">
+      44  ?<Constant "Device Information Pr...">
+      11  ?<Constant "End Device">
+      85  ?<Constant "Error - not a SYS_RES...">
+      88  ?<Constant "Error - not a SYS_VER...">
+       9  ?<Constant "External">
+      12  ?<Constant "MAC Addr:0x">
+      34  ?<Constant "Module Configuration ...">
+       5  ?<Constant "None">
+       4  ?<Constant "OFF">
+      16  ?<Constant "PAN ID:0x%04X\r\n">
+       9  ?<Constant "Power-up">
+      18  ?<Constant "RF_TEST_MODULATED">
+      16  ?<Constant "RF_TEST_RECEIVE">
+      20  ?<Constant "RF_TEST_UNMODULATED">
+       7  ?<Constant "Router">
+      20  ?<Constant "Short Addr:0x%04X; ">
+      22  ?<Constant "USE PRECONFIGURED KEY">
+       8  ?<Constant "Unknown">
+      62  ?<Constant "Version: TransportRev...">
+      10  ?<Constant "Watch-dog">
+       3  ?<Constant "\r\n">
+       5  ?<Constant "zb: ">
+       1  P2IN
+       1  P2OUT
+     206  displayBasicDeviceInformation
+     434  displayDeviceInformation
+     238  displayNetworkConfigurationParameters
+     140  displaySysResetInd
+     124  displaySysVersion
+      34  displayZmBuf
+      50  getConfigurationParameter
+     108  getDeviceStateName
+      38  getDeviceTypeName
+      20  getNvItemSize
+      38  getResetReason
+      48  getRfTestModeName
+      38  getSecurityModeName
+       4  moduleInit
+      86  moduleReset
+      46  setCallbacks
+      50  setChannel
+      88  setChannelMask
+      42  setPanId
+      54  setPollRate
+      92  setRfTestMode
+      34  setSecurityKey
+     112  setSecurityMode
+      42  setStartupOptions
+      44  setZigbeeDeviceType
+      60  sysGpio
+      84  sysNvRead
+     104  sysNvWrite
+      30  sysRandom
+      56  sysSetTxPower
+      28  sysVersion
+     144  waitForMessage
+      44  zbGetDeviceInfo
+      46  zbWriteConfiguration
+
+ 
+ 2 806 bytes in segment CODE
+     2 bytes in segment DATA16_AN
+ 1 292 bytes in segment DATA16_C
+ 
+ 2 806 bytes of CODE  memory
+ 1 292 bytes of CONST memory
+     0 bytes of DATA  memory (+ 2 bytes shared)
+
+Errors: none
+Warnings: none

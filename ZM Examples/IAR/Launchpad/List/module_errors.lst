@@ -1,0 +1,178 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:19 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\module_errors.c                       #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\module_errors.c" -D LAUNCHPAD -D      #
+#                     ZM_PHY_SPI -D REGION_NORTH_AMERICA -D                   #
+#                     DISPLAY_NETWORK_INFORMATION -lc "C:\Documents and       #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\List\" -o "C:\Documents and      #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\Obj\" --no_cse --no_unroll       #
+#                     --no_inline --no_code_motion --no_tbaa --debug          #
+#                     -D__MSP430G2553__ -e --double=32 --dlib_config          #
+#                     "C:\Program Files\IAR Systems\Embedded Workbench        #
+#                     6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents and        #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\module_er #
+#                     rors.lst                                                #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\module_err #
+#                     ors.r43                                                 #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM\module_errors.c
+      1          /**
+      2          * @file module_errors.c
+      3          *
+      4          * @brief Module error handling. In one file here to make it easy to include wherever the module is used.
+      5          *
+      6          * $Rev: 1642 $
+      7          * $Author: dsmith $
+      8          * $Date: 2012-10-31 11:17:04 -0700 (Wed, 31 Oct 2012) $
+      9          *
+     10          * @section support Support
+     11          * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     12          * is available via email at the following addresses:
+     13          * - Questions on how to use the product: AIR@anaren.com
+     14          * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     15          * - Consulting engagements: sales@teslacontrols.com
+     16          *
+     17          * @section license License
+     18          * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     19          * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     20          * source and binary forms, with or without modification, are subject to the Software License 
+     21          * Agreement in the file "anaren_eula.txt"
+     22          * 
+     23          * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     24          * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     25          * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     26          * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     27          * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     28          * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     29          * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     30          * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     31          * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     32          */
+     33          
+     34          #include "module_errors.h"
+     35          #include "../HAL/hal.h"
+     36          #include <stdint.h>
+     37          
+     38          moduleResult_t moduleResult = MODULE_SUCCESS;
+     39          
+     40          /** 
+     41          Converts error code to a string containing the name of the error.
+     42          @param err the error code
+     43          @return the name of the error, if known, or "Other Error" if unknown.
+     44          */
+     45          char* getErrorName(moduleResult_t err)
+     46          {
+     47            switch (err)
+     48            {
+     49            case INVALID_PARAMETER:
+     50              return ("INVALID_PARAMETER");
+     51            case TIMEOUT:
+     52              return ("TIMEOUT");
+     53            case INVALID_LENGTH:
+     54              return ("INVALID_LENGTH");
+     55            case INVALID_CLUSTER:
+     56              return ("INVALID_CLUSTER");
+     57            case ZM_PHY_CHIP_SELECT_TIMEOUT:
+     58              return ("ZM_PHY_CHIP_SELECT_TIMEOUT");
+     59            case ZM_PHY_SRSP_TIMEOUT:
+     60              return ("ZM_PHY_SRSP_TIMEOUT");
+     61            case ZM_PHY_INCORRECT_SRSP:
+     62              return ("ZM_PHY_INCORRECT_SRSP");
+     63            case ZM_INVALID_MODULE_CONFIGURATION:
+     64                return ("ZM_INVALID_MODULE_CONFIGURATION");
+     65            case ZM_PHY_OTHER_ERROR:
+     66                return ("ZM_PHY_OTHER_ERROR");   
+     67            default:
+     68              return ("Other Error");
+     69            }
+     70          }
+     71          
+     72          /** 
+     73          The error handling method called if VERBOSE_ERROR_HANDLING is defined. You can customize this if desired.
+     74          @param methodId which method caused the error
+     75          @param errorCode the cause of the error
+     76          */
+     77          void handleError(moduleResult_t errorCode, uint16_t methodId)
+     78          {
+     79            printf("<Err 0x%02X (%s) in method 0x%04X>\r\n", errorCode, getErrorName(errorCode), methodId);
+     80          } // NOTE: to trap errors in the debugger then #define VERBOSE_ERROR_HANDLING and optionally set a hardware breakpoint right here
+     81          
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      2   getErrorName
+     12   handleError
+        6   -> getErrorName
+       12   -> tfp_printf
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      37  ?<Constant "<Err 0x%02X (%s) in m...">
+      16  ?<Constant "INVALID_CLUSTER">
+      15  ?<Constant "INVALID_LENGTH">
+      18  ?<Constant "INVALID_PARAMETER">
+      12  ?<Constant "Other Error">
+       8  ?<Constant "TIMEOUT">
+      32  ?<Constant "ZM_INVALID_MODULE_CON...">
+      27  ?<Constant "ZM_PHY_CHIP_SELECT_TI...">
+      22  ?<Constant "ZM_PHY_INCORRECT_SRSP">
+      19  ?<Constant "ZM_PHY_OTHER_ERROR">
+      20  ?<Constant "ZM_PHY_SRSP_TIMEOUT">
+     102  getErrorName
+      40  handleError
+       1  moduleResult
+
+ 
+ 142 bytes in segment CODE
+ 226 bytes in segment DATA16_C
+   1 byte  in segment DATA16_Z
+ 
+ 142 bytes of CODE  memory
+ 226 bytes of CONST memory
+   1 byte  of DATA  memory
+
+Errors: none
+Warnings: none

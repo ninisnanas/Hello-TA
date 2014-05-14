@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+    
+    
+  <CurrentConfigs><Project>Simple Application - End Device/Launchpad</Project><Project>Network Explorer/Launchpad</Project><Project>Config Application - Router/Launchpad</Project><Project>Config Application - Coordinator/Launchpad</Project><Project>Simple Application - Router/Launchpad</Project><Project>Simple Application - Coordinator/Launchpad</Project></CurrentConfigs><CurrentProj>Simple Application - End Device</CurrentProj><OverviewSelected>1</OverviewSelected></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>98</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <PreferedWindows><Position>3</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows><Window><Factory>Debug-Log</Factory></Window><Window><Factory>Find-All-References</Factory></Window></Windows></PreferedWindows><ColumnWidth0>20</ColumnWidth0><ColumnWidth1>934</ColumnWidth1><ColumnWidth2>249</ColumnWidth2><ColumnWidth3>62</ColumnWidth3></Build>
+      <TerminalIO/>
+    <Debug-Log><PreferedWindows><Position>3</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows><Window><Factory>Build</Factory></Window><Window><Factory>Find-All-References</Factory></Window></Windows></PreferedWindows><ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1246</ColumnWidth1></Debug-Log><DRIVER_CUSTOM_SFR><PreferedWindows><Position>3</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows><col-names><item>Access</item><item>Address</item><item>Name</item><item>Size</item><item>Zone</item><item>_I0</item></col-names><col-widths><item>120</item><item>150</item><item>150</item><item>50</item><item>120</item><item>20</item></col-widths></DRIVER_CUSTOM_SFR><Find-All-References><ColumnWidth0>359</ColumnWidth0><ColumnWidth1>51</ColumnWidth1><ColumnWidth2>616</ColumnWidth2><PreferedWindows><Position>3</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows><Window><Factory>Build</Factory></Window><Window><Factory>Debug-Log</Factory></Window></Windows></PreferedWindows></Find-All-References></Static>
+    <Windows>
+      
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-7501-26275</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>&lt;ws&gt;</ExpandedNode><ExpandedNode>&lt;ws&gt;/Simple Application - Coordinator</ExpandedNode><ExpandedNode>&lt;ws&gt;/Simple Application - End Device</ExpandedNode><ExpandedNode>Config Application - Coordinator</ExpandedNode><ExpandedNode>Config Application - Coordinator/Output</ExpandedNode><ExpandedNode>Config Application - Router</ExpandedNode><ExpandedNode>Config Application - Router/Messages</ExpandedNode><ExpandedNode>Config Application - Router/Output</ExpandedNode><ExpandedNode>Config Application - Router/ZM</ExpandedNode><ExpandedNode>Network Explorer</ExpandedNode><ExpandedNode>Network Explorer/Messages</ExpandedNode><ExpandedNode>Simple Application - Coordinator</ExpandedNode><ExpandedNode>Simple Application - End Device</ExpandedNode><ExpandedNode>Simple Application - Router</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1><Tabs><Tab><Identity>TabID-24892-23188</Identity><TabName>Build</TabName><Factory>Build</Factory><Session/></Tab><Tab><Identity>TabID-16046-12084</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs><SelectedTab>1</SelectedTab></Wnd1></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\example_simple_application_coordinator_afzdo.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>251</YPos2><SelStart2>8953</SelStart2><SelEnd2>8953</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\example_simple_application_end_device_afzdo.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>41</XPos2><YPos2>146</YPos2><SelStart2>5954</SelStart2><SelEnd2>7119</SelEnd2></Tab><ActiveTab>1</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-0133ff38><key>iaridepm.enu1</key></Toolbar-0133ff38></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>493</Bottom><Right>172</Right><x>-2</x><y>-2</y><xscreen>1283</xscreen><yscreen>189</yscreen><sizeHorzCX>2004688</sizeHorzCX><sizeHorzCY>288550</sizeHorzCY><sizeVertCX>271875</sizeVertCX><sizeVertCY>755725</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>118</Bottom><Right>642</Right><x>-2</x><y>-2</y><xscreen>644</xscreen><yscreen>120</yscreen><sizeHorzCX>1006250</sizeHorzCX><sizeHorzCY>183206</sizeHorzCY><sizeVertCX>237500</sizeVertCX><sizeVertCY>206107</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+

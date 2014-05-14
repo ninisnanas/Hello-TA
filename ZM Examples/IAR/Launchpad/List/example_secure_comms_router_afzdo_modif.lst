@@ -1,0 +1,558 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       06/May/2014  06:08:00 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\example_secure_comms_router_ #
+#                     afzdo_modif.c                                           #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\example_secure_comms_router_ #
+#                     afzdo_modif.c" -D LAUNCHPAD -D ZM_PHY_SPI -D            #
+#                     REGION_NORTH_AMERICA -D DISPLAY_NETWORK_INFORMATION     #
+#                     -lc "C:\Documents and Settings\Nisrina                  #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\" -o      #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\"          #
+#                     --no_cse --no_unroll --no_inline --no_code_motion       #
+#                     --no_tbaa --debug -D__MSP430G2553__ -e --double=32      #
+#                     --dlib_config "C:\Program Files\IAR Systems\Embedded    #
+#                     Workbench 6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents  #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\example_s #
+#                     ecure_comms_router_afzdo_modif.lst                      #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\example_se #
+#                     cure_comms_router_afzdo_modif.r43                       #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM Examples\example_secure_comms_router_afzdo_modif.c
+      1          /**
+      2           * @ingroup moduleCommunications
+      3           * @{
+      4           *
+      5           * @file example_basic_comms_end_device_afzdo.c
+      6           *
+      7           * @brief Resets Radio, configures this device to be a Zigbee End Device, joins a network,
+      8           * then sends a message to the coordinator every few seconds. Sleeps inbetween transmissions.
+      9           * Will also transmit a message when the button is pressed.
+     10           *
+     11           * Calibrates the Very-Low-Power Oscillator (VLO) in the MSP430. Uses VLO to wakup the processor.
+     12           * Note: you could also use an external 32kHz xtal for more accuracy/stability
+     13           *
+     14           * Uses the AF/ZDO interface.
+     15           *
+     16           * This matches example_basic_communications_coordinator.c
+     17           * Get the coordinator running first, or else the end device won't have anything to join to.
+     18           *
+     19           * $Rev: 1642 $
+     20           * $Author: dsmith $
+     21           * $Date: 2012-10-31 11:17:04 -0700 (Wed, 31 Oct 2012) $
+     22           *
+     23           * @section support Support
+     24           * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     25           * is available via email at the following addresses:
+     26           * - Questions on how to use the product: AIR@anaren.com
+     27           * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     28           * - Consulting engagements: sales@teslacontrols.com
+     29           *
+     30           * @section license License
+     31           * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     32           * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     33           * source and binary forms, with or without modification, are subject to the Software License 
+     34           * Agreement in the file "anaren_eula.txt"
+     35           * 
+     36           * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     37           * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     38           * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     39           * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     40           * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     41           * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     42           * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     43           * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     44           * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     45           */
+     46          
+     47          /*#include "../HAL/hal.h"
+     48          #include "../ZM/module.h"
+     49          #include "../ZM/module_errors.h"
+     50          #include "../ZM/module_utilities.h"
+     51          #include "../ZM/af.h"
+     52          #include "../ZM/zdo.h"
+     53          #include "module_example_utils.h"*/
+     54             
+     55          #include "../HAL/hal.h"
+     56          #include "../Common/utilities.h"
+     57          #include "../ZM/module.h"
+     58          #include "../ZM/af.h"
+     59          #include "../ZM/zdo.h"
+     60          #include "../ZM/module_errors.h"
+     61          #include "../ZM/module_utilities.h"
+     62          #include "../ZM/zm_phy.h"
+     63          #include "module_example_utils.h"
+     64          #include <stdint.h>
+     65          #include <stddef.h>
+     66          
+     67          /** function pointer (in hal file) for the function that gets called when the timer generates an int*/
+     68          extern void (*timerIsr)(void);
+     69          
+     70          /** function pointer (in hal file) for the function that gets called when a button is pressed*/
+     71          extern void (*buttonIsr)(int8_t);
+     72          
+     73          /** Used to store return value from module operations */
+     74          moduleResult_t result;
+     75          
+     76          /** Handles timer interrupt */
+     77          void handleTimer();
+     78          
+     79          /** Handles button interrupt */
+     80          void handleButtonPress(int8_t whichButton);
+     81          
+     82          void parseMessageAndDisplay(uint8_t receivedMessage[], int msgSize);
+     83          #define RESTART_AFTER_ZM_FAILURE
+     84          
+     85          uint8_t counter = 0;
+     86          //uint8_t testMessage[10] = {0x30, 0x31, 0x32, 0x33, 0x34, 0x30, 0x31, 0x32, 0x33, 0x34};
+     87          uint8_t testMessage[4] = {0x30, 0x31, 0x32, 0x33};
+     88          //0x34, 0x30, 0x31, 0x32, 0x33, 0x34};
+     89          uint8_t receivedMessage[];
+     90          
+     91          /* This example may be used to measure the module's sleep current. To do this, first define the 
+     92          compile option DISABLE_END_DEVICE_POLLING. In IAR, this can be done in Project Options : C/C++ compiler : Preprocessor
+     93          In the defined symbols box, add:
+     94          DISABLE_END_DEVICE_POLLING
+     95          This will prevent the end device from waking up every second or so and checking for any new messages.
+     96          This must be defined project-wide because it affects other files. It will not allow the end device 
+     97          to receive messages though. Second, undefine SEND_MESSAGE_ON_TIMER in this file to not use the timer. 
+     98          This will stop the module from communicating and will allow you to measure sleep current or when you 
+     99          want to manually wake up (e.g. on a button). */
+    100          
+    101          #define SEND_MESSAGE_ON_TIMER
+    102          extern uint8_t zmBuf[ZIGBEE_MODULE_BUFFER_SIZE];
+    103          
+    104          int main( void )
+    105          {
+    106              halInit();
+    107              moduleInit();     
+    108              printf("\r\n****************************************************\r\n");    
+    109              printf("Basic Communications Example - END DEVICE - using AFZDO\r\n");
+    110              /* Configure the buttonIsr (called from the hal file) to point to our handleButtonPress() */
+    111              buttonIsr = &handleButtonPress;   
+    112              halSetWakeupFlags(WAKEUP_AFTER_BUTTON);
+    113          
+    114              /** Calibrate the Very Low Power Oscillator (VLO) to use for sleep timing */
+    115              printf("Calibrating VLO...\r\n");
+    116          
+    117              int16_t vlo = -1;
+    118              while (vlo < 0)
+    119              {
+    120                  vlo = calibrateVlo();
+    121                  printf("VLO = %u Hz; ", vlo);
+    122              }
+    123              printf(" Done.\r\n");
+    124              timerIsr = &handleTimer; 
+    125              HAL_ENABLE_INTERRUPTS();   
+    126          
+    127          #define MODULE_START_DELAY_IF_FAIL_MS 5000
+    128              /* Use the default module configuration */
+    129          
+    130              struct moduleConfiguration defaultConfiguration = DEFAULT_MODULE_CONFIGURATION_END_DEVICE;
+    131              /* Change this if you are using a custom PAN */
+    132              defaultConfiguration.panId = ANY_PAN;
+    133              struct applicationConfiguration ac;
+    134             
+    135              /* Turn Off nwk status LED if on */
+    136              clearLed(ON_NETWORK_LED);
+    137              /* Loop until module starts */      
+    138              while ((result = startModule(&defaultConfiguration, GENERIC_APPLICATION_CONFIGURATION)) != MODULE_SUCCESS)
+    139              {
+    140                  /* Module startup failed; display error and blink LED */
+    141                  setLed(NETWORK_FAILURE_LED);                    
+    142                  printf("Module start unsuccessful. Error Code 0x%02X. Retrying...\r\n", result);
+    143          
+    144                  delayMs(MODULE_START_DELAY_IF_FAIL_MS/2);                    
+    145                  clearLed(NETWORK_FAILURE_LED);
+    146                  delayMs(MODULE_START_DELAY_IF_FAIL_MS/2);
+    147              }
+    148              printf("On Network!\r\n");
+    149              setLed(ON_NETWORK_LED);  // Indicate we got on the network
+    150          
+    151              /* On network, display info about this network */
+    152          #ifdef DISPLAY_NETWORK_INFORMATION     
+    153              displayNetworkConfigurationParameters();                
+    154              displayDeviceInformation();
+    155          #else
+    156              displayBasicDeviceInformation();
+    157          #endif  
+    158          
+    159          #define TEST_CLUSTER 0x77
+    160          
+    161          uint16_t shortAddress;
+    162          uint8_t addressToSend[2];
+    163              /* get the end point short address */
+    164              result = zbGetDeviceInfo(DIP_SHORT_ADDRESS);
+    165              shortAddress = CONVERT_TO_INT(zmBuf[SRSP_DIP_VALUE_FIELD] , zmBuf[SRSP_DIP_VALUE_FIELD+1]);
+    166              printf("short address is %04X\r\n", shortAddress);
+    167              
+    168              // break the short address into two 8 bits
+    169              addressToSend[0] = shortAddress;
+    170              addressToSend[1] = (uint8_t)(shortAddress >> 8);
+    171              
+    172              printf("address to send is: %02X %02X", addressToSend[0], addressToSend[1]);
+    173              
+    174              /* Register the endpoint to coordinator */
+    175              /* Indicate that we are sending a message */
+    176                  setLed(SEND_MESSAGE_LED);
+    177                  printf("Sending Register Message");
+    178                  
+    179                  /* Attempt to send the message */
+    180                  result = afSendData(DEFAULT_ENDPOINT,DEFAULT_ENDPOINT,0, TEST_CLUSTER, addressToSend, 2);
+    181                  clearLed(SEND_MESSAGE_LED);
+    182                  if (result == MODULE_SUCCESS)
+    183                  {
+    184                      printf("Success\r\n");
+    185                  } else {
+    186                      printf("ERROR %02X ", result);
+    187                  }
+    188          
+    189              /* Now the network is running - send a message to the coordinator every few seconds.*/
+    190          
+    191          
+    192          #define CLOCK_CLUSTER 0x55
+    193          #define MESSAGE_CLUSTER 0x66
+    194          #define CLUSTER_INDEX 5
+    195          #define MESSAGE_INDEX 20
+    196          #define MESSAGE_INFO_LENGTH 19
+    197          #define CLOCK_INFO_LENGTH 4
+    198              
+    199          /*
+    200          #ifdef SEND_MESSAGE_ON_TIMER
+    201              int16_t timerResult = initTimer(4);
+    202              if (timerResult != 0)
+    203              {
+    204                  printf("timerResult Error %i, STOPPING\r\n", timerResult);
+    205                  while (1);   
+    206              }
+    207          #endif*/
+    208          
+    209              while (1)
+    210              {
+    211                if (MODULE_HAS_MESSAGE_WAITING())  {
+    212                  //pollAndDisplay();
+    213                  getMessage();
+    214                  if (zmBuf[SRSP_LENGTH_FIELD] > 0)
+    215                  {
+    216                    // find out what printHexBytes does
+    217                    /*
+    218                    printHexBytes(zmBuf, (zmBuf[SRSP_LENGTH_FIELD] + SRSP_HEADER_SIZE));
+    219                    zmBuf[SRSP_LENGTH_FIELD] = 0;
+    220                    clearLeds();
+    221                    */
+    222                    // misalnya message udah berhasil diambil, saatnya ditranslate
+    223                    if (zmBuf[CLUSTER_INDEX] == 0x55) 
+    224                    {
+    225                      printf("this is a clock\r\n");
+    226                      // the message contains clock information
+    227                      // the length of clock information message is always 4 (HH:MM)
+    228                      int i;
+    229                      for (i = 0; i < CLOCK_INFO_LENGTH; i++)
+    230                      {
+    231                        receivedMessage[i] = zmBuf[MESSAGE_INDEX + i];
+    232                      }
+    233                      printf("%c%c:%c%c\r\n", receivedMessage[0], receivedMessage[1], receivedMessage[2], receivedMessage[3]);
+    234                      // call to method to parse & update the clock
+    235                      int a = 5;
+    236                      parseMessageAndDisplay(receivedMessage, a);
+    237                    } else if (zmBuf[CLUSTER_INDEX] == 0x66)
+    238                    {
+    239                      printf("this is a string\r\n");
+    240                      int i;
+    241                      for (i = 0; i < MESSAGE_INFO_LENGTH; i++)
+    242                      {
+    243                        receivedMessage[i] = zmBuf[MESSAGE_INDEX + i];
+    244                        printf("%c", receivedMessage[i]);
+    245                      }
+    246                      printf("\r\n");
+    247                    }
+    248                    zmBuf[SRSP_LENGTH_FIELD] = 0;
+    249                  }
+    250                }
+    251                  
+    252                
+    253                      
+    254                  /* Indicate that we are sending a message */
+    255                  /*setLed(SEND_MESSAGE_LED);
+    256                  printf("Sending Message %u  ", counter++);
+    257                  /* Attempt to send the message */
+                         ^
+Warning[Pe009]: nested comment is not allowed
+
+      struct applicationConfiguration ac;
+                                      ^
+"C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM Examples\example_secure_comms_router_afzdo_modif.c",133  Warning[Pe177]: 
+          variable "ac" was declared but never referenced
+    258                  /*result = afSendData(DEFAULT_ENDPOINT,DEFAULT_ENDPOINT,0, TEST_CLUSTER, testMessage, 5);
+    259                  clearLed(SEND_MESSAGE_LED);
+    260                  if (result == MODULE_SUCCESS)
+    261                  {
+    262                      printf("Success\r\n");
+    263                  } else {
+    264                      printf("ERROR %02X ", result);*/
+    265          /*#ifdef RESTART_AFTER_ZM_FAILURE
+    266                      printf("\r\nRestarting\r\n");
+    267                      goto start;
+    268          #else
+    269                      printf("stopping\r\n");
+    270                      while(1);
+    271          #endif
+    272                  }  */    
+    273                  //HAL_SLEEP();
+    274              }
+    275          }
+    276          
+    277          void handleTimer()  //Will automatically wakeup timer
+    278          {
+    279              printf("#");
+    280          }
+    281          
+    282          void handleButtonPress(int8_t whichButton)
+    283          {
+    284              toggleLed(0);
+    285              printf("Button Pressed\r\n");
+    286          }
+    287          
+    288          void parseMessageAndDisplay(uint8_t receivedMessage[], int msgSize)
+    289          {
+    290            int i;
+    291            for (i = 0; i < msgSize; i++)
+    292            {
+    293              int msgToParse = receivedMessage[i];
+                         ^
+Warning[Pe177]: variable "msgToParse" was declared but never referenced
+    294              /*switch(msgToParse)
+    295              {
+    296                case 
+    297              }*/
+    298            }
+    299          }
+    300          
+    301          int lookup(char a) {
+    302            if (a == ' ') return 0;
+    303            else if (a == '!') return 1;
+    304            else if (a == '"') return 2;
+    305            else if (a == '#') return 3;
+    306            else if (a == '$') return 4;
+    307            else if (a == '%') return 5;
+    308            else if (a == '&') return 6;
+    309            else if (a == '\'') return 7;
+    310            else if (a == '(') return 8;
+    311            else if (a == ')') return 9;
+    312            else if (a == '*') return 10;
+    313            else if (a == '+') return 11;
+    314            else if (a == ',') return 12;
+    315            else if (a == '-') return 13;
+    316            else if (a == '.') return 14;
+    317            else if (a == '/') return 15;
+    318            else if (a == '0') return 16;
+    319            else if (a == '1') return 17;
+    320            else if (a == '2') return 18;
+    321            else if (a == '3') return 19;
+    322            else if (a == '4') return 20;
+    323            else if (a == '5') return 21;
+    324            else if (a == '6') return 22;
+    325            else if (a == '7') return 23;
+    326            else if (a == '8') return 24;
+    327            else if (a == '9') return 25;
+    328            else if (a == ':') return 26;
+    329            else if (a == ';') return 27;
+    330            else if (a == '<') return 28;
+    331            else if (a == '=') return 29;
+    332            else if (a == '>') return 30;
+    333            else if (a == '?') return 31;
+    334            else if (a == '@') return 32;
+    335            else if (a == 'A') return 33;
+    336            else if (a == 'B') return 34;
+    337            else if (a == 'C') return 35;
+    338            else if (a == 'D') return 36;
+    339            else if (a == 'E') return 37;
+    340            else if (a == 'F') return 38;
+    341            else if (a == 'G') return 39;
+    342            else if (a == 'H') return 40;
+    343            else if (a == 'I') return 41;
+    344            else if (a == 'J') return 42;
+    345            else if (a == 'K') return 43;
+    346            else if (a == 'L') return 44;
+    347            else if (a == 'M') return 45;
+    348            else if (a == 'N') return 46;
+    349            else if (a == 'O') return 47;
+    350            else if (a == 'P') return 48;
+    351            else if (a == 'Q') return 49;
+    352            else if (a == 'R') return 50;
+    353            else if (a == 'S') return 51;
+    354            else if (a == 'T') return 52;
+    355            else if (a == 'U') return 53;
+    356            else if (a == 'V') return 54;
+    357            else if (a == 'W') return 55;
+    358            else if (a == 'X') return 56;
+    359            else if (a == 'Y') return 57;
+    360            else if (a == 'Z') return 58;
+    361            else if (a == '[') return 59;
+    362            else if (a == '55') return 60;
+                                 ^
+Warning[Pe1422]: multicharacter character literal (potential portability
+          problem)
+
+    else if (a == '55') return 60;
+               ^
+"C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM Examples\example_secure_comms_router_afzdo_modif.c",362  Warning[Pa084]: 
+          pointless integer comparison, the result is always false
+    363            else if (a == ']') return 61;
+    364            else if (a == '^') return 62;
+    365            else if (a == '_') return 63;
+    366            else if (a == '`') return 64;
+    367            else if (a == 'a') return 65;
+    368            else if (a == 'b') return 66;
+    369            else if (a == 'c') return 67;
+    370            else if (a == 'd') return 68;
+    371            else if (a == 'e') return 69;
+    372            else if (a == 'f') return 70;
+    373            else if (a == 'g') return 71;
+    374            else if (a == 'h') return 72;
+    375            else if (a == 'i') return 73;
+    376            else if (a == 'j') return 74;
+    377            else if (a == 'k') return 75;
+    378            else if (a == 'l') return 76;
+    379            else if (a == 'm') return 77;
+    380            else if (a == 'n') return 78;
+    381            else if (a == 'o') return 79;
+    382            else if (a == 'p') return 80;
+    383            else if (a == 'q') return 81;
+    384            else if (a == 'r') return 82;
+    385            else if (a == 's') return 83;
+    386            else if (a == 't') return 84;
+    387            else if (a == 'u') return 85;
+    388            else if (a == 'v') return 86;
+    389            else if (a == 'w') return 87;
+    390            else if (a == 'x') return 88;
+    391            else if (a == 'y') return 89;
+    392            else if (a == 'z') return 90;
+    393            else if (a == '{') return 91;
+    394            else if (a == '|') return 92;
+    395            else if (a == '#') return 93;
+    396            else return 60;
+    397          }
+    398          
+    399          /* @} */
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      2   handleButtonPress
+        2   -> tfp_printf
+        2   -> toggleLed
+      2   handleTimer
+        2   -> tfp_printf
+      2   lookup
+     30   main
+       30   -> afSendData
+       20   -> calibrateVlo
+       20   -> clearLed
+       22   -> clearLed
+       30   -> clearLed
+       22   -> delayMs
+       20   -> displayDeviceInformation
+       20   -> displayNetworkConfigurationParameters
+       20   -> getMessage
+       20   -> halInit
+       20   -> halSetWakeupFlags
+       20   -> moduleInit
+       28   -> parseMessageAndDisplay
+       20   -> setLed
+       26   -> setLed
+       20   -> startModule
+       20   -> tfp_printf
+       22   -> tfp_printf
+       26   -> tfp_printf
+       28   -> tfp_printf
+       20   -> zbGetDeviceInfo
+      4   parseMessageAndDisplay
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       9  ?<Constant " Done.\r\n">
+       2  ?<Constant "#">
+       3  ?<Constant "%c">
+      12  ?<Constant "%c%c:%c%c\r\n">
+      58  ?<Constant "Basic Communications ...">
+      17  ?<Constant "Button Pressed\r\n">
+      21  ?<Constant "Calibrating VLO...\r\n">
+      12  ?<Constant "ERROR %02X ">
+      60  ?<Constant "Module start unsucces...">
+      14  ?<Constant "On Network!\r\n">
+      25  ?<Constant "Sending Register Message">
+      10  ?<Constant "Success\r\n">
+      14  ?<Constant "VLO = %u Hz; ">
+       3  ?<Constant "\r\n">
+      57  ?<Constant "\r\n*******************...">
+      30  ?<Constant "address to send is: %...">
+      24  ?<Constant "short address is %04X\r\n">
+      18  ?<Constant "this is a clock\r\n">
+      19  ?<Constant "this is a string\r\n">
+       4  ?<Initializer for testMessage>
+       1  P2IN
+       1  counter
+      14  handleButtonPress
+       8  handleTimer
+    1112  lookup
+     552  main
+      24  parseMessageAndDisplay
+       1  receivedMessage
+       1  result
+       4  testMessage
+
+ 
+ 1 710 bytes in segment CODE
+     1 byte  in segment DATA16_AN
+   408 bytes in segment DATA16_C
+     4 bytes in segment DATA16_I
+     4 bytes in segment DATA16_ID
+     3 bytes in segment DATA16_Z
+ 
+ 1 710 bytes of CODE  memory
+   412 bytes of CONST memory
+     7 bytes of DATA  memory (+ 1 byte shared)
+
+Errors: none
+Warnings: 5

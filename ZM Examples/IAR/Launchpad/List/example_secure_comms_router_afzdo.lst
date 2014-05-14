@@ -1,0 +1,463 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  05:26:43 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\example_secure_comms_router_ #
+#                     afzdo.c                                                 #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\example_secure_comms_router_ #
+#                     afzdo.c" -D LAUNCHPAD -D ZM_PHY_SPI -D                  #
+#                     REGION_NORTH_AMERICA -D DISPLAY_NETWORK_INFORMATION     #
+#                     -lc "C:\Documents and Settings\Nisrina                  #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\" -o      #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\"          #
+#                     --no_cse --no_unroll --no_inline --no_code_motion       #
+#                     --no_tbaa --debug -D__MSP430G2553__ -e --double=32      #
+#                     --dlib_config "C:\Program Files\IAR Systems\Embedded    #
+#                     Workbench 6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents  #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\example_s #
+#                     ecure_comms_router_afzdo.lst                            #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\example_se #
+#                     cure_comms_router_afzdo.r43                             #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM Examples\example_secure_comms_router_afzdo.c
+      1          /**
+      2           * @ingroup moduleCommunications
+      3           * @{
+      4           *
+      5           * @file example_secure_comms_router_afzdo.c
+      6           *
+      7           * @brief Resets Radio, configures this device to be a Zigbee Router, joins a network, initializes
+      8           * security and then sends a message to the coordinator once per second.
+      9           * Uses the AF/ZDO interface.
+     10           *
+     11           * This matches example_secure_communications_COORDINATOR.c
+     12           * Get the coordinator running first, or else the router won't have anything to join to.
+     13           *
+     14           * Note: security mode should be the same for all devices on the network and can be one of:
+     15          - SECURITY_MODE_PRECONFIGURED_KEYS
+     16          - USE_SECURITY_MODE_COORD_DIST_KEYS
+     17          - SECURITY_MODE_OFF
+     18           *
+     19           * $Rev: 1770 $
+     20           * $Author: dsmith $
+     21           * $Date: 2013-03-07 14:55:49 -0800 (Thu, 07 Mar 2013) $
+     22           *
+     23           * @section support Support
+     24           * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     25           * is available via email at the following addresses:
+     26           * - Questions on how to use the product: AIR@anaren.com
+     27           * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     28           * - Consulting engagements: sales@teslacontrols.com
+     29           *
+     30           * @section license License
+     31           * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     32           * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     33           * source and binary forms, with or without modification, are subject to the Software License 
+     34           * Agreement in the file "anaren_eula.txt"
+     35           * 
+     36           * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     37           * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     38           * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     39           * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     40           * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     41           * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     42           * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     43           * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     44           * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     45           */
+     46          
+     47          #include "../HAL/hal.h"
+     48          #include "../Common/utilities.h"
+     49          #include "../ZM/module.h"
+     50          #include "../ZM/module_errors.h"
+     51          #include "../ZM/module_utilities.h"
+     52          #include "../ZM/af.h"
+     53          #include "../ZM/zdo.h"
+     54          #include "../ZM/zm_phy.h"
+     55          #include "../LED/led_matrix.h"
+     56          #include "../LED/font.h"
+     57          #include "module_example_utils.h"   //for handleReturnValue() and polling()
+     58          #include <stdint.h>
+     59          #include <stddef.h>
+     60          #include <string.h>
+     61          
+     62          /** function pointer (in hal file) for the function that gets called when the timer generates an int*/
+     63          extern void (*timerIsr)(void);
+     64          
+     65          extern uint8_t text_array[100];
+     66          
+     67          /** Used to store return value from module operations */
+     68          moduleResult_t result;
+     69          
+     70          /** Handles timer interrupt */
+     71          void handleTimer();
+     72          
+     73          /** Method to parse the message received and display it to LED */
+     74          void parseMessageAndDisplay(uint8_t receivedMessage[], int msgSize);
+     75          
+     76          #define RESTART_AFTER_ZM_FAILURE
+     77          
+     78          /** encryption key used in security */
+     79          uint8_t key[16] = "*Tesla Controls*";
+     80          
+     81          unsigned char counter = 0;
+     82          unsigned char testMessage[] = {0xE0,0xE1,0xE2,0xE3,0xE4};
+     83          unsigned char receivedMessage[];
+     84          
+     85          int h1 = 48; // in ASCII
+     86          int h0 = 48;
+     87          int m1 = 48;
+     88          int m0 = 48;
+     89          
+     90          /* This example may be used to measure the module's sleep current. To do this, first define the 
+     91          compile option DISABLE_END_DEVICE_POLLING. In IAR, this can be done in Project Options : C/C++ compiler : Preprocessor
+     92          In the defined symbols box, add:
+     93          DISABLE_END_DEVICE_POLLING
+     94          This will prevent the end device from waking up every second or so and checking for any new messages.
+     95          This must be defined project-wide because it affects other files. It will not allow the end device 
+     96          to receive messages though. Second, undefine SEND_MESSAGE_ON_TIMER in this file to not use the timer. 
+     97          This will stop the module from communicating and will allow you to measure sleep current or when you 
+     98          want to manually wake up (e.g. on a button). */
+     99          
+    100          /* ZigBee buffer that holds incoming message */
+    101          extern uint8_t zmBuf[ZIGBEE_MODULE_BUFFER_SIZE];
+    102          
+    103          uint8_t text_arr[100];
+    104          extern int data_size;
+    105          
+    106          void increase_counter();
+    107          
+    108          char str1[6];
+    109          
+    110          int main( void )
+    111          {
+    112              //halInit();
+    113              //moduleInit();    
+    114              printf("\r\n****************************************************\r\n");    
+    115              printf("Secure Communications (Modified) - END DEVICE - using AFZDO\r\n");
+    116              
+    117              led_init();
+    118              
+    119              /** Calibrate the Very Low Power Oscillator (VLO) to use for sleep timing */
+    120              printf("Calibrating VLO...\r\n");
+    121          
+    122              /*
+    123              int16_t vlo = -1;
+    124              while (vlo < 0)
+    125              {
+    126                  vlo = calibrateVlo();
+    127                  printf("VLO = %u Hz; ", vlo);
+    128              }
+    129              printf(" Done.\r\n");
+    130              /*
+                     ^
+Warning[Pe009]: nested comment is not allowed
+    131              timerIsr = &handleTimer;
+    132              int16_t timerResult = initTimer(1);
+    133              if (timerResult != 0)
+    134              {
+    135                printf("timerResult Error %i, STOPPING\r\n", timerResult);
+    136                while(1);
+    137              }
+    138              */
+    139              //HAL_ENABLE_INTERRUPTS();
+    140              
+    141              str1[0] = (char) h1;
+    142              str1[1] = (char) h0;
+    143              str1[2] = (char) ':';
+    144              str1[3] = (char) m1;
+    145              str1[4] = (char) m0;
+    146              str1[5] = (char) '\0';
+    147              
+    148              int counter = 0;
+    149              while(1)
+    150              {
+    151                if (counter == 246) 
+    152                {
+    153                  str1[2] = (char) ' ';
+    154                  increase_counter();
+    155                  write_to_led(str1, CLOCK);
+    156                } else 
+    157                  if (counter == 491)
+    158                  {
+    159                    str1[2] = (char) ':';
+    160                    write_to_led(str1, CLOCK);
+    161                    counter = 0;
+    162                  }
+    163                send_image(text_array, data_size);
+    164                counter++;
+    165              }
+    166          
+    167          #define MODULE_START_DELAY_IF_FAIL_MS 5000
+    168          
+    169              struct moduleConfiguration defaultConfiguration = DEFAULT_MODULE_CONFIGURATION_END_DEVICE;
+                                                ^
+Warning[Pe185]: dynamic initialization in unreachable code
+    170              defaultConfiguration.securityMode = SECURITY_MODE_PRECONFIGURED_KEYS;
+    171              defaultConfiguration.securityKey = key;
+    172              
+    173              /*
+    174              struct applicationConfiguration endDeviceConf;
+    175              endDeviceConf.endPoint = 1;
+    176              endDeviceConf.latencyRequested = LATENCY_NORMAL;
+    177              endDeviceConf.profileId = 0xcc00; // the clock profile is 0xCC00
+    178              endDeviceConf.deviceId = 0x8866;
+    179              endDeviceConf.deviceVersion = 0x01;
+    180              endDeviceConf.numberOfBindingInputClusters = 0; // number of binding input cluster
+    181              endDeviceConf.bindingInputClusters[0] = 0x0000; // basic cluster
+    182              endDeviceConf.bindingInputClusters[1] = 0xfc01; // identify cluster
+    183              endDeviceConf.bindingInputClusters[2] = 0xfc02; // synchronise clock cluster
+    184              endDeviceConf.bindingInputClusters[3] = 0xfc03; // send string message cluster
+    185              endDeviceConf.numberOfBindingOutputClusters = 0; // number of binding output cluster
+    186              endDeviceConf.bindingOutputClusters[0] = 0x0000;
+    187              endDeviceConf.bindingOutputClusters[1] = 0xfc01;
+    188              endDeviceConf.bindingOutputClusters[2] = 0xfc02;
+    189              endDeviceConf.bindingOutputClusters[3] = 0xfc03;*/
+    190              
+    191              /* Turn Off nwk status LED if on */
+    192              clearLed(ON_NETWORK_LED);
+    193              /* Loop until module starts */
+    194              while ((result = startModule(&defaultConfiguration, GENERIC_APPLICATION_CONFIGURATION)) != MODULE_SUCCESS)
+    195              //while ((result = startModule(&defaultConfiguration, &endDeviceConf)) != MODULE_SUCCESS)
+    196              {
+    197                  /* Module startup failed; display error and blink LED */
+    198                  setLed(NETWORK_FAILURE_LED);
+    199                  printf("Module start unsuccessful. Error Code 0x%02X. Retrying...\r\n", result);
+    200                  delayMs(MODULE_START_DELAY_IF_FAIL_MS/2);
+    201                  clearLed(NETWORK_FAILURE_LED);
+    202                  delayMs(MODULE_START_DELAY_IF_FAIL_MS/2);
+    203              }
+    204          
+    205              printf("On Network!\r\n");
+    206              setLed(ON_NETWORK_LED); // Indicate we got on the network
+    207          
+    208              /* On network, display info about this network */
+    209          #ifdef DISPLAY_NETWORK_INFORMATION     
+    210              displayNetworkConfigurationParameters();
+    211              displayDeviceInformation();
+    212          #else
+    213              displayBasicDeviceInformation();
+    214          #endif  
+    215          
+    216              /* Now the network is running - send a message to the coordinator every few seconds.*/
+    217          #define REGISTER_CLUSTER 0xfc01
+    218          #define CLOCK_CLUSTER 0xfc02
+    219          #define MESSAGE_CLUSTER 0xfc03
+    220          #define CLUSTER_INDEX 5
+    221          #define MESSAGE_INDEX 20
+    222          #define MESSAGE_INFO_LENGTH 19
+    223          #define CLOCK_INFO_LENGTH 4
+    224              
+    225          uint16_t shortAddress;
+    226          uint8_t addressToSend[2];
+    227          
+    228              //update_clock();
+    229          
+    230              /* Get the end point short address */
+    231              result = zbGetDeviceInfo(DIP_SHORT_ADDRESS);
+    232              shortAddress = CONVERT_TO_INT(zmBuf[SRSP_DIP_VALUE_FIELD], zmBuf[SRSP_DIP_VALUE_FIELD + 1]);
+    233              printf("Device's Short Address is %04X\r\n", shortAddress);
+    234              
+    235              /* Break the short address into two 8 bits */
+    236              addressToSend[0] = shortAddress;
+    237              addressToSend[1] = (uint8_t) (shortAddress >> 8);
+    238              printf("Address to send is: %02X %02X\r\n", addressToSend[0], addressToSend[1]);
+    239              
+    240              /* Register the End Device to Coordinator */
+    241              /* Indicate that we are sending a message */
+    242              setLed(SEND_MESSAGE_LED);
+    243              printf("Sending Register Message...");
+    244              
+    245              /* Attempt to send the message */
+    246              result = afSendData(DEFAULT_ENDPOINT, DEFAULT_ENDPOINT, 0, REGISTER_CLUSTER, addressToSend, 2);
+    247              clearLed(SEND_MESSAGE_LED);
+    248              if (result == MODULE_SUCCESS)
+    249              {
+    250                printf("SUCCESS!\r\n");
+    251              } else {
+    252                printf("ERROR %02X ", result);
+    253              }
+    254              
+    255              /*
+    256              timerIsr = &handleTimer;
+    257              int16_t timerResult = initTimer(1);
+    258              if (timerResult != 0)
+    259              {
+    260                printf("timerResult Error %i, STOPPING\r\n", timerResult);
+    261                while(1);
+    262              }*/
+    263              
+    264              printf("hihihihi\r\n");
+    265              
+    266              while (1)
+    267              {
+    268                send_image(text_arr, data_size);
+    269                /*
+    270                printf("Current Time is %d:%d\r\n", hour, minute);
+    271                  if (MODULE_HAS_MESSAGE_WAITING())
+    272                  {
+    273                    //pollAndDisplay();
+    274                    getMessage();
+    275                    if (zmBuf[SRSP_LENGTH_FIELD] > 0)
+    276                    {
+    277                      // check the cluster index
+    278                      uint16_t cluster = zmBuf[CLUSTER_INDEX] | (zmBuf[CLUSTER_INDEX + 1] << 8);
+    279                      printf("cluster received was %04x\r\n", cluster);
+    280                      if (cluster == 0xfc02)
+    281                      {
+    282                        printf("This is a clock message\r\n");
+    283                        // the message contains clock information
+    284                        // the length of clock information message is always 4 (HH:MM)
+    285                        int i;
+    286                        for (i = 0; i < CLOCK_INFO_LENGTH; i++)
+    287                        {
+    288                          receivedMessage[i] = zmBuf[MESSAGE_INDEX + i];
+    289                        }
+    290                        printf("%c%c:%c%c\r\n", receivedMessage[0], receivedMessage[1], receivedMessage[2], receivedMessage[3], receivedMessage[4]);
+    291                        // call method to parse & update the clock
+    292                        /* SOON TO BE UPDATED!!!! 
+                               ^
+Warning[Pe009]: nested comment is not allowed
+    293                      } else if (cluster == 0xfc03)
+    294                      {
+    295                        printf("This is a string message\r\n");
+    296                        int i;
+    297                        for (i = 0; i < MESSAGE_INFO_LENGTH; i++)
+    298                        {
+    299                          receivedMessage[i] = zmBuf[MESSAGE_INDEX + i];
+    300                          printf("%c", receivedMessage[i]);
+    301                        }
+    302                        printf("\r\n");
+    303                      } else {
+    304                        printf("ERROR RETRIEVING -- Cluster not identified");
+    305                      }
+    306                      zmBuf[SRSP_LENGTH_FIELD] = 0;
+    307                    }
+    308                  }*/
+    309              }
+    310          }
+    311                              
+    312          void handleTimer() // Will automatically wake up timer
+    313          {
+    314          }
+    315          
+    316          void increase_counter()
+    317          {
+    318            m0++;
+    319            if (m0 > 57) // in ascii
+    320            {
+    321              m1++;
+    322              if (m1 > 53)
+    323              {
+    324                h0++;
+    325                if (h0 > 57)
+    326                {
+    327                  h1++;
+    328                  h0 = 48;
+    329                } else if (h0 == 52 && h1 == 50)
+    330                {
+    331                  h0 = 48;
+    332                  h1 = 48;
+    333                }
+    334                m1 = 48;
+    335              }
+    336              m0 = 48;
+    337            }
+    338            str1[0] = (char) h1;
+    339            str1[1] = (char) h0;
+    340            str1[3] = (char) m1;
+    341            str1[4] = (char) m0;
+    342          }
+    343          
+    344          /* @} */
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      2   handleTimer
+      2   increase_counter
+      4   main
+        4   -> increase_counter
+        4   -> led_init
+        4   -> send_image
+        4   -> tfp_printf
+        4   -> write_to_led
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      21  ?<Constant "Calibrating VLO...\r\n">
+      62  ?<Constant "Secure Communications...">
+      57  ?<Constant "\r\n*******************...">
+       2  ?<Initializer for h0>
+       2  ?<Initializer for h1>
+      16  ?<Initializer for key>
+       2  ?<Initializer for m0>
+       2  ?<Initializer for m1>
+       5  ?<Initializer for testMessage>
+       1  counter
+       2  h0
+       2  h1
+       2  handleTimer
+     114  increase_counter
+      16  key
+       2  m0
+       2  m1
+     134  main
+       1  receivedMessage
+       1  result
+       6  str1
+       5  testMessage
+     100  text_arr
+
+ 
+ 250 bytes in segment CODE
+ 140 bytes in segment DATA16_C
+  29 bytes in segment DATA16_I
+  29 bytes in segment DATA16_ID
+ 109 bytes in segment DATA16_Z
+ 
+ 250 bytes of CODE  memory
+ 169 bytes of CONST memory
+ 138 bytes of DATA  memory
+
+Errors: none
+Warnings: 3

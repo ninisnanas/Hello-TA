@@ -1,0 +1,605 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:15 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\af.c                                  #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\af.c" -D LAUNCHPAD -D ZM_PHY_SPI -D   #
+#                     REGION_NORTH_AMERICA -D DISPLAY_NETWORK_INFORMATION     #
+#                     -lc "C:\Documents and Settings\Nisrina                  #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\" -o      #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\"          #
+#                     --no_cse --no_unroll --no_inline --no_code_motion       #
+#                     --no_tbaa --debug -D__MSP430G2553__ -e --double=32      #
+#                     --dlib_config "C:\Program Files\IAR Systems\Embedded    #
+#                     Workbench 6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents  #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\af.lst    #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\af.r43     #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM\af.c
+      1          /**
+      2          * @file af.c
+      3          *
+      4          * @brief Methods that implement the Application Framework (AF) interface.
+      5          * 
+      6          * The AF/ZDO interface is a more powerful version of the Simple API and allows you to configure, 
+      7          * send, and receive Zigbee data. This file acts as an interface between the user's application and 
+      8          the Module physical interface. Module interface could be either SPI or UART.
+      9          * Refer to Interface Specification for more information.
+     10          *
+     11          * @note For more information, define AF_VERBOSE. It is recommended to define this on a per-project basis. 
+     12          * In IAR, this can be done in Project Options : C/C++ compiler : Preprocessor
+     13          * In the defined symbols box, add:
+     14          * AF_VERBOSE
+     15          *
+     16          * $Rev: 1642 $
+     17          * $Author: dsmith $
+     18          * $Date: 2012-10-31 11:17:04 -0700 (Wed, 31 Oct 2012) $
+     19          *
+     20          * @section support Support
+     21          * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     22          * is available via email at the following addresses:
+     23          * - Questions on how to use the product: AIR@anaren.com
+     24          * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     25          * - Consulting engagements: sales@teslacontrols.com
+     26          *
+     27          * @section license License
+     28          * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     29          * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     30          * source and binary forms, with or without modification, are subject to the Software License 
+     31          * Agreement in the file "anaren_eula.txt"
+     32          * 
+     33          * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     34          * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     35          * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     36          * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     37          * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     38          * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     39          * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     40          * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     41          * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     42          */
+     43          
+     44          #include "af.h"
+     45          #include "module.h"
+     46          #include "module_errors.h"
+     47          #include "../HAL/hal.h"
+     48          #include "../Common/utilities.h"
+     49          #include "application_configuration.h"
+     50          #include "zm_phy_spi.h"
+     51          #include <string.h>                 //for memcpy()
+     52          #include <stdint.h>
+     53          
+     54          extern uint8_t zmBuf[ZIGBEE_MODULE_BUFFER_SIZE];
+     55          
+     56          /** Incremented for each AF_DATA_REQUEST, wraps around to 0. */
+     57          static uint8_t transactionSequenceNumber = 0;
+     58          
+     59          /** This configures whether we want to receive an ACK from the next node or from the final
+     60          destination. Using APS ACK results in more traffic on the network. Most of the time MAC ACK is ok.
+     61          */
+     62          static uint8_t acknowledgmentMode = AF_MAC_ACK;
+     63          
+     64          #define METHOD_AF_REGISTER_APPLICATION                    0x2100
+     65          /** 
+     66           Configures the Module for our application.
+     67          Sets which profileId, etc. we're using as well as binding information FOR EACH ENDPOINT
+     68          Using the AF/ZDO interface, you can have more than one endpoint. Recommended not to exceed 10 endpoints.
+     69          @param ac the applicationConfiguration to register. Endpoint must NOT be zero.
+     70          @pre Module was initialized and ZCD_NV_LOGICAL_TYPE has been set (COORDINATOR/ROUTER/END_DEVICE).
+     71          @return MODULE_SUCCESS if success, else an error code
+     72          @post can now use afStartApplication()
+     73          @note this method does not check whether the endpoint being registered has already been registered - it is up to the application to manage that.
+     74          @see applicationConfiguration
+     75          */
+     76          moduleResult_t afRegisterApplication(struct applicationConfiguration ac)
+     77          {
+     78          #ifdef AF_VERBOSE
+     79              printf("Register Application Configuration with AF/ZDO\r\n");
+     80          #endif
+     81              RETURN_INVALID_PARAMETER_IF_TRUE( (ac.endPoint == 0), METHOD_AF_REGISTER_APPLICATION);
+     82              RETURN_INVALID_CLUSTER_IF_TRUE( ((ac.numberOfBindingInputClusters > MAX_BINDING_CLUSTERS) || (ac.numberOfBindingOutputClusters > MAX_BINDING_CLUSTERS)), METHOD_AF_REGISTER_APPLICATION);
+     83              
+     84              //zmBuf[0] (length) will be set later
+     85              zmBuf[1] = MSB(AF_REGISTER);
+     86              zmBuf[2] = LSB(AF_REGISTER);  
+     87              
+     88              uint8_t bufferIndex;
+     89              zmBuf[3] = ac.endPoint;
+     90              zmBuf[4] = ac.profileId & 0xFF;      //LSB
+     91              zmBuf[5] = ac.profileId >> 8;        //MSB
+     92              zmBuf[6] = ac.deviceId & 0xFF;       //LSB
+     93              zmBuf[7] = ac.deviceId >> 8;         //MSB
+     94              zmBuf[8] = ac.deviceVersion;
+     95              zmBuf[9] = ac.latencyRequested;
+     96              zmBuf[10] = ac.numberOfBindingInputClusters;
+     97              
+     98              bufferIndex = 11;
+     99              int i;
+    100              for (i = 0; i<ac.numberOfBindingInputClusters; i++)
+    101              {
+    102                  zmBuf[bufferIndex++] = ac.bindingInputClusters[i] & 0xFF;
+    103                  zmBuf[bufferIndex++] = ac.bindingInputClusters[i] >> 8;
+    104              }
+    105              zmBuf[bufferIndex++] = ac.numberOfBindingOutputClusters;
+    106              for (i = 0; i<ac.numberOfBindingOutputClusters; i++)
+    107              {
+    108                  zmBuf[bufferIndex++] = ac.bindingOutputClusters[i] & 0xFF;
+    109                  zmBuf[bufferIndex++] = ac.bindingOutputClusters[i] >> 8;
+    110              }
+    111              zmBuf[0] = bufferIndex;
+    112              RETURN_RESULT(sendMessage(), METHOD_AF_REGISTER_APPLICATION); 
+    113          }
+    114          
+    115          
+    116          #define METHOD_AF_REGISTER_GENERIC_APPLICATION                    0x2200
+    117          /** Configures the Module for a "generic" application: one endpoint, no binding or fancy stuff. 
+    118          Sets which endpoint, profileId, etc. we're using as well as binding information
+    119          @return MODULE_SUCCESS if success, else an error code
+    120          @see afRegisterApplication()
+    121          */
+    122          moduleResult_t afRegisterGenericApplication()
+    123          {
+    124          #define AF_REGISTER_PAYLOAD_LEN 9
+    125              zmBuf[0] = AF_REGISTER_PAYLOAD_LEN;
+    126              zmBuf[1] = MSB(AF_REGISTER);
+    127              zmBuf[2] = LSB(AF_REGISTER);      
+    128              
+    129              zmBuf[3] = DEFAULT_ENDPOINT;
+    130              zmBuf[4] = LSB(DEFAULT_PROFILE_ID);
+    131              zmBuf[5] = MSB(DEFAULT_PROFILE_ID);
+    132              zmBuf[6] = LSB(DEVICE_ID);
+    133              zmBuf[7] = MSB(DEVICE_ID);
+    134              zmBuf[8] = DEVICE_VERSION;
+    135              zmBuf[9] = LATENCY_NORMAL;
+    136              zmBuf[10] = 0; //number of binding input clusters
+    137              zmBuf[11] = 0; //number of binding output clusters
+    138              RETURN_RESULT(sendMessage(), METHOD_AF_REGISTER_GENERIC_APPLICATION);
+    139          }
+    140          
+    141          /** Returns the current transactionSequenceNumber. This is included in afSendData, and reported in
+    142          AF_DATA_CONFIRM. Use this to match the AF_DATA_CONFIRM with calls to afSendData().
+    143          @return the current transactionSequenceNumber - this was sent with the last call to afSendData or afSendDataExt.
+    144          @note this is implemented as a method for modularity; to keep other code from changing this variable.
+    145          */
+    146          uint8_t getTransactionSequenceNumber()
+    147          {
+    148              return transactionSequenceNumber;
+    149          }
+    150          
+    151          #define METHOD_AF_SET_ACK_MODE                    0x2900
+    152          /** Configures the module interface for either MAC level acking or application level acking.
+    153          This setting is used in afSendData() and afSendDataExt().
+    154          */
+    155          moduleResult_t afSetAckMode(uint8_t ackMode)
+    156          {
+    157              RETURN_INVALID_PARAMETER_IF_TRUE(((ackMode != AF_MAC_ACK) && (ackMode != AF_APS_ACK)), METHOD_AF_SET_ACK_MODE);
+    158              acknowledgmentMode = ackMode;
+    159              return MODULE_SUCCESS;
+    160          }
+    161          
+    162          #define METHOD_AF_SEND_DATA                    0x2300
+    163          /** Sends a message to another device over the Zigbee network using the AF command AF_DATA_REQUEST.
+    164          @param  destinationEndpoint which endpoint to send this to.
+    165          @param  sourceEndpoint which endpoint this message originated from on our device
+    166          @param  destinationShortAddress the short address of the destination, or ALL_DEVICES or 
+    167          ALL_ROUTERS_AND_COORDINATORS to broadcast the message.
+    168          @param  clusterId which cluster this message is for. User definable. Zigbee supports up to 2^16 clusters. 
+    169          A cluster is typically a particular command, e.g. "turn on lights" or "get temperature". If using a 
+    170          predefined Zigbee Alliance Application Profile then this cluster will follow the Zigbee Cluster Library.
+    171          @param  data is the data to send.
+    172          @param  dataLength is how many bytes of data to send. Must be nonzero and less than MAXIMUM_PAYLOAD_LENGTH.
+    173          @note On a coordinator in a trivial test setup, it takes approximately 10mSec from sending 
+    174          AF_DATA_REQUEST to when we receive AF_DATA_CONFIRM.
+    175          @note   When sending data, three things happen:
+    176          1. AF_DATA_REQUEST sent to module.
+    177          2. Module sends back AF_DATA_REQUEST SRSP to indicate the message was received.
+    178          3. Once message was delivered, Module sends back AF_DATA_CONFIRM.
+    179          For simplicity, this library function will use a blocking wait to wait for the AF_DATA_CONFIRM.
+    180           Define AF_DATA_CONFIRM_HANDLED_BY_APPLICATION if checking for AF_DATA_CONFIRM messages in
+    181          the application instead of this method. Doing it in the application is faster, but requires more code.
+    182          @note   <code>transactionSequenceNumber</code> is an optional user-definable reference number to match AF_DATA_REQUEST messages with AF_DATA_CONFIRM messages. 
+    183          @note   The Module will automatically require an ACK from the next device on the route when sending data. 
+    184          To require an ACK from the final destination, use afSetAckMode to set acknowledgment mode to 
+    185          AF_APS_ACK at the expense of increased network traffic.
+    186          @note   The <code>radius</code> is the maximum number of hops that this packet can travel through 
+    187          before it will be dropped and should be set to the maximum number of hops expected in the network.
+    188          @note   adjust AF_DATA_CONFIRM_TIMEOUT  based on network size, number of hops, etc.
+    189          @pre    the application was started successfully
+    190          @pre    there is another device on the network with short address of <code>destinationShortAddress</code> 
+    191          and that device has successfully started its application.
+    192          @post   We will receive a AF_DATA_REQUEST_SRSP regardless of whether the message was successfully sent or not.
+    193          @post   we will receive a AF_DATA_CONFIRM if the message was successfully sent. 
+    194          */
+    195          moduleResult_t afSendData(uint8_t destinationEndpoint, uint8_t sourceEndpoint, 
+    196                                    uint16_t destinationShortAddress, uint16_t clusterId, 
+    197                                    uint8_t* data, uint8_t dataLength)
+    198          {
+    199              RETURN_INVALID_LENGTH_IF_TRUE( ((dataLength > MAXIMUM_PAYLOAD_LENGTH) || (dataLength == 0)), METHOD_AF_SEND_DATA);
+    200              RETURN_INVALID_CLUSTER_IF_TRUE( (clusterId == 0), METHOD_AF_SEND_DATA);
+    201              
+    202          #ifdef AF_VERBOSE     
+    203              printf("Sending %u bytes to endpoint %u from endpoint %u with cluster %u (%04X) at Short Address %u (0x%04X)\r\n", 
+    204                     dataLength, destinationEndpoint, sourceEndpoint, clusterId, clusterId, destinationShortAddress, destinationShortAddress);
+    205          #endif  
+    206              
+    207          #define AF_DATA_REQUEST_PAYLOAD_LEN 10
+    208              
+    209              zmBuf[0] = AF_DATA_REQUEST_PAYLOAD_LEN + dataLength;
+    210              zmBuf[1] = MSB(AF_DATA_REQUEST);
+    211              zmBuf[2] = LSB(AF_DATA_REQUEST);      
+    212              
+    213              zmBuf[3] = LSB(destinationShortAddress); 
+    214              zmBuf[4] = MSB(destinationShortAddress);
+    215              zmBuf[5] = destinationEndpoint;
+    216              zmBuf[6] = sourceEndpoint;
+    217              zmBuf[7] = LSB(clusterId); 
+    218              zmBuf[8] = MSB(clusterId); 
+    219              zmBuf[9] = transactionSequenceNumber++;
+    220              zmBuf[10] = acknowledgmentMode;
+    221              zmBuf[11] = DEFAULT_RADIUS;
+    222              zmBuf[12] = dataLength; 
+    223              
+    224              memcpy(zmBuf+AF_DATA_REQUEST_PAYLOAD_LEN+3, data, dataLength);
+    225              RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_AF_SEND_DATA); 
+    226          #define AF_DATA_REQUEST_SRSP_STATUS_FIELD   SRSP_PAYLOAD_START
+    227              //Now check the status returned in the SRSP:
+    228              
+    229          #ifdef AF_DATA_CONFIRM_HANDLED_BY_APPLICATION           //Return control to main application
+    230              RETURN_RESULT(zmBuf[AF_DATA_REQUEST_SRSP_STATUS_FIELD], METHOD_AF_SEND_DATA); 
+    231          #else
+    232              RETURN_RESULT_IF_FAIL(zmBuf[AF_DATA_REQUEST_SRSP_STATUS_FIELD], METHOD_AF_SEND_DATA); 
+    233              
+    234          #define AF_DATA_CONFIRM_TIMEOUT 2
+    235              RETURN_RESULT_IF_FAIL(waitForMessage(AF_DATA_CONFIRM, AF_DATA_CONFIRM_TIMEOUT), METHOD_AF_SEND_DATA);
+    236              RETURN_RESULT(zmBuf[AF_DATA_CONFIRM_STATUS_FIELD], METHOD_AF_SEND_DATA);  
+    237          #endif
+    238          }
+    239          
+    240          
+    241          #define METHOD_AF_DATA_STORE                    0x2400
+    242          /** Upload a chunk of data to the Module. Private helper method for afSendDataExtended().
+    243           * @param index where in the whole message this chunk of bytes should start
+    244           * @param data the bytes to store
+    245           * @param dataLength how many bytes to store. A length of zero is special and triggers the actually
+    246           * sending of the data request over the air.
+    247          */
+    248          static moduleResult_t afDataStore(uint16_t index, uint8_t* data, uint8_t dataLength)
+    249          {
+    250          #define MAXIMUM_DATA_STORE_PAYLOAD_LENGTH 247    
+    251              RETURN_INVALID_LENGTH_IF_TRUE( (dataLength > MAXIMUM_DATA_STORE_PAYLOAD_LENGTH), METHOD_AF_DATA_STORE);
+    252              
+    253          #ifdef AF_VERBOSE     
+    254              printf("Storing %u bytes starting at index %u\r\n", dataLength, index);
+    255          #endif 
+    256          #define AF_DATA_STORE_HEADER_LEN           3
+    257              zmBuf[0] = AF_DATA_STORE_HEADER_LEN + dataLength;
+    258              zmBuf[1] = MSB(AF_DATA_STORE);
+    259              zmBuf[2] = LSB(AF_DATA_STORE);  
+    260              
+    261              zmBuf[3] = LSB(index); 
+    262              zmBuf[4] = MSB(index);
+    263              zmBuf[5] = dataLength;
+    264              memcpy(zmBuf+AF_DATA_STORE_HEADER_LEN + 3, data, dataLength);
+    265              RETURN_RESULT(sendMessage(), METHOD_AF_DATA_STORE);
+    266          }
+    267          
+    268          //Note: no method ID since this is a simple wrapper method, and wrapped method does all error checking
+    269          /** Simple wrapper function to send extended messages via short address.
+    270          @see afSendData for description of these fields.
+    271          */
+    272          moduleResult_t afSendDataExtendedShort(uint8_t _destinationEndpoint, uint8_t _sourceEndpoint,
+    273                                                 uint16_t _destinationShortAddress, 
+    274                                                 uint16_t _clusterId, uint8_t* _data, uint16_t _dataLength)
+    275          {
+    276          #ifdef AF_VERBOSE     
+    277              printf("Sending EXT-SHORT %u bytes to endpoint %u from endpoint %u with cluster %u (%04X) at Short Address %u (0x%04X)\r\n", 
+    278                     _dataLength, _destinationEndpoint, _sourceEndpoint, _clusterId, _clusterId, _destinationShortAddress, _destinationShortAddress);
+    279          #endif  
+    280              
+    281              uint8_t address[8];
+    282              address[0] = LSB(_destinationShortAddress);
+    283              address[1] = MSB(_destinationShortAddress);
+    284              return afSendDataExtended(_destinationEndpoint, _sourceEndpoint, address, DESTINATION_ADDRESS_MODE_SHORT,
+    285                                        _clusterId, _data, _dataLength);
+    286          }
+    287          
+    288          #define METHOD_AF_DATA_REQUEST_EXT                    0x2600
+    289          /** Sends a message using extended messaging. This is more flexible and allows for long addressing.
+    290          @param destinationLongAddress If using short addressing then the first two bytes are the short address, 
+    291          LSB first. Remaining 6 bytes are don't care. If using long addressing then this is the 8 byte MAC, and LSB first.
+    292          @param destinationAddressMode Either DESTINATION_ADDRESS_MODE_LONG or DESTINATION_ADDRESS_MODE_SHORT
+    293          @see afSendData for description of remaining fields.
+    294          */
+    295          moduleResult_t afSendDataExtended(uint8_t destinationEndpoint, uint8_t sourceEndpoint,
+    296                                            uint8_t* destinationAddress, uint8_t destinationAddressMode,
+    297                                            uint16_t clusterId, uint8_t* data, uint16_t dataLength)
+    298          {
+    299              RETURN_INVALID_LENGTH_IF_TRUE( ((dataLength > AF_DATA_REQUEST_EXT_MAX_TOTAL_PAYLOAD_LENGTH) || (dataLength == 0)), METHOD_AF_DATA_REQUEST_EXT);
+    300              RETURN_INVALID_CLUSTER_IF_TRUE( (clusterId == 0), METHOD_AF_DATA_REQUEST_EXT);
+    301              RETURN_INVALID_PARAMETER_IF_TRUE( ((destinationAddressMode != DESTINATION_ADDRESS_MODE_SHORT) && (destinationAddressMode != DESTINATION_ADDRESS_MODE_LONG)), METHOD_AF_DATA_REQUEST_EXT);
+    302              
+    303          #ifdef AF_VERBOSE     
+    304              char* destinationAddressModeName = (destinationAddressMode == DESTINATION_ADDRESS_MODE_LONG) ? "LONG" : "SHORT";
+    305              printf("Sending EXT %u bytes to endpoint %u from endpoint %u with cluster %u (%04X) using addressing mode %u (%s) at Address ",
+    306                     dataLength, destinationEndpoint, sourceEndpoint, clusterId, clusterId, destinationAddressMode, destinationAddressModeName);
+    307              printHexBytes(destinationAddress, 8);
+    308          #endif  
+    309          #define AF_DATA_REQUEST_EXT_HEADER_LEN  20
+    310              zmBuf[0] = AF_DATA_REQUEST_EXT_HEADER_LEN + dataLength;
+    311              zmBuf[1] = MSB(AF_DATA_REQUEST_EXT);
+    312              zmBuf[2] = LSB(AF_DATA_REQUEST_EXT);      
+    313              zmBuf[3] = destinationAddressMode;
+    314              if (destinationAddressMode == DESTINATION_ADDRESS_MODE_LONG) 
+    315              {
+    316                  memcpy(zmBuf+4, destinationAddress, 8);
+    317              } else {  // short addressing
+    318                  memcpy(zmBuf+4, destinationAddress, 2);  //remaining bytes are don't care
+    319              } 
+    320              zmBuf[12] = destinationEndpoint;
+    321              zmBuf[13] = LSB(INTRA_PAN);
+    322              zmBuf[14] = MSB(INTRA_PAN);
+    323              zmBuf[15] = sourceEndpoint;
+    324              zmBuf[16] = LSB(clusterId); 
+    325              zmBuf[17] = MSB(clusterId); 
+    326              zmBuf[18] = transactionSequenceNumber++;  //this value will get returned for use by higher level
+    327              zmBuf[19] = acknowledgmentMode;
+    328              zmBuf[20] = DEFAULT_RADIUS;
+    329              zmBuf[21] = LSB(dataLength); 
+    330              zmBuf[22] = MSB(dataLength); 
+    331          #define AF_DATA_REQUEST_EXT_SRSP_STATUS_FIELD   SRSP_PAYLOAD_START
+    332              
+    333              /* if payload IS short enough, then include it in this message and send the message just like sendMessage() */
+    334              if (dataLength <= AF_DATA_REQUEST_EXT_MAX_PAYLOAD_LENGTH)                       
+    335              {
+    336          #ifdef AF_VERBOSE
+    337                  printf("Sending all in one message since dataLength %u < AF_DATA_REQUEST_EXT_MAX_PAYLOAD_LENGTH %u\r\n", dataLength, AF_DATA_REQUEST_EXT_MAX_PAYLOAD_LENGTH);
+    338          #endif
+    339                  memcpy(zmBuf+AF_DATA_REQUEST_EXT_HEADER_LEN+3, data, dataLength);
+    340                  
+    341          #ifdef AF_DATA_CONFIRM_HANDLED_BY_APPLICATION           //Return control to main application
+    342                  RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_AF_DATA_REQUEST_EXT);         
+    343                  RETURN_RESULT(zmBuf[AF_DATA_REQUEST_EXT_SRSP_STATUS_FIELD], METHOD_AF_DATA_REQUEST_EXT);          
+    344          #else
+    345                  RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_AF_DATA_REQUEST_EXT); 
+    346                  RETURN_RESULT_IF_FAIL(zmBuf[AF_DATA_REQUEST_EXT_SRSP_STATUS_FIELD], METHOD_AF_DATA_REQUEST_EXT);       
+    347                  
+    348          #define AF_DATA_CONFIRM_TIMEOUT 2
+    349                  RETURN_RESULT_IF_FAIL(waitForMessage(AF_DATA_CONFIRM, AF_DATA_CONFIRM_TIMEOUT), METHOD_AF_DATA_REQUEST_EXT);
+    350                  RETURN_RESULT(zmBuf[AF_DATA_CONFIRM_STATUS_FIELD], METHOD_AF_DATA_REQUEST_EXT);              
+    351                  
+    352          #endif
+    353                  //all done!
+    354              } else {
+    355          
+    356                  /* The message was larger than could fit into one message, so send the AF_DATA_REQUEST_EXT and then store the data */
+    357                  RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_AF_DATA_REQUEST_EXT);      
+    358                  RETURN_RESULT_IF_FAIL(zmBuf[AF_DATA_REQUEST_EXT_SRSP_STATUS_FIELD], METHOD_AF_DATA_REQUEST_EXT);  
+    359                  
+    360                  uint16_t totalMessageIndex = 0;  //index in the Module data buffer
+    361                  
+    362                  while (dataLength > 0)              //while there is still more data to be stored...
+    363                  {
+    364                      uint8_t bytesToSend = 0;
+    365                      if (dataLength > MAXIMUM_DATA_STORE_PAYLOAD_LENGTH)
+    366                          bytesToSend = MAXIMUM_DATA_STORE_PAYLOAD_LENGTH;
+    367                      else
+    368                          bytesToSend = dataLength;
+    369          
+    370                      RETURN_RESULT_IF_FAIL(afDataStore(totalMessageIndex, data, bytesToSend), METHOD_AF_DATA_REQUEST_EXT);  //store each chunk of the total message
+    371                      
+    372                      dataLength -= bytesToSend;
+    373                      totalMessageIndex += bytesToSend;       
+    374          #ifdef AF_VERBOSE  
+    375                      printf("Sent %u Bytes, %u remaining\r\n", bytesToSend, dataLength);
+    376          #endif
+    377                  }
+    378                  
+    379          #ifdef AF_DATA_CONFIRM_HANDLED_BY_APPLICATION
+    380                  RETURN_RESULT(afDataStore(0, data, 0), METHOD_AF_DATA_REQUEST_EXT);  
+    381          #else
+    382                  RETURN_RESULT_IF_FAIL(afDataStore(0, data, 0), METHOD_AF_DATA_REQUEST_EXT);
+    383                  RETURN_RESULT(waitForMessage(AF_DATA_CONFIRM, AF_DATA_CONFIRM_TIMEOUT), METHOD_AF_DATA_REQUEST_EXT);
+    384          #endif
+    385              }
+    386          }
+    387          
+    388          #define METHOD_AF_DATA_RETRIEVE                    0x2700
+    389          /** Private method used to retrieve bytes from the Module message store.
+    390          @pre a AF_INCOMING_MSG_EXT was received
+    391          @param timestamp the timestamp of the AF_INCOMING_MSG_EXT message, to identify the message
+    392          @param index where to start the retrieval inside the Module's message store
+    393          @param dataLength how many bytes to retrieve. Must be less than MAXIMUM_AF_DATA_RETRIEVE_PAYLOAD_LENGTH.
+    394          A length of zero is special and triggers the freeing of the corresponding incoming message
+    395          @return MODULE_SUCCESS, or error code
+    396          */
+    397          static moduleResult_t afDataRetrieve(uint8_t* timestamp, uint16_t index, uint8_t dataLength)
+    398          {
+    399          #ifdef AF_VERBOSE     
+    400              printf("afDataRetrieve: index=%u, dataLength=%u, timestamp= ", index, dataLength);
+    401              printHexBytes(timestamp, 4);
+    402          #endif
+    403              RETURN_INVALID_LENGTH_IF_TRUE( (dataLength > MAXIMUM_AF_DATA_RETRIEVE_PAYLOAD_LENGTH), METHOD_AF_DATA_RETRIEVE);
+    404              
+    405          #define AF_DATA_RETRIEVE_PAYLOAD_LEN                7    
+    406              zmBuf[0] = AF_DATA_RETRIEVE_PAYLOAD_LEN;
+    407              zmBuf[1] = MSB(AF_DATA_RETRIEVE);
+    408              zmBuf[2] = LSB(AF_DATA_RETRIEVE);      
+    409              
+    410              memcpy(zmBuf+3, timestamp, 4);
+    411              zmBuf[7] = LSB(index);
+    412              zmBuf[8] = MSB(index);
+    413              zmBuf[9] = dataLength;
+    414              RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_AF_DATA_RETRIEVE); 
+    415              RETURN_RESULT(zmBuf[AF_DATA_RETRIEVE_SRSP_STATUS_FIELD], METHOD_AF_DATA_RETRIEVE);
+    416          }
+    417          
+    418          #define METHOD_AF_RETRIEVE_EXTENDED_MESSAGE                    0x2800
+    419          /** Retrieves all bytes of an AF_INCOMING_MESSAGE_EXT using multiple calls to AF_DATA_RETRIEVE as necessary.
+    420          @pre destinationPtr points to memory large enough to contain the entire message (500B?)
+    421          @param ts the timestamp of the message to retrieve.
+    422          @param destinationPtr where to copy the bytes
+    423          @param length of message payload to retrieve. Must be less than AF_DATA_REQUEST_EXT_MAX_TOTAL_PAYLOAD_LENGTH.
+    424          @post message will be copied into destinationPtr.
+    425          */
+    426          moduleResult_t retrieveExtendedMessage(uint8_t* ts, uint16_t length, uint8_t* destinationPtr)
+    427          {
+    428              RETURN_INVALID_LENGTH_IF_TRUE( ((length > AF_DATA_REQUEST_EXT_MAX_TOTAL_PAYLOAD_LENGTH) ||
+    429                                              (length == 0)), METHOD_AF_RETRIEVE_EXTENDED_MESSAGE);    
+    430              
+    431          #ifdef AF_VERBOSE    
+    432              printf("Getting Extended Message, L%u, timestamp = ", length);
+    433              printHexBytes(ts, 4);
+    434          #endif
+    435              uint16_t totalMessageIndex = 0;  //index in the destinationPtr buffer
+    436              uint8_t timestamp[4];
+    437              memcpy(timestamp, ts, 4);    
+    438              
+    439              while (length > 0)  //while there are remaining bytes
+    440              {
+    441                  uint8_t bytesToGet = 0;
+    442                  if (length > MAXIMUM_AF_DATA_RETRIEVE_PAYLOAD_LENGTH)       //get the most we can
+    443                      bytesToGet = MAXIMUM_AF_DATA_RETRIEVE_PAYLOAD_LENGTH;
+    444                  else
+    445                      bytesToGet = length;
+    446          #ifdef AF_VERBOSE          
+    447                  printf("bytesToGet=%u, totalMessageIndex=%u\r\n", bytesToGet, totalMessageIndex);
+    448          #endif 
+    449                  RETURN_RESULT_IF_FAIL(afDataRetrieve(timestamp, totalMessageIndex, bytesToGet), METHOD_AF_RETRIEVE_EXTENDED_MESSAGE);
+    450                  memcpy(destinationPtr + totalMessageIndex, zmBuf+AF_DATA_RETRIEVE_SRSP_PAYLOAD_START_FIELD, bytesToGet); //copy this message's payload to the destination
+    451                  totalMessageIndex += bytesToGet;
+    452                  length -= bytesToGet;
+    453              }
+    454              RETURN_RESULT(afDataRetrieve(timestamp, 0, 0), METHOD_AF_RETRIEVE_EXTENDED_MESSAGE);
+    455          }
+    456          
+    457          /** Displays the header information in an AF_INCOMING_MSG.
+    458          @param srsp a pointer to the buffer containing the message
+    459          @return 0 if success, -1 if not a AF_INCOMING_MSG.
+    460          */
+    461          int16_t printAfIncomingMsgHeader(uint8_t* srsp)
+    462          {
+    463              if (CONVERT_TO_INT(srsp[SRSP_CMD_LSB_FIELD], srsp[SRSP_CMD_MSB_FIELD]) == AF_INCOMING_MSG)
+    464              {
+    465                  printf("#%02u: Grp%04x Clus%04x, SrcAd%04x, SrcEnd%02x DestEnd%02x Bc%02x Lqi%02x Sec%02x Len%02u", 
+    466                         srsp[SRSP_HEADER_SIZE+15],
+    467                         CONVERT_TO_INT(srsp[SRSP_HEADER_SIZE], srsp[SRSP_HEADER_SIZE+1]), 
+    468                         CONVERT_TO_INT(srsp[SRSP_HEADER_SIZE+2], srsp[SRSP_HEADER_SIZE+3]),
+    469                         CONVERT_TO_INT(srsp[SRSP_HEADER_SIZE+4], srsp[SRSP_HEADER_SIZE+5]), 
+    470                         srsp[SRSP_HEADER_SIZE+6], srsp[SRSP_HEADER_SIZE+7], srsp[SRSP_HEADER_SIZE+8], 
+    471                         srsp[SRSP_HEADER_SIZE+9], srsp[SRSP_HEADER_SIZE+10], srsp[SRSP_HEADER_SIZE+16]);
+    472                  return 0;
+    473              } else {
+    474                  return -1;
+    475              }
+    476          }
+    477          
+    478          /** Displays the names of the fields that correspond with printAfIncomingMsgHeader*/
+    479          void printAfIncomingMsgHeaderNames()
+    480          {
+    481              printf("Fields are: Group, Cluster, Source Address, Source Endpoint, \
+    482                  Destination Endpoint, wasBroadcast, Link Quality Indicator, SecurityUse, Payload Length\r\n");    
+    483          }
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      6   afDataRetrieve
+        6   -> memcpy
+        6   -> sendMessage
+      2   afDataStore
+        2   -> memcpy
+        2   -> sendMessage
+      4   afRegisterApplication
+        4   -> sendMessage
+      2   afRegisterGenericApplication
+        2   -> sendMessage
+      6   afSendData
+        6   -> memcpy
+        6   -> sendMessage
+        6   -> waitForMessage
+     10   afSendDataExtended
+       10   -> afDataStore
+       10   -> memcpy
+       10   -> sendMessage
+       10   -> waitForMessage
+     16   afSendDataExtendedShort
+       16   -> afSendDataExtended
+      2   afSetAckMode
+      2   getTransactionSequenceNumber
+     22   printAfIncomingMsgHeader
+       22   -> tfp_printf
+      2   printAfIncomingMsgHeaderNames
+        2   -> tfp_printf
+     14   retrieveExtendedMessage
+       14   -> afDataRetrieve
+       14   -> memcpy
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      90  ?<Constant "#%02u: Grp%04x Clus%0...">
+     159  ?<Constant "Fields are: Group, Cl...">
+       1  acknowledgmentMode
+     104  afDataRetrieve
+      76  afDataStore
+     240  afRegisterApplication
+      78  afRegisterGenericApplication
+     210  afSendData
+     438  afSendDataExtended
+      44  afSendDataExtendedShort
+      24  afSetAckMode
+       6  getTransactionSequenceNumber
+     168  printAfIncomingMsgHeader
+       8  printAfIncomingMsgHeaderNames
+     148  retrieveExtendedMessage
+       1  transactionSequenceNumber
+
+ 
+ 1 544 bytes in segment CODE
+   249 bytes in segment DATA16_C
+     2 bytes in segment DATA16_Z
+ 
+ 1 544 bytes of CODE  memory
+   249 bytes of CONST memory
+     2 bytes of DATA  memory
+
+Errors: none
+Warnings: none

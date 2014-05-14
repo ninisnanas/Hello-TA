@@ -1,0 +1,426 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:20 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\module_example_utils.c       #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\module_example_utils.c" -D   #
+#                     LAUNCHPAD -D ZM_PHY_SPI -D REGION_NORTH_AMERICA -D      #
+#                     DISPLAY_NETWORK_INFORMATION -lc "C:\Documents and       #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\List\" -o "C:\Documents and      #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\Obj\" --no_cse --no_unroll       #
+#                     --no_inline --no_code_motion --no_tbaa --debug          #
+#                     -D__MSP430G2553__ -e --double=32 --dlib_config          #
+#                     "C:\Program Files\IAR Systems\Embedded Workbench        #
+#                     6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents and        #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\module_ex #
+#                     ample_utils.lst                                         #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\module_exa #
+#                     mple_utils.r43                                          #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM Examples\module_example_utils.c
+      1          /**
+      2           * @file module_example_utils.c
+      3           *
+      4           * @brief Simple utilities for Module examples.
+      5           *
+      6           * $Rev: 1642 $
+      7           * $Author: dsmith $
+      8           * $Date: 2012-10-31 11:17:04 -0700 (Wed, 31 Oct 2012) $
+      9           *
+     10           * @section support Support
+     11           * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     12           * is available via email at the following addresses:
+     13           * - Questions on how to use the product: AIR@anaren.com
+     14           * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     15           * - Consulting engagements: sales@teslacontrols.com
+     16           *
+     17           * @section license License
+     18           * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     19           * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     20           * source and binary forms, with or without modification, are subject to the Software License 
+     21           * Agreement in the file "anaren_eula.txt"
+     22           * 
+     23           * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     24           * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     25           * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     26           * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     27           * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     28           * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     29           * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     30           * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     31           * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     32           */
+     33          
+     34          #include "../HAL/hal.h"
+     35          #include "../ZM/module.h"
+     36          #include "../ZM/module_errors.h"
+     37          #include "../ZM/af.h"   
+     38          #include "../ZM/zdo.h"    
+     39          #include "../ZM/zm_phy.h"
+     40          #include "../Common/utilities.h"
+     41          #include "Messages/oids.h"
+     42          #include "Messages/kvp.h"
+     43          #include "module_example_utils.h"
+     44          #include "../HAL/hal_AMS_TCS3414_color_sensor.h"
+     45          #include "../HAL/hal_TI_TMP006_IR_temperature_sensor.h"
+     46          #include <math.h>
+     47          
+     48          extern uint8_t zmBuf[ZIGBEE_MODULE_BUFFER_SIZE];
+     49          
+     50          /** Poll the Module for any messages and display them to the console.
+     51          Used in Simple API coordinator, AFZDO coordinator, secure comms examples, etc.
+     52          @pre moduleHasMessageWaiting() returned true.
+     53           */
+     54          void pollAndDisplay()
+     55          {
+     56              getMessage();
+     57              if (zmBuf[SRSP_LENGTH_FIELD] > 0)
+     58              {
+     59                  setLed(1);
+     60                  printf("Rx: ");
+     61                  printHexBytes(zmBuf, (zmBuf[SRSP_LENGTH_FIELD] + SRSP_HEADER_SIZE));
+     62                  zmBuf[SRSP_LENGTH_FIELD] = 0;
+     63                  clearLeds();
+     64              } 
+     65          }
+     66          
+     67          /** Initializes any sensors used in the application. Device dependent, since different platforms
+     68               have different sensors. */
+     69          void initializeSensors()
+     70          {
+     71          #ifdef INCLUDE_IR_TEMPERATURE_SENSOR
+     72              tmp006Init();   
+     73          #endif
+     74          #ifdef INCLUDE_COLOR_SENSOR
+     75              colorSensorInit();
+     76          #endif
+     77          }
+     78          
+     79          /** Retrieves all the sensor values for this device. This is device dependent.
+     80          @param kvps an array of kvps. This will be filled in by this method, starting at index 0.
+     81          @pre kvps is large enough to hold all the sensors on this device.
+     82          @return the number of sensors
+     83           */
+     84          int8_t getSensorValues(struct kvp *kvps)
+     85          {
+     86              printf("\r\n");
+     87              int8_t kvpsIndex = 0;
+     88          #if defined LAUNCHPAD
+     89              kvps[kvpsIndex].oid = OID_SUPPLY_VOLTAGE_MV;
+     90              int16_t value = getVcc3();
+     91              kvps[kvpsIndex++].value = value;
+     92              printf("Supply Voltage = %d.%03dV\r\n", value/1000, (value%1000));
+     93          
+     94          #ifdef INCLUDE_IR_TEMPERATURE_SENSOR
+     95              kvps[kvpsIndex].oid = OID_TEMPERATURE_IR;
+     96              struct TempReading currTemp;
+     97              tmp006GetTemperature(&currTemp);
+     98              delayMs(1);
+     99              printf("IR Temperature = %d.%02dC\r\n", currTemp.tempInt/100, (currTemp.tempInt%100));
+    100              kvps[kvpsIndex++].value = currTemp.tempInt;  //NOTE: This is temp * 100
+    101          #endif
+    102          #ifdef INCLUDE_COLOR_SENSOR
+    103              struct ColorReading color = getColor();
+    104              printf("RED: %u - GREEN: %u - BLUE: %u - CLEAR: %u\r\n", color.red, color.green, color.blue, color.clear);
+    105          
+    106              kvps[kvpsIndex].oid = OID_COLOR_SENSOR_RED;
+    107              kvps[kvpsIndex++].value = color.red;
+    108              kvps[kvpsIndex].oid = OID_COLOR_SENSOR_GREEN;
+    109              kvps[kvpsIndex++].value = color.green;
+    110              kvps[kvpsIndex].oid = OID_COLOR_SENSOR_BLUE;
+    111              kvps[kvpsIndex++].value = color.blue;
+    112              kvps[kvpsIndex].oid = OID_COLOR_SENSOR_CLEAR;
+    113              kvps[kvpsIndex++].value = color.clear;
+    114          #endif
+    115          #elif defined MDB1
+    116              kvps[kvpsIndex].oid = OID_SUPPLY_VOLTAGE_MV;
+    117              int16_t value = getVcc3();
+    118              kvps[kvpsIndex++].value = value;
+    119              printf("Supply Voltage = %d.%03dC\r\n", value/1000, (value%1000));
+    120          
+    121          #elif defined EK_LM4F120XL
+    122              /** Note: this Stellaris processor cannot measure its own supply voltage so we don't include OID_SUPPLY_VOLTAGE_MV */
+    123          #ifdef INCLUDE_COLOR_SENSOR
+    124              struct ColorReading color = getColor();
+    125              printf("RED: %u - GREEN: %u - BLUE: %u - CLEAR: %u\r\n", color.red, color.green, color.blue, color.clear);
+    126          
+    127              kvps[kvpsIndex].oid = OID_COLOR_SENSOR_RED;
+    128              kvps[kvpsIndex++].value = color.red;
+    129              kvps[kvpsIndex].oid = OID_COLOR_SENSOR_GREEN;
+    130              kvps[kvpsIndex++].value = color.green;
+    131              kvps[kvpsIndex].oid = OID_COLOR_SENSOR_BLUE;
+    132              kvps[kvpsIndex++].value = color.blue;
+    133              kvps[kvpsIndex].oid = OID_COLOR_SENSOR_CLEAR;
+    134              kvps[kvpsIndex++].value = color.clear;
+    135          #endif
+    136          #ifdef INCLUDE_IR_TEMPERATURE_SENSOR
+    137              kvps[kvpsIndex].oid = OID_TEMPERATURE_IR;
+    138              struct TempReading currTemp;
+    139              tmp006GetTemperature(&currTemp);
+    140              delayMs(1);
+    141              printf("IR Temperature = %d.%02dC\r\n", currTemp.tempInt/100, (currTemp.tempInt%100));
+    142              kvps[kvpsIndex++].value = currTemp.tempInt;  //NOTE: This is temp * 100
+    143          #endif
+    144          #else
+    145          #error "getSensorValues in module_example_utils.c requires a board defined."
+    146          #endif
+    147              return kvpsIndex;
+    148          }
+    149          
+    150          /** Reads all sensors and displays them */
+    151          void testSensors()
+    152          {
+    153              struct kvp kvps[MAX_SENSORS];  //will hold sensor values
+    154              int8_t numSensors = getSensorValues(kvps);  //populate info message with
+    155              int i = 0;
+    156              printf("%d KVPs:\r\n", numSensors);
+    157              for (i = 0; i< numSensors; i++)
+    158              {
+    159                  printf("    #%u: Key=0x%02X, Value=%d\r\n", i, kvps[i].oid, kvps[i].value);
+    160              }
+    161          }
+    162          
+    163          #ifdef INCLUDE_RGB_LED // Don't include these variables if not used.
+    164          
+    165          #define RGB_LED_MIDPOINT    0x7F
+    166          
+    167          #define NOMINAL_COLOR_NOT_SET     0.0
+    168          #define RED 1
+    169          #define GREEN 0
+    170          #define BLUE 2
+    171          
+    172          /** Simple utility method that computes the percentages of each color */
+    173          static void displayColorPercentages(uint16_t red, uint16_t blue, uint16_t green)
+    174          {
+    175              float colorPercent[3] = {0.0};
+    176              float totalColor = red + blue + green;
+    177              colorPercent[RED] = ((float) red) / totalColor;
+    178              colorPercent[GREEN] = ((float) green) / totalColor;
+    179              colorPercent[BLUE] = ((float) blue) / totalColor;
+    180          
+    181              printf("Red=%02u%%, Green=%02u%%, Blue=%02u%%\r\n", 
+    182                      (uint8_t) (colorPercent[RED] * 100),
+    183                      (uint8_t) (colorPercent[GREEN] * 100),
+    184                      (uint8_t) (colorPercent[BLUE] * 100));
+    185          }
+    186          
+    187          /**
+    188          Displays a color as measured as percentages on the RGB LED. 
+    189          First, if the value is above 1.0 (100%) then the value is limited to 1.0 (100%).
+    190          Then, we find which value is max (red, green, or blue). The values that come in may not be scaled;
+    191          e.g. they may be 20%, 30%, 40%. But to get maximum luminance we scale these values, setting the
+    192          highest value to the maximum PWM output (defined as RGB_LED_PWM_PERIOD). 
+    193          @param r red percentage
+    194          @param b blue percentage
+    195          @param g green percentage
+    196           */
+    197          static void displayColorPercentagesOnRgbLed(float r, float b, float g)
+    198          {
+    199              //printf("R=%u%%, B=%u%%, G=%u%%\r\n", ((uint8_t) (r * 100)), ((uint8_t) (b * 100)), ((uint8_t) (g * 100)));
+    200              uint8_t outputRed = RGB_LED_PWM_PERIOD;
+    201              uint8_t outputBlue = RGB_LED_PWM_PERIOD;
+    202              uint8_t outputGreen = RGB_LED_PWM_PERIOD;
+    203          
+    204              // If the value is too high then limit it to 1.0 (100%) maximum
+    205              r = (r > 1.0) ? 1.0 : r;
+    206              b = (b > 1.0) ? 1.0 : b;
+    207              g = (g > 1.0) ? 1.0 : g;
+    208          
+    209              // Now, find which value is maximum and scale accordingly
+    210              if ((r > b) && (r > g)) {           // Red is max
+    211                  outputRed = RGB_LED_PWM_PERIOD;
+    212                  outputBlue = (uint8_t) ((b/r) * RGB_LED_PWM_PERIOD);
+    213                  outputGreen = (uint8_t) ((g/r) * RGB_LED_PWM_PERIOD);        
+    214              } else if ((b > r) && (b > g)) {    // Blue is max
+    215                  outputRed = (uint8_t) ((r/b) * RGB_LED_PWM_PERIOD);
+    216                  outputBlue = RGB_LED_PWM_PERIOD;
+    217                  outputGreen = (uint8_t) ((g/b) * RGB_LED_PWM_PERIOD);    
+    218              } else if ((g > r) && (g > b)) {    // Green is max
+    219                  outputRed = (uint8_t) ((r/g) * RGB_LED_PWM_PERIOD);
+    220                  outputBlue = (uint8_t) ((b/g) * RGB_LED_PWM_PERIOD);       
+    221                  outputGreen = RGB_LED_PWM_PERIOD;       
+    222              } else {
+    223                  // Values already set to RGB_LED_PWM_PERIOD
+    224              }
+    225              printf("Output to RGB LED: Red=0x%02X, Green=0x%02X, Blue=0x%02X", outputRed, outputGreen, outputBlue);
+    226              //displayColorPercentages(outputRed, outputBlue, outputGreen);
+    227              halRgbSetLeds(outputRed, outputBlue, outputGreen); 
+    228          }
+    229          
+    230          /* These values have been determined experimentally and represent the offset of the Color Sensor */
+    231          #define OFFSET_RED          500
+    232          #define OFFSET_GREEN        490
+    233          #define OFFSET_BLUE         320
+    234          
+    235          /** 
+    236          Displays the received color sensor values on the RGB LED. Corrects for color senosr bias by 
+    237          subtracting an emperically derived offset for each color.
+    238          @param red the value of the red sensor
+    239          @param blue the value of the blue sensor
+    240          @param green the value of the green sensor
+    241          @note offset values computed with color sensor gain = 4x
+    242           */
+    243          void displayColorOnRgbLed(uint16_t red, uint16_t blue, uint16_t green)
+    244          {
+    245              printf("Red=%u, Green=%u, Blue=%u (Total %u); ", red, green, blue, (red+green+blue));
+    246              displayColorPercentages(red, blue, green);
+    247              float r = (red > OFFSET_RED) ? (red - OFFSET_RED) : 0;
+    248              float b = (blue > OFFSET_BLUE) ? (blue - OFFSET_BLUE) : 0;
+    249              float g = (green > OFFSET_GREEN) ? (green - OFFSET_GREEN) : 0;
+    250              float tot = r + b + g;
+    251          
+    252              displayColorPercentagesOnRgbLed(r/tot, b/tot, g/tot);
+    253              return;
+    254          }
+    255          
+    256          #define NOMINAL_TEMPERATURE_NOT_SET     0xFF
+    257          
+    258          /** Used for the display of received temperature on the RGB LED, if present. This defaults to 0xFF
+    259          until the first packet with temperature data is received, when it is set.*/
+    260          int16_t temperatureNominal = NOMINAL_TEMPERATURE_NOT_SET;
+    261          
+    262          
+    263          /** 
+    264          Displays the temperature difference on the RGB LED. Temperature difference is limited to +/- 7
+    265          degrees maximum. If nominal temperature has not been set yet then it uses the first value as the
+    266          nominal temperature. The Color displayed according to the following rules:
+    267          - Within 2 degrees of nominal: Green
+    268          - Greater than 2 degrees, display red.
+    269          - Less than -2 degrees, display blue.
+    270          @param value the temperature in centi-degrees celsius. Divide by 100 to get degrees.
+    271           */
+    272          void displayTemperatureOnRgbLed(int16_t value)
+    273          {
+    274              if (temperatureNominal == NOMINAL_TEMPERATURE_NOT_SET)
+    275              {
+    276                  temperatureNominal = value;
+    277                  printf("Setting Nominal Temperature = %d.%02dC\r\n", (value/100), (value%100));
+    278                  halRgbSetLeds(RGB_LED_MIDPOINT, RGB_LED_MIDPOINT, RGB_LED_PWM_OFF);
+    279                  return;
+    280              }
+    281              //process the temperature difference
+    282          
+    283              //update the temperature blue/red mix:
+    284              int16_t temperatureDifference = ((value - temperatureNominal) / 100);  //positive means it got warmer
+    285              uint8_t redOnTime = RGB_LED_PWM_OFF;
+    286              uint8_t greenOnTime = RGB_LED_PWM_OFF;     
+    287              uint8_t blueOnTime = RGB_LED_PWM_OFF;   
+    288              if ((temperatureDifference <= 2) && (temperatureDifference >= -2))
+    289              {
+    290                  greenOnTime = RGB_LED_PWM_PERIOD;
+    291              } else {
+    292          
+    293                  // Now, value is either 3..7 or -3..-7:
+    294          
+    295                  // limit temperature difference (displayed) to 7 degrees up or down:
+    296                  temperatureDifference = (temperatureDifference > 7) ? 7 : temperatureDifference;
+    297                  temperatureDifference = (temperatureDifference < -7) ? -7 : temperatureDifference;
+    298          
+    299                  printf("Adjusted temperatureDifference = %d\r\n", temperatureDifference);
+    300          
+    301                  // each degree of Temp Difference (hotter) means that blue onTime decreases by 0x10, red onTime increases by 0x10;
+    302                  blueOnTime = RGB_LED_MIDPOINT - (temperatureDifference * 0x10);
+    303                  redOnTime = RGB_LED_MIDPOINT + (temperatureDifference * 0x10);
+    304          
+    305              }
+    306          
+    307              halRgbSetLeds(redOnTime, blueOnTime, greenOnTime);    
+    308              printf("Temperature = %u.%02uC; %d from nominal. Red=0x%02X, Green=0x%02X, Blue=0x%02X\r\n", 
+    309                      (value/100), (value%100), temperatureDifference, redOnTime, greenOnTime, blueOnTime);
+    310          }
+    311          
+    312          /** Resets the nominal temperature so that it will be set by the next incoming packet */
+    313          void resetNominalTemperature()
+    314          {
+    315              printf("Resetting Nominal Temperature\r\n");
+    316              temperatureNominal = NOMINAL_TEMPERATURE_NOT_SET;
+    317          }
+    318          
+    319          /** Resets the nominal color so that it will be set by the next incoming packet */
+    320          void resetNominalColor()
+    321          {  
+    322              // Not used, placeholder in case you want to use a default color.
+    323          }
+    324          
+    325          #endif
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+     12   getSensorValues
+        8   -> getVcc3
+       12   -> tfp_printf
+        8   -> tfp_printf
+      2   initializeSensors
+      2   pollAndDisplay
+        2   -> clearLeds
+        2   -> getMessage
+        2   -> printHexBytes
+        2   -> setLed
+        2   -> tfp_printf
+     52   testSensors
+       46   -> getSensorValues
+       48   -> tfp_printf
+       52   -> tfp_printf
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      32  ?<Constant "    #%u: Key=0x%02X, ...">
+      11  ?<Constant "%d KVPs:\r\n">
+       5  ?<Constant "Rx: ">
+      28  ?<Constant "Supply Voltage = %d.%...">
+       3  ?<Constant "\r\n">
+      96  getSensorValues
+       2  initializeSensors
+      52  pollAndDisplay
+     102  testSensors
+
+ 
+ 252 bytes in segment CODE
+  79 bytes in segment DATA16_C
+ 
+ 252 bytes of CODE  memory
+  79 bytes of CONST memory
+
+Errors: none
+Warnings: none

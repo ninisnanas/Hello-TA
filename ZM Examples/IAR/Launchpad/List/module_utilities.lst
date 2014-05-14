@@ -1,0 +1,524 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:21 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\module_utilities.c                    #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\module_utilities.c" -D LAUNCHPAD -D   #
+#                     ZM_PHY_SPI -D REGION_NORTH_AMERICA -D                   #
+#                     DISPLAY_NETWORK_INFORMATION -lc "C:\Documents and       #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\List\" -o "C:\Documents and      #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\Obj\" --no_cse --no_unroll       #
+#                     --no_inline --no_code_motion --no_tbaa --debug          #
+#                     -D__MSP430G2553__ -e --double=32 --dlib_config          #
+#                     "C:\Program Files\IAR Systems\Embedded Workbench        #
+#                     6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents and        #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\module_ut #
+#                     ilities.lst                                             #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\module_uti #
+#                     lities.r43                                              #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM\module_utilities.c
+      1          /**
+      2          * @file module_utilities.c
+      3          *
+      4          * @brief Simple utilities for interfacing with the Module. 
+      5          *
+      6          * $Rev: 1642 $
+      7          * $Author: dsmith $
+      8          * $Date: 2012-10-31 11:17:04 -0700 (Wed, 31 Oct 2012) $
+      9          *
+     10          * @section support Support
+     11          * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     12          * is available via email at the following addresses:
+     13          * - Questions on how to use the product: AIR@anaren.com
+     14          * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     15          * - Consulting engagements: sales@teslacontrols.com
+     16          *
+     17          * @section license License
+     18          * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     19          * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     20          * source and binary forms, with or without modification, are subject to the Software License 
+     21          * Agreement in the file "anaren_eula.txt"
+     22          * 
+     23          * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     24          * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     25          * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     26          * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     27          * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     28          * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     29          * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     30          * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     31          * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     32          */
+     33          
+     34          #include "../HAL/hal.h"
+     35          #include "module.h"
+     36          #include "af.h"
+     37          #include "zdo.h"
+     38          #include "module_errors.h"
+     39          #include "module_utilities.h"
+     40          #include "zm_phy.h"
+     41          #include "../Common/utilities.h"
+     42          #include <stddef.h>
+     43          
+     44          extern unsigned char zmBuf[ZIGBEE_MODULE_BUFFER_SIZE];
+     45          
+     46           /** Default configuration for a standard coordinator. Modify in application as needed. */
+     47          const struct moduleConfiguration DEFAULT_MODULE_CONFIGURATION_COORDINATOR = {
+     48          COORDINATOR,
+     49          DEFAULT_CHANNEL_MASK,
+     50          ANY_PAN,
+     51          DEFAULT_POLL_RATE_MS,
+     52          DEFAULT_STARTUP_OPTIONS,
+     53          SECURITY_MODE_OFF,
+     54          NULL
+     55          };
+     56          
+     57           /** Default configuration for a standard router. Modify in application as needed. */
+     58          const struct moduleConfiguration DEFAULT_MODULE_CONFIGURATION_ROUTER = {
+     59          ROUTER,
+     60          DEFAULT_CHANNEL_MASK,
+     61          ANY_PAN,
+     62          DEFAULT_POLL_RATE_MS,
+     63          DEFAULT_STARTUP_OPTIONS,
+     64          SECURITY_MODE_OFF,
+     65          NULL
+     66          };
+     67          
+     68           /** Default configuration for a standard end device. Modify in application as needed. */
+     69          const struct moduleConfiguration DEFAULT_MODULE_CONFIGURATION_END_DEVICE = {
+     70          END_DEVICE,
+     71          DEFAULT_CHANNEL_MASK,
+     72          ANY_PAN,
+     73          DEFAULT_POLL_RATE_MS,
+     74          DEFAULT_STARTUP_OPTIONS,
+     75          SECURITY_MODE_OFF,
+     76          NULL
+     77          };
+     78          
+     79            /** How often to poll the module in milliseconds to see if the desired deviceState has been received */
+     80          #define WFDS_POLL_INTERVAL_MS   100
+     81          
+     82          #define METHOD_WAIT_FOR_DEVICE_STATE              0x6000
+     83          /** 
+     84          Private method used to wait until a message is received indicating that we are on the network. 
+     85          Exits if received message is a ZDO_STATE_CHANGE_IND and the state matches what we want. 
+     86          Else loops until timeout. 
+     87          @note Since this is basically a blocking wait, you can also implement this in your application.
+     88          @param expectedState the deviceState we are expecting - DEV_ZB_COORD etc.
+     89          @param timeoutMs the amount of milliseconds to wait before returning an error. Should be an integer
+     90          multiple of WFDS_POLL_INTERVAL_MS.
+     91          @todo modify this if using UART.
+     92          */
+     93          moduleResult_t waitForDeviceState(unsigned char expectedState, uint16_t timeoutMs)
+     94          {
+     95            RETURN_INVALID_PARAMETER_IF_TRUE( ((!(IS_VALID_DEVICE_STATE(expectedState))) || (timeoutMs < WFDS_POLL_INTERVAL_MS)), METHOD_WAIT_FOR_DEVICE_STATE);
+     96            
+     97            uint16_t intervals = timeoutMs / WFDS_POLL_INTERVAL_MS;                   // how many times to check
+     98            uint8_t state = 0xFF;
+     99          
+    100            while (intervals--)
+    101            {
+    102              if (moduleHasMessageWaiting())                                          // If there's a message waiting for us
+    103              {
+    104                getMessage();
+    105          
+    106                if (CONVERT_TO_INT(zmBuf[2], zmBuf[1]) == ZDO_STATE_CHANGE_IND)       // if it's a state change message
+    107                {
+    108                  state = zmBuf[SRSP_PAYLOAD_START];
+    109                  printf("%s, ", getDeviceStateName(state));                          // display the name of the state in the message
+    110                  if (state == expectedState)                                         // if it's the state we're expecting
+    111                    return MODULE_SUCCESS;                                                //Then we're done!
+    112                } //else we received a different type of message so we just ignore it
+    113              }
+    114              delayMs(WFDS_POLL_INTERVAL_MS);
+    115            }
+    116            // We've completed the loop without receiving the sate that we want; so therefore we've timed out.
+    117            RETURN_RESULT(TIMEOUT, METHOD_WAIT_FOR_DEVICE_STATE);
+    118          }
+    119          
+    120          
+    121          /** Error value returned from getDeviceStateForDeviceType() if the deviceType is not recognized */
+    122          #define INVALID_DEVICETYPE 33
+    123          
+    124          /** 
+    125          Private method to get the expected deviceState (in ZDO_STATE_CHANGE_IND) that corresponds to this deviceType. 
+    126          @return the device state: DEV_ROUTER, DEV_END_DEVICE, or DEV_ZB_COORD accordingly, or INVALID_DEVICETYPE.
+    127          */
+    128          uint8_t getDeviceStateForDeviceType(uint8_t deviceType)
+    129          {
+    130            switch (deviceType)
+    131            {
+    132            case ROUTER: 
+    133              return DEV_ROUTER;
+    134            case END_DEVICE: 
+    135              return DEV_END_DEVICE;
+    136            case COORDINATOR: 
+    137              return DEV_ZB_COORD;
+    138            default: 
+    139              return INVALID_DEVICETYPE;
+    140            }
+    141          }
+    142          
+    143          #define MODULE_REGION_NORTH_AMERICA         0x0001
+    144          #define MODULE_REGION_EUROPE                0x0002
+    145          
+    146          /* Build ID is used for the module's configuration (antenna vs. connector, range extender or not, etc.) 
+    147          The Least Significant Nybble (e.g. 7 of the byte 0x67) is the Module Type. The other Nybble is undefined.
+    148          This information is hardcoded into the module firmware based on the module part number. */
+    149          #define MINIMUM_BUILD_ID                    0x10
+    150          #define MODULE_TYPE_MASK                    0x0F    
+    151          #define MAXIMUM_MODULE_TYPE                 0x05
+    152          #define MAX_OLD_BUILD_ID                    0x1F        //Everything below this is an old build
+    153          #define IS_VALID_MODULE_TYPE(x)             ((x>=0x20) && (x<=0x24))
+    154          #define BUILD_ID_FW_2_4_0                   0x7E
+    155          
+    156          
+    157          #define METHOD_SET_MODULE_RF_POWER          0x6200
+    158          /**
+    159          Configure Module RF output power to meet FCC certification limits. This depends on the module
+    160          configuration (whether it has a range extender or not) and the region of the world where the module 
+    161          is used. The region of the world is set with DIP switches on the LaunchPad.
+    162          @param productId an identifier indicating which firmware version is loaded
+    163          @note the method sysSetTxPower() only works with module firmware 2.5.1 and later. If an earlier
+    164          firmware is detected then the method will exit.
+    165          @pre productId > MINIMUM_BUILD_ID. It may still be invalid, though (e.g. 0x1E, which is not supported)
+    166          @note version 2.5.1 release 1 module firmware builds are configured as the following productIds:
+    167          - 0x10: No PA/LNA
+    168          - 0x11: Not Used
+    169          - 0x12: CC2590
+    170          - 0x13: CC2591
+    171          @note version 2.5.1 release 2 module firmware builds and RF power levels are as follows. 
+    172          The first number ("actual") is what is measured over the air.
+    173          The second number ("radio") is the value to use when calling sysSetTxPower.
+    174          The third number (in hex) is the corresponding PA_table value.
+    175           - 0x20: No PA/LNA / A2530R24A  US:+4 actual/+3radio (0xF5); Europe:+4 actual/+3radio(0xF5)
+    176           - 0x21: No PA/LNA / A2530R24C  US:+4 actual/+3radio (0xF5); Europe:+4 actual/+3radio(0xF5)
+    177           - 0x22: CC2590                 US:+10 actual/+10radio(0xE5); Europe:+10 actual/+10radio(0xE5) Note: will never see in field
+    178           - 0x23: CC2591/A2530E24A       US:+15 actual/+20radio(0xE5); Europe:+8 actual/+14radio(0x95)
+    179           - 0x24: CC2591/A2530E24C       US:+13 actual/+18radio(0xC5); Europe:+8 actual/+14radio(0x95)   
+    180          @note version 2.4.0 firmware builds have a productId of 0x7E
+    181          @see setModuleRfPower() in simple_api.c
+    182          */
+    183          static moduleResult_t setModuleRfPower(uint8_t productId, uint16_t moduleConfiguration)
+    184          {
+    185          #ifdef MODULE_UTILITIES_VERBOSE    
+    186              printf("productId = %02X, moduleConfiguration = %04X\r\n", productId, moduleConfiguration);
+    187          #endif
+    188              if ((productId == BUILD_ID_FW_2_4_0) || (!(IS_VALID_MODULE_TYPE(productId))))
+    189              {
+    190                  printf("Using Default RF Setting\r\n");
+    191                  return MODULE_SUCCESS;
+    192              }
+    193                                                     //0xX0, 0xX1, 0xX2, 0xX3, 0xX4
+    194              // US PA_TABLE Settings                 {0xF5, 0xF5, 0xE5, 0xE5, 0xC5};    
+    195              // EUROPE PA_TABLE Settings             {0xF5, 0xF5, 0xE5, 0x95, 0x95};
+    196              const uint8_t rfPowerLevelsUS[] =         {3, 3, 10, 20, 18};    
+    197              const uint8_t rfPowerLevelsEurope[] =     {3, 3, 10,  14,  14}; 
+    198           
+    199               // Which table to use
+    200              const uint8_t* rfPowerLevelTable;  
+    201              
+    202              // The name of the operating region
+    203              char* regionName;                   
+    204          
+    205              // Now, set which RF Power Level Table to use and region name based on moduleConfiguration setting
+    206              if (moduleConfiguration & 0x01) // Only use Least significant bit; ignore others
+    207              {
+    208                  regionName = "EU (E U R O P E)";
+    209                  rfPowerLevelTable = rfPowerLevelsEurope;        
+    210              } else {
+    211                  regionName = "US (U S A / C A N A D A)";
+    212                  rfPowerLevelTable = rfPowerLevelsUS;
+    213              }
+    214              
+    215              // Get module name. This is stored in the module's User Description
+    216              RETURN_RESULT_IF_FAIL(getConfigurationParameter(ZCD_NV_USERDESC), METHOD_SET_MODULE_RF_POWER);
+    217              uint8_t* moduleName = zmBuf + ZB_READ_CONFIGURATION_START_OF_VALUE_FIELD + 1;
+    218          
+    219              // Warn the user about using incorrect region setting and tell them how to change it
+    220              printf(" * ANAREN MODULE %s CONFIGURED FOR %s\r\n", moduleName, regionName);
+    221              printf(" * WARNING: FOR COMPLIANCE, SELECT CORRECT OPERATING REGION\r\n");
+    222              printf(" * SET SWITCH 1 ON S4 ON FOR US, OFF FOR EUROPE\r\n\r\n");
+    223          
+    224              // Get the RF power from the lookup table
+    225              uint8_t rfPowerLevel = rfPowerLevelTable[(productId & MODULE_TYPE_MASK)];
+    226          
+    227              // Now, set the RF power:
+    228              uint8_t actualRfPowerLevel = 0;
+    229              moduleResult_t result = sysSetTxPower(rfPowerLevel, &actualRfPowerLevel);  //METHOD_SET_MODULE_RF_POWER
+    230          #ifdef MODULE_UTILITIES_VERBOSE     
+    231              printf("Setting RF Power Level Set to %d; actual level = %d\r\n", rfPowerLevel, actualRfPowerLevel);
+    232          #endif   
+    233              return result;
+    234          }
+    235          
+    236          
+    237          
+    238          #define METHOD_START_MODULE              0x6100
+    239          /**
+    240          Start the Module and join a network, using the AF/ZDO interface.
+    241          @param moduleConfiguration the settings to use to start the module
+    242          @param applicationConfiguration the settings to use to start the Zigbee Application
+    243          @see struct moduleConfiguration in module_utilities.h for information about each field of the moduleConfiguration
+    244          @see struct applicationConfiguration in application_configuration.h for information about each field of the applicationConfiguration
+    245          @see module.c for more information about each of these steps.
+    246          */
+    247          moduleResult_t startModule(const struct moduleConfiguration* mc, struct applicationConfiguration* ac)
+    248          {
+    249          	printf("Module Startup\r\n");
+    250              /* Initialize the Module */
+    251              RETURN_RESULT_IF_FAIL(moduleReset(), METHOD_START_MODULE);
+    252              /* Clear out any old network or state information (if requested) */
+    253              RETURN_RESULT_IF_FAIL(setStartupOptions(mc->startupOptions), METHOD_START_MODULE);   
+    254          
+    255          /* This section is for reading Operating region from GPIO pins - omit if using different method */
+    256              /* First, configure GPIOs as inputs: */
+    257              RETURN_RESULT_IF_FAIL(sysGpio(GPIO_SET_DIRECTION , GPIO_DIRECTION_ALL_INPUTS), METHOD_START_MODULE);    
+    258              RETURN_RESULT_IF_FAIL(sysGpio(GPIO_SET_INPUT_MODE , GPIO_INPUT_MODE_ALL_PULL_UPS), METHOD_START_MODULE); 
+    259              /* Now, read GPIO inputs 0 & 1: */
+    260              RETURN_RESULT_IF_FAIL(sysGpio(GPIO_READ, (GPIO_0 | GPIO_1)), METHOD_START_MODULE);
+    261              uint16_t moduleConfiguration = zmBuf[SYS_GPIO_READ_RESULT_FIELD];
+    262          /* Done reading GPIO inputs. If application needs them as outputs then it shall configure accordingly */
+    263              
+    264              /* Reset the Module to apply the changes we just set */
+    265              RETURN_RESULT_IF_FAIL(moduleReset(), METHOD_START_MODULE);
+    266              /* Read the productId - this indicates the model of module used. */
+    267              uint8_t productId = zmBuf[SYS_RESET_IND_PRODUCTID_FIELD]; 
+    268              /* If this is not valid (bad firmware) then stop */
+    269              RETURN_RESULT_IF_EXPRESSION_TRUE((productId < MINIMUM_BUILD_ID), METHOD_START_MODULE,
+    270                                               ZM_INVALID_MODULE_CONFIGURATION);       
+    271              /* Configure the module's RF output */
+    272              setModuleRfPower(productId, moduleConfiguration);
+    273              /* Set any end device options */
+    274              if (mc->deviceType == END_DEVICE)
+    275          	    RETURN_RESULT_IF_FAIL(setPollRate(mc->endDevicePollRate), METHOD_START_MODULE);
+    276              /* Configure which RF Channels to use. If none set then this will default to 11. */
+    277              RETURN_RESULT_IF_FAIL(setZigbeeDeviceType(mc->deviceType), METHOD_START_MODULE);     // Set Zigbee Device Type
+    278              RETURN_RESULT_IF_FAIL(setChannelMask(mc->channelMask), METHOD_START_MODULE);
+    279              RETURN_RESULT_IF_FAIL(setPanId(mc->panId), METHOD_START_MODULE);
+    280              RETURN_RESULT_IF_FAIL(setCallbacks(CALLBACKS_ENABLED), METHOD_START_MODULE);
+    281              
+    282          	                                                    // Note: ZCD_NV_SECURITY_MODE defaults to 01
+    283          	  if (mc->securityMode != SECURITY_MODE_OFF)        // Note: If a coordinator has ZCD_NV_SECURITY_MODE = 00, router must have ZCD_NV_SECURITY_MODE = 01 or else they won't communicate
+    284          	  {
+    285          	      RETURN_RESULT_IF_FAIL(setSecurityMode(mc->securityMode), METHOD_START_MODULE);
+    286          	      RETURN_RESULT_IF_FAIL(setSecurityKey(mc->securityKey), METHOD_START_MODULE);
+    287          	  }
+    288          
+    289          	  if (ac == GENERIC_APPLICATION_CONFIGURATION)	  //TODO: use custom applicationFramework if this isn't null:
+    290          	  {
+    291          	    RETURN_RESULT_IF_FAIL(afRegisterGenericApplication(), METHOD_START_MODULE);    // Configure the Module for our application
+    292          	  } else {
+    293                      //RETURN_RESULT_IF_FAIL(afRegisterApplication(*ac), METHOD_START_MODULE);
+    294                      RETURN_RESULT_IF_FAIL(afRegisterGenericApplication(), METHOD_START_MODULE);
+    295          	    //printf("Custom Application Frameworks not supported\r\n");
+    296          	    //return INVALID_PARAMETER;
+    297          	  }
+    298          
+    299          	  RETURN_RESULT_IF_FAIL(zdoStartApplication(), METHOD_START_MODULE);		// Start your engines
+    300          
+    301          	  // Wait until this device has joined a network. Device State will change to DEV_ROUTER or
+    302          	  // DEV_COORD to indicate that the device has correctly joined a network.
+    303          
+    304          	#ifdef ZDO_STATE_CHANGE_IND_HANDLED_BY_APPLICATION  //if you're handling this in your application instead...
+    305          	  return MODULE_SUCCESS;
+    306          	#else
+    307          	#define TEN_SECONDS 10000
+    308          	#define FIFTEEN_SECONDS 15000
+    309          	#define START_TIMEOUT FIFTEEN_SECONDS
+    310          	  RETURN_RESULT(waitForDeviceState(getDeviceStateForDeviceType(mc->deviceType), START_TIMEOUT), METHOD_START_MODULE);
+    311          	#endif
+    312          
+    313          }
+    314          
+    315          
+    316          /** 
+    317          Retrieves a pending message from the module and displays the type of message it is.
+    318          Ignores the message if length = 0.
+    319          @pre moduleHasMessageWaiting() is true
+    320          */
+    321          void displayMessages()
+    322          {
+    323            getMessage();
+    324            if (zmBuf[SRSP_LENGTH_FIELD] > 0)
+    325            {
+    326              switch ( (CONVERT_TO_INT(zmBuf[SRSP_CMD_LSB_FIELD], zmBuf[SRSP_CMD_MSB_FIELD])) )
+    327              {
+    328              case AF_DATA_CONFIRM:
+    329                {
+    330                  printf("AF_DATA_CONFIRM\r\n");
+    331                  break;
+    332                }
+    333              case AF_INCOMING_MSG:
+    334                {
+    335                  printf("AF_INCOMING_MSG\r\n");
+    336                  printAfIncomingMsgHeader(zmBuf);
+    337                  printf("\r\n");
+    338          #ifdef VERBOSE_MESSAGE_DISPLAY  
+    339                  printf("Payload: ");
+    340                  printHexBytes(zmBuf+SRSP_HEADER_SIZE+17, zmBuf[SRSP_HEADER_SIZE+16]);   //print out message payload
+    341          #endif
+    342                  break;
+    343                }
+    344              case AF_INCOMING_MSG_EXT:
+    345                {
+    346                  printf("AF_INCOMING_MSG_EXT\r\n");
+    347                  uint16_t len = AF_INCOMING_MESSAGE_EXT_LENGTH();
+    348                  printf("Extended Message Received, L%u ", len);
+    349                  break;
+    350                }
+    351              case ZDO_IEEE_ADDR_RSP:
+    352                {
+    353                  printf("ZDO_IEEE_ADDR_RSP\r\n");
+    354                  displayZdoAddressResponse(zmBuf + SRSP_PAYLOAD_START);
+    355                  break;
+    356                }
+    357              case ZDO_NWK_ADDR_RSP:
+    358                {
+    359                  printf("ZDO_NWK_ADDR_RSP\r\n");
+    360                  displayZdoAddressResponse(zmBuf + SRSP_PAYLOAD_START);
+    361                  break;
+    362                }
+    363              case ZDO_END_DEVICE_ANNCE_IND:
+    364                {
+    365                  printf("ZDO_END_DEVICE_ANNCE_IND received!\r\n");
+    366                  displayZdoEndDeviceAnnounce(zmBuf);
+    367                  break;
+    368                }
+    369              case ZB_FIND_DEVICE_CONFIRM:
+    370                {
+    371                  printf("ZB_FIND_DEVICE_CONFIRM\r\n");
+    372                  break;
+    373                }
+    374              default:
+    375                {
+    376                  printf("Message received, type 0x%04X\r\n", (CONVERT_TO_INT(zmBuf[SRSP_CMD_LSB_FIELD], zmBuf[SRSP_CMD_MSB_FIELD])));
+    377                  printHexBytes(zmBuf, (zmBuf[SRSP_LENGTH_FIELD] + SRSP_HEADER_SIZE));
+    378                }
+    379              }
+    380              zmBuf[SRSP_LENGTH_FIELD] = 0;
+    381            } //ignore messages with length == 0
+    382          }
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   displayMessages
+        2   -> displayZdoAddressResponse
+        2   -> displayZdoEndDeviceAnnounce
+        2   -> getMessage
+        2   -> printAfIncomingMsgHeader
+        4   -> printHexBytes
+        2   -> tfp_printf
+        4   -> tfp_printf
+      2   getDeviceStateForDeviceType
+     24   setModuleRfPower
+       20   -> getConfigurationParameter
+       24   -> sysSetTxPower
+       20   -> tfp_printf
+       24   -> tfp_printf
+      8   startModule
+        8   -> afRegisterGenericApplication
+        8   -> getDeviceStateForDeviceType
+        8   -> moduleReset
+        8   -> setCallbacks
+        8   -> setChannelMask
+        8   -> setModuleRfPower
+        8   -> setPanId
+        8   -> setPollRate
+        8   -> setSecurityKey
+        8   -> setSecurityMode
+        8   -> setStartupOptions
+        8   -> setZigbeeDeviceType
+        8   -> sysGpio
+        8   -> tfp_printf
+        8   -> waitForDeviceState
+        8   -> zdoStartApplication
+     10   waitForDeviceState
+        8   -> delayMs
+        8   -> getDeviceStateName
+        8   -> getMessage
+        8   -> moduleHasMessageWaiting
+       10   -> tfp_printf
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      40  ?<Constant " * ANAREN MODULE %s C...">
+      52  ?<Constant " * SET SWITCH 1 ON S4...">
+      62  ?<Constant " * WARNING: FOR COMPL...">
+       5  ?<Constant "%s, ">
+      18  ?<Constant "AF_DATA_CONFIRM\r\n">
+      18  ?<Constant "AF_INCOMING_MSG\r\n">
+      22  ?<Constant "AF_INCOMING_MSG_EXT\r\n">
+      17  ?<Constant "EU (E U R O P E)">
+      32  ?<Constant "Extended Message Rece...">
+      32  ?<Constant "Message received, typ...">
+      17  ?<Constant "Module Startup\r\n">
+      25  ?<Constant "US (U S A / C A N A D A)">
+      27  ?<Constant "Using Default RF Sett...">
+      25  ?<Constant "ZB_FIND_DEVICE_CONFIRM\r\n">
+      37  ?<Constant "ZDO_END_DEVICE_ANNCE_...">
+      20  ?<Constant "ZDO_IEEE_ADDR_RSP\r\n">
+      19  ?<Constant "ZDO_NWK_ADDR_RSP\r\n">
+       3  ?<Constant "\r\n">
+       5  ?<Constant {3, 3, 10, 14, 14}>
+       5  ?<Constant {3, 3, 10, 20, 18}>
+      14  DEFAULT_MODULE_CONFIGURATION_COORDINATOR
+      14  DEFAULT_MODULE_CONFIGURATION_END_DEVICE
+      14  DEFAULT_MODULE_CONFIGURATION_ROUTER
+     266  displayMessages
+      38  getDeviceStateForDeviceType
+     190  setModuleRfPower
+     456  startModule
+     142  waitForDeviceState
+
+ 
+ 1 092 bytes in segment CODE
+   523 bytes in segment DATA16_C
+ 
+ 1 092 bytes of CODE  memory
+   523 bytes of CONST memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,516 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:18 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina Rahmah\My             #
+#                     Documents\backupan\led_matrix.c                         #
+#    Command line  =  "C:\Documents and Settings\Nisrina Rahmah\My            #
+#                     Documents\backupan\led_matrix.c" -D LAUNCHPAD -D        #
+#                     ZM_PHY_SPI -D REGION_NORTH_AMERICA -D                   #
+#                     DISPLAY_NETWORK_INFORMATION -lc "C:\Documents and       #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\List\" -o "C:\Documents and      #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\Obj\" --no_cse --no_unroll       #
+#                     --no_inline --no_code_motion --no_tbaa --debug          #
+#                     -D__MSP430G2553__ -e --double=32 --dlib_config          #
+#                     "C:\Program Files\IAR Systems\Embedded Workbench        #
+#                     6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents and        #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\led_matri #
+#                     x.lst                                                   #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\led_matrix #
+#                     .r43                                                    #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\My Documents\backupan\led_matrix.c
+      1          #include "font.h"
+      2          #include "led_matrix.h"
+      3          #include "msp430.h"
+      4          #include <stdint.h>
+      5          #include <string.h>
+      6          
+      7          uint8_t text_array[100];
+      8          char *str = "Tesss";
+      9          char *long_str = "Hai, apa kabarmu?";
+     10          char *clk_text = "00:00";
+     11          int data_size = 0;
+     12            
+     13          void delay_ms(unsigned int ms);
+     14          int lookup(char a);
+     15          void update_image(uint8_t *array);
+     16          
+     17          /**************************************************************************//**
+     18          *
+     19          * spi_send_bit_bang
+     20          *
+     21          * @brief      send a 8 bit (one byte) SPI data with bit-banging
+     22          *
+     23          * @param      byte     data to be sent
+     24          *
+     25          * @return     -
+     26          *
+     27          ******************************************************************************/
+     28          void spi_send_bit_bang(uint8_t byte)
+     29          {
+     30            uint8_t i;
+     31          
+     32            for(i=0 ; i<8 ; i++)
+     33            {
+     34          	// send LSB
+     35          	if(byte & 0x01)
+     36          	{
+     37          	  P1OUT |= SPI_DATA_OUT_PIN;
+     38          	}
+     39          	else
+     40          	{
+     41          	  P1OUT &= ~SPI_DATA_OUT_PIN;
+     42          	}
+     43          
+     44          	// delay
+     45          	SPI_BIT_BANGING_DELAY();
+     46          
+     47          	// set clock
+     48          	P1OUT |= SPI_CLK_OUT_PIN;
+     49          
+     50          	// delay
+     51          	SPI_BIT_BANGING_DELAY();
+     52          
+     53          	// reset clock
+     54          	P1OUT &= ~SPI_CLK_OUT_PIN;
+     55          
+     56          	// shift right byte
+     57          	byte >>= 1;
+     58            }
+     59          
+     60            // reset SPI data line
+     61            P1OUT &= ~SPI_DATA_OUT_PIN;
+     62          }
+     63          
+     64          /**************************************************************************//**
+     65          *
+     66          * led_matrix_output_latch
+     67          *
+     68          * @brief      set output latch
+     69          *
+     70          * @param      -
+     71          *
+     72          * @return     -
+     73          *
+     74          ******************************************************************************/
+     75          void led_matrix_output_latch(void)
+     76          {
+     77            // set output latch
+     78            P1OUT |= DATA_LATCH_PIN;
+     79            P1OUT &= ~DATA_LATCH_PIN;
+     80          }
+     81          
+     82          /**************************************************************************//**
+     83          *
+     84          * led_matrix_send_row
+     85          *
+     86          * @brief      send data to a LED matrix row
+     87          *
+     88          * @param      row     row number (0-7)
+     89          * @param      data    8 bit LED matrix row data
+     90          *
+     91          * @return     -
+     92          *
+     93          ******************************************************************************/
+     94          void led_matrix_send_row(uint8_t row, uint8_t data)
+     95          {
+     96            static const uint16_t row_byte[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
+     97            
+     98            // send first byte (data byte)
+     99            spi_send_bit_bang(data);
+    100          
+    101            // send second byte (row data)
+    102            spi_send_bit_bang(row_byte[(row&0x07)]);
+    103          }
+    104          
+    105          /**************************************************************************//**
+    106          *
+    107          * send_image
+    108          *
+    109          * @brief      send image to the LED matrix/matrices
+    110          *
+    111          * @param      running_text_data     data to be put into LED
+    112          *
+    113          * @return     -
+    114          *
+    115          ******************************************************************************/
+    116          void send_image(uint8_t *text_array, int size)
+    117          {
+    118            static uint16_t first_idx = 0;
+    119            static uint8_t row = 0;
+    120            uint16_t i, j;
+    121            
+    122            // start continuous conversion
+    123            ADC10CTL0 = REFON + MSC + SREF_1 + ADC10SHT_2 + ADC10ON + ADC10IE;
+    124            ADC10CTL1 = INCH_0 + CONSEQ_2 + ADC10DIV_7 + ADC10SSEL_3;
+    125            
+    126            // start continuous conversions
+    127            ADC10CTL0 |= ENC + ADC10SC;
+    128            
+    129            j = first_idx + row;
+    130            for(i=0 ; i<NUM_OF_LED_MATRIXES ; i++)
+    131            {
+    132              if(j >= size)
+    133              {
+    134                j = j - size;
+    135              }
+    136          
+    137              // send data
+    138              led_matrix_send_row(row, text_array[j]);
+    139          
+    140              // go to next led matrix data
+    141              j += 8;
+    142            }
+    143          
+    144            // set output latch
+    145            led_matrix_output_latch();
+    146          
+    147            // increment row
+    148            row++;
+    149            if(row >= 8) row = 0;
+    150          }
+    151          
+    152          /**************************************************************************//**
+    153          *
+    154          * send_image
+    155          *
+    156          * @brief      send image to the LED matrix/matrices
+    157          *
+    158          * @param      running_text_data     data to be put into LED
+    159          *
+    160          * @return     -
+    161          *
+    162          ******************************************************************************/
+    163          void send_scrolling_text(uint8_t *text_data, int size)
+    164          {
+    165            static uint16_t first_idx = 0;
+    166            static uint8_t row = 0;
+    167            uint16_t i, j;
+    168            
+    169            // start continuous conversion
+    170            ADC10CTL0 = REFON + MSC + SREF_1 + ADC10SHT_2 + ADC10ON + ADC10IE;
+    171            ADC10CTL1 = INCH_0 + CONSEQ_2 + ADC10DIV_7 + ADC10SSEL_3;
+    172            
+    173            // start continuous conversions
+    174            ADC10CTL0 |= ENC + ADC10SC;
+    175           
+    176            j = first_idx + row;
+    177            for(i=0 ; i<NUM_OF_LED_MATRIXES ; i++)
+    178            {
+    179              if(j >= size)
+    180              {
+    181                j = j - size;
+    182              }
+    183          
+    184              // send data
+    185              led_matrix_send_row(row, text_data[j]);
+    186          
+    187              // go to next led matrix data
+    188              j += 8;
+    189            }
+    190          
+    191            // set output latch
+    192            led_matrix_output_latch();
+    193          
+    194            // increment row
+    195            row++;
+    196            if(row >= 8) row = 0;
+    197          }
+    198          
+    199          void led_init()
+    200          {
+    201            // Stop watchdog timer to prevent time out reset
+    202            WDTCTL = WDTPW + WDTHOLD;
+    203            
+    204            // configure SPI pins and latch
+    205            P1DIR |= DATA_LATCH_PIN | SPI_DATA_OUT_PIN | SPI_CLK_OUT_PIN;
+    206            
+    207            // set latch pin to inactive
+    208            P1OUT &= ~DATA_LATCH_PIN;
+    209            
+    210            // set both GPIO for SPI communication low
+    211            P1OUT &= ~(SPI_DATA_OUT_PIN | SPI_CLK_OUT_PIN);
+    212          }
+    213          
+    214          void write_to_led(char *str, int type)
+    215          {
+    216            int word = strlen(str);
+    217            int i = 0;
+    218            
+    219            data_size = word * 5 + word;
+    220            
+    221            int counter = 1;
+    222            int a = 0;
+    223            
+    224            if (type == TEXT)
+    225            {
+    226              for (i = 0; i < data_size; i++)
+    227              {
+    228                if (counter % 6 == 0)
+    229                {
+    230                  text_array[i] = 0x00;
+    231                  counter = 1;
+    232                  a++;
+    233                } else
+    234                {
+    235                  text_array[i] = FontLookup[lookup(str[a])][(counter - 1) % 5];
+    236                  counter++;
+    237                }
+    238              }
+    239            } else 
+    240            {
+    241              data_size = 8 * NUM_OF_LED_MATRIXES;
+    242              counter = 1;
+    243              a = 0;
+    244              text_array[0] = 0x00;
+    245              text_array[1] = 0x00;
+    246              for (i = 2; i < data_size; i++)
+    247              {
+    248                if (counter % 6 == 0)
+    249                {
+    250                  text_array[i] = 0x00;
+    251                  counter = 1;
+    252                  a++;
+    253                } else
+    254                {
+    255                  if (a == 2 && counter == 5)
+    256                  {
+    257                    text_array[i] = FontLookup[lookup(str[a])][(counter - 1) % 5];
+    258                    counter = 1;
+    259                    a++;
+    260                  } else 
+    261                  {
+    262                    text_array[i] = FontLookup[lookup(str[a])][(counter - 1) % 5];
+    263                    counter++;
+    264                  }
+    265                }
+    266              }
+    267              text_array[data_size - 1] = 0x00;
+    268            }
+    269          }
+    270          
+    271          void update_image(uint8_t *array)
+    272          {
+    273            int i = 0;
+    274            uint8_t temp = array[0];
+    275            for (i = 0; i < data_size - 1; i++)
+    276            {
+    277              array[i] = array[i + 1];
+    278            }
+    279            array[data_size] = temp;
+    280          }
+    281          
+    282          /*int main( void )
+    283          {
+    284            led_init(); 
+    285            
+    286            write_to_led(clk_text, CLOCK);
+    287            //write_to_led(long_str, TEXT);
+    288            
+    289            while(1) {
+    290              sendImage(test_array, data_size);
+    291              //send_scrolling_text(test_array, data_size);
+    292            };
+    293          }*/
+    294          
+    295          int lookup(char a) {
+    296            if (a == ' ') return 0;
+    297            else if (a == '!') return 1;
+    298            else if (a == '"') return 2;
+    299            else if (a == '#') return 3;
+    300            else if (a == '$') return 4;
+    301            else if (a == '%') return 5;
+    302            else if (a == '&') return 6;
+    303            else if (a == '\'') return 7;
+    304            else if (a == '(') return 8;
+    305            else if (a == ')') return 9;
+    306            else if (a == '*') return 10;
+    307            else if (a == '+') return 11;
+    308            else if (a == ',') return 12;
+    309            else if (a == '-') return 13;
+    310            else if (a == '.') return 14;
+    311            else if (a == '/') return 15;
+    312            else if (a == '0') return 16;
+    313            else if (a == '1') return 17;
+    314            else if (a == '2') return 18;
+    315            else if (a == '3') return 19;
+    316            else if (a == '4') return 20;
+    317            else if (a == '5') return 21;
+    318            else if (a == '6') return 22;
+    319            else if (a == '7') return 23;
+    320            else if (a == '8') return 24;
+    321            else if (a == '9') return 25;
+    322            else if (a == ':') return 26;
+    323            else if (a == ';') return 27;
+    324            else if (a == '<') return 28;
+    325            else if (a == '=') return 29;
+    326            else if (a == '>') return 30;
+    327            else if (a == '?') return 31;
+    328            else if (a == '@') return 32;
+    329            else if (a == 'A') return 33;
+    330            else if (a == 'B') return 34;
+    331            else if (a == 'C') return 35;
+    332            else if (a == 'D') return 36;
+    333            else if (a == 'E') return 37;
+    334            else if (a == 'F') return 38;
+    335            else if (a == 'G') return 39;
+    336            else if (a == 'H') return 40;
+    337            else if (a == 'I') return 41;
+    338            else if (a == 'J') return 42;
+    339            else if (a == 'K') return 43;
+    340            else if (a == 'L') return 44;
+    341            else if (a == 'M') return 45;
+    342            else if (a == 'N') return 46;
+    343            else if (a == 'O') return 47;
+    344            else if (a == 'P') return 48;
+    345            else if (a == 'Q') return 49;
+    346            else if (a == 'R') return 50;
+    347            else if (a == 'S') return 51;
+    348            else if (a == 'T') return 52;
+    349            else if (a == 'U') return 53;
+    350            else if (a == 'V') return 54;
+    351            else if (a == 'W') return 55;
+    352            else if (a == 'X') return 56;
+    353            else if (a == 'Y') return 57;
+    354            else if (a == 'Z') return 58;
+    355            else if (a == '[') return 59;
+    356            else if (a == ']') return 61;
+    357            else if (a == '^') return 62;
+    358            else if (a == '_') return 63;
+    359            else if (a == '`') return 64;
+    360            else if (a == 'a') return 65;
+    361            else if (a == 'b') return 66;
+    362            else if (a == 'c') return 67;
+    363            else if (a == 'd') return 68;
+    364            else if (a == 'e') return 69;
+    365            else if (a == 'f') return 70;
+    366            else if (a == 'g') return 71;
+    367            else if (a == 'h') return 72;
+    368            else if (a == 'i') return 73;
+    369            else if (a == 'j') return 74;
+    370            else if (a == 'k') return 75;
+    371            else if (a == 'l') return 76;
+    372            else if (a == 'm') return 77;
+    373            else if (a == 'n') return 78;
+    374            else if (a == 'o') return 79;
+    375            else if (a == 'p') return 80;
+    376            else if (a == 'q') return 81;
+    377            else if (a == 'r') return 82;
+    378            else if (a == 's') return 83;
+    379            else if (a == 't') return 84;
+    380            else if (a == 'u') return 85;
+    381            else if (a == 'v') return 86;
+    382            else if (a == 'w') return 87;
+    383            else if (a == 'x') return 88;
+    384            else if (a == 'y') return 89;
+    385            else if (a == 'z') return 90;
+    386            else if (a == '{') return 91;
+    387            else if (a == '|') return 92;
+    388            else if (a == '#') return 93;
+    389            else return 60;
+    390          }
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      2   led_init
+      2   led_matrix_output_latch
+      4   led_matrix_send_row
+        4   -> spi_send_bit_bang
+      2   lookup
+     10   send_image
+       10   -> led_matrix_output_latch
+       10   -> led_matrix_send_row
+     10   send_scrolling_text
+       10   -> led_matrix_output_latch
+       10   -> led_matrix_send_row
+      2   spi_send_bit_bang
+      4   update_image
+     12   write_to_led
+       12   -> lookup
+       12   -> strlen
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       6  ?<Constant "00:00">
+      18  ?<Constant "Hai, apa kabarmu?">
+       6  ?<Constant "Tesss">
+       2  ?<Initializer for clk_text>
+       2  ?<Initializer for long_str>
+       2  ?<Initializer for str>
+       2  ADC10CTL0
+       2  ADC10CTL1
+       1  P1DIR
+       1  P1OUT
+       2  WDTCTL
+       2  clk_text
+       2  data_size
+       2  first_idx
+       2  first_idx
+      26  led_init
+      14  led_matrix_output_latch
+      30  led_matrix_send_row
+       2  long_str
+    1112  lookup
+       1  row
+       1  row
+      16  row_byte
+      94  send_image
+      94  send_scrolling_text
+      56  spi_send_bit_bang
+       2  str
+     100  text_array
+      48  update_image
+     288  write_to_led
+
+ 
+ 1 762 bytes in segment CODE
+     8 bytes in segment DATA16_AN
+    46 bytes in segment DATA16_C
+     6 bytes in segment DATA16_I
+     6 bytes in segment DATA16_ID
+   108 bytes in segment DATA16_Z
+ 
+ 1 762 bytes of CODE  memory
+    52 bytes of CONST memory
+   114 bytes of DATA  memory (+ 8 bytes shared)
+
+Errors: none
+Warnings: none

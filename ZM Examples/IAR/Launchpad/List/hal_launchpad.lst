@@ -1,0 +1,933 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:17 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\HAL\hal_launchpad.c                      #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\HAL\hal_launchpad.c" -D LAUNCHPAD -D     #
+#                     ZM_PHY_SPI -D REGION_NORTH_AMERICA -D                   #
+#                     DISPLAY_NETWORK_INFORMATION -lc "C:\Documents and       #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\List\" -o "C:\Documents and      #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\Obj\" --no_cse --no_unroll       #
+#                     --no_inline --no_code_motion --no_tbaa --debug          #
+#                     -D__MSP430G2553__ -e --double=32 --dlib_config          #
+#                     "C:\Program Files\IAR Systems\Embedded Workbench        #
+#                     6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents and        #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\hal_launc #
+#                     hpad.lst                                                #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\hal_launch #
+#                     pad.r43                                                 #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\HAL\hal_launchpad.c
+      1          /**
+      2          * @ingroup hal
+      3          * @{ 
+      4          * @file hal_launchpad.c
+      5          *
+      6          * @brief Hardware Abstraction Layer (HAL) for the TI LaunchPad and Anaren Zigbee BoosterPack
+      7          *
+      8          * This file must be modified if changing hardware platforms. Based on hal_mdb2.c
+      9          *
+     10          * The Zigbee Module library & examples require several methods to be defined. 
+     11          * See hal_helper documentation. Also see hal_launchpad.h for macros that must be defined.
+     12          *
+     13          * @see hal_helper.c for utilities to assist when changing hardware platforms
+     14          *
+     15          * $Rev: 1642 $
+     16          * $Author: dsmith $
+     17          * $Date: 2012-10-31 11:17:04 -0700 (Wed, 31 Oct 2012) $
+     18          *
+     19          * @section support Support
+     20          * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     21          * is available via email at the following addresses:
+     22          * - Questions on how to use the product: AIR@anaren.com
+     23          * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     24          * - Consulting engagements: sales@teslacontrols.com
+     25          *
+     26          * @section license License
+     27          * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     28          * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     29          * source and binary forms, with or without modification, are subject to the Software License 
+     30          * Agreement in the file "anaren_eula.txt"
+     31          * 
+     32          * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     33          * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     34          * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     35          * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     36          * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     37          * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     38          * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     39          * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     40          * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     41          */
+     42          
+     43          #include "hal_launchpad.h"
+     44          #include "hal_version.h"
+     45          #include <stdint.h>
+     46          
+     47          /** 
+     48          This is a function pointer for the Interrupt Service Routine called when a debug console character is received.
+     49          To use it, declare it with
+     50          <code> extern void (*debugConsoleIsr)(char);  </code> 
+     51          and then point it to a function you created, e.g.
+     52          <code> debugConsoleIsr = &handleDebugConsoleInterrupt;  </code>
+     53          and your function handleDebugConsoleInterrupt() will be called when a byte is received on the debug serial port.
+     54          */
+     55          void (*debugConsoleIsr)(int8_t);
+     56          
+     57          /** 
+     58          Function pointer for the ISR called when the button is pressed. 
+     59          Parameter is which button was pressed. */
+     60          void (*buttonIsr)(int8_t);
+     61          
+     62          /** Function pointer for the ISR called when a timer generates an interrupt */
+     63          void (*timerIsr)(void);
+     64          
+     65          /** Function pointer for the ISR called when a SRDY interrupt occurs */
+     66          void (*srdyIsr)(void);
+     67          
+     68          /** 
+     69          Flags to indicate when to wake up the processor. These are read in the various ISRs. 
+     70          If the flag is set then the processor will be woken up with HAL_WAKEUP() at the end of the ISR. 
+     71          This is required because HAL_WAKEUP() cannot be called anywhere except in an ISR. */
+     72          uint16_t wakeupFlags = 0;
+     73          
+     74          /** 
+     75          The post-calibrated frequency of the Very Low Oscillator (VLO). 
+     76          This MUST be calibrated by calibrateVlo() prior to use.
+     77          Set with calibrateVlo() and read by initTimer(). */
+     78          uint16_t vloFrequency = 0;
+     79          
+     80          /** Declaration so we can use this inside hal_launchpad.c for debugging */
+     81          int putchar(int c);
+     82          
+     83          /** Debug console interrupt service routine, called when a byte is received on USCIB0. */
+     84          #pragma vector = USCIAB0RX_VECTOR 
+     85          __interrupt void USCIAB0RX_ISR(void)
+     86          {
+     87          #ifdef DEBUG_USCIAB0RX_ISR
+     88              putchar('@');
+     89              while (1)
+     90              {
+     91                  toggleLed(1);
+     92                  delayMs(100);
+     93              }
+     94          #endif
+     95              if (IFG2 & UCA0RXIFG)               //debug console character received
+     96              {
+     97                  debugConsoleIsr(UCA0RXBUF);    //reading this register clears the interrupt flag
+     98              }
+     99          }
+    100          
+    101          
+    102          /** Port 1 interrupt service routine, called when an interrupt-enabled pin on port 1 changes state. */
+    103          #pragma vector=PORT1_VECTOR
+    104          __interrupt void PORT1_ISR(void)
+    105          {
+    106              if (P1IFG & BIT3)                   //Modify this based on which pin is connected to Button
+    107              {
+    108                  buttonIsr(0);   // Button 0 was pressed
+    109                  if (wakeupFlags & WAKEUP_AFTER_BUTTON)    
+    110                      HAL_WAKEUP();
+    111              }
+    112              P1IFG = 0;                          // clear the interrupt
+    113          }
+    114          
+    115          /** Port 2 interrupt service routine, called when an interrupt-enabled pin on port 2 changes state. */
+    116          #pragma vector=PORT2_VECTOR
+    117          __interrupt void PORT2_ISR(void)
+    118          {
+    119              if (P2IFG & BIT2)                   //Modify this based on which pin is connected to SRDY
+    120              {
+    121                  srdyIsr();
+    122                  if (wakeupFlags & WAKEUP_AFTER_SRDY)    
+    123                      HAL_WAKEUP();          
+    124              }
+    125              P2IFG = 0;                          // clear the interrupt
+    126          }
+    127          
+    128          /* 
+    129          Whether the selected button is pressed.
+    130          @param button which button - must be ANY_BUTTON or BUTTON_0 on this implementation.
+    131          @return >0 if the selected button is pressed, otherwise 0.
+    132          */
+    133          uint8_t buttonIsPressed(uint8_t button)
+    134          {
+    135              if ((button == ANY_BUTTON) || (button == BUTTON_0))
+    136                  return (~P1IN & BIT3);
+    137          
+    138              return 0;
+    139          }
+    140          
+    141          /** Simple placeholder to point the function pointers to so that they don't cause mischief */
+    142          static void doNothing(int8_t a)
+    143          {
+    144              volatile int8_t b = a;  //prevent this from getting optimized out
+    145          }
+    146          
+    147          /** Initializes Oscillator: turns off WDT, configures MCLK to 8MHz using internal DCO and sets SMCLK to 4MHz */
+    148          void oscInit()
+    149          {
+    150              WDTCTL = WDTPW + WDTHOLD; // Stop WDT
+    151              
+    152              if (CALBC1_8MHZ ==0xFF || CALDCO_8MHZ == 0xFF)                                     
+    153              {  
+    154                  while(1); // Stop if calibration constants erased
+    155              }   
+    156              BCSCTL1 = CALBC1_8MHZ;          // Set DCO = 8MHz for MCLK
+    157              DCOCTL = CALDCO_8MHZ;
+    158              BCSCTL2 |= DIVS_1;              // SMCLK = DCO/2 (4MHz) 
+    159              BCSCTL3 |= LFXT1S_2;            // Use VLO for ACLK
+    160          }
+    161          
+    162          /** Initializes Ports/Pins: sets direction, interrupts, pullup/pulldown resistors etc. */
+    163          void portInit()
+    164          {
+    165              //
+    166              //    Initialize Ports
+    167              //
+    168              /*PORT 1:
+    169              1.0     LED (Red on BoosterPack)
+    170              1.1     UCA0RXD
+    171              1.2     UCA0TXD
+    172              1.3     Button
+    173              1.4     Current Sensor / MRDY / External CS
+    174              1.5     SCLK
+    175              1.6     MISO / LED2 (Green on BoosterPack)
+    176              1.7     MOSI
+    177              */
+    178              //P1DIR = BIT0;                                       // Output
+    179              P1IE  = BIT3;                                       // Enable Button Interrupt
+    180              P1IES = BIT3;                                       // Interrupt on high-to-low transition    
+    181              P1SEL = (BIT1 | BIT2 | BIT5 | BIT6 | BIT7);         // Enable USCI - NOTE: default value is NOT 0!
+    182              P1SEL2 =(BIT1 | BIT2 | BIT5 | BIT6 | BIT7);
+    183              P1IFG = 0;                                          // Clear P1 interrupts
+    184              //Note: Reading analog input overrides USCI control of pins P1.4
+    185              
+    186              /*PORT 2
+    187              2.0     Zigbee Module CS 
+    188              2.1     RGB_LED_RED (TA1.1)
+    189              2.2     Module SRDY
+    190              2.3     Bit-Bang I2C SDA
+    191              2.4     Bit-Bang I2C SCL / LED3
+    192              2.5     RGB_LED_GREEN (TA1.2)
+    193              2.6     RGB_LED_BLUE (TA0.1)
+    194              2.7     Module Reset
+    195              */
+    196              P2DIR = BIT0 | BIT1 | BIT7;           // Configure outputs
+    197              P2SEL = 0;
+    198              P2SEL2 = 0;
+    199              P2IFG = 0;
+    200              P2OUT &= ~(BIT0);                                   //turn off module
+    201              // Note: Bit-Bang I2C signals will be configured by the Bit-Bang I2C Driver
+    202              
+    203              /*PORT 3 is not connected in this package, put pull-downs should be enabled as per datasheet */
+    204              P3REN = 0xFF;            //Enable pull-downs on all pins
+    205          }
+    206          
+    207          /** 
+    208          Initialize UART debug console for I/O. Configures the USCI in the processor to use UART mode. 
+    209          @post UART may be used by putchar() etc. 
+    210          @note LaunchPad debugger can only handle 9600 baud, no faster
+    211          */
+    212          void halUartInit()
+    213          {
+    214              UCA0CTL1 = UCSWRST;                         // Stop USCIA0 state machine
+    215              UCA0CTL0 = 0;
+    216              UCA0CTL1 |= UCSSEL_2;                       // USCIA0 source from SMCLK
+    217              UCA0BR0 = 26; UCA0BR1 = 0;                  // 4mHz smclk w/modulation for 9,600bps, table 15-5 
+    218              UCA0MCTL = UCBRS_0 +UCBRF_1 + UCOS16;       // Modulation UCBRSx=1, over sampling      
+    219              UCA0CTL1 &= ~UCSWRST;                       // **Initialize USCI state machine**
+    220              IE2 |= UCA0RXIE;                            // Enable USCI_A0 RX interrupt
+    221          }
+    222          
+    223          /** Display information about this driver firmware */
+    224          void displayVersion()
+    225          {
+    226              int i = 0;
+    227              printf("\r\n");
+    228              for (i=0; i<8; i++)
+    229                  printf("-");
+    230              printf(" Module Interface and Examples %s ", MODULE_INTERFACE_STRING);
+    231              for (i=0; i<8; i++)
+    232                      printf("-");
+    233              printf("\r\n");
+    234              printf("%s", MODULE_VERSION_STRING);
+    235          }
+    236          
+    237          /** 
+    238          Configures hardware for the particular hardware platform:
+    239          - Ports: sets direction, interrupts, pullup/pulldown resistors etc. 
+    240          - Holds radio in reset (active-low)
+    241          @post the board is configured for proper operation.
+    242          */
+    243          void halInit()
+    244          {
+    245              oscInit();                      // Initialize oscillators
+    246              portInit();                     // Configure GPIO ports
+    247              halUartInit();                  // Initialize UART
+    248              SPI_SS_CLEAR();                 // Deselect Module
+    249              TACTL = MC_0;                   //  Stop Timer A:
+    250          
+    251              //Point the function pointers to doNothing() so that they don't trigger a restart
+    252              debugConsoleIsr = &doNothing;
+    253              buttonIsr = &doNothing;
+    254          
+    255          #ifdef TESTING_SPI_UART_VERSION
+    256              halSpiInitModule();
+    257          #endif
+    258              clearLeds();
+    259              displayVersion();    
+    260          }
+    261          
+    262          /** Send one byte via hardware UART. Required for printf() etc. in stdio.h */
+    263          int putchar(int c)
+    264          {	
+    265              while (!(IFG2 & UCA0TXIFG));   // Wait for ready
+    266              UCA0TXBUF = (uint8_t) (c & 0xFF); 
+    267              return c;
+    268          }
+    269          
+    270          /**
+    271          Initializes the Serial Peripheral Interface (SPI) interface to the Zigbee Module (ZM).
+    272          @note Maximum module SPI clock speed is 4MHz. SPI port configured for clock polarity of 0, clock phase of 0, and MSB first.
+    273          @note On the MDB2 the MSP430 uses USCIB0 SPI port to communicate with the module.
+    274          @pre SPI pins configured correctly: 
+    275          - Clock, MOSI, MISO configured as SPI function
+    276          - Chip Select configured as an output
+    277          - SRDY configured as an input.
+    278          @post SPI port is configured for communications with the module.
+    279          */
+    280          void halSpiInitModule()
+    281          {
+    282              UCB0CTL1 |= UCSSEL_2 | UCSWRST;                 //serial clock source = SMCLK, hold SPI interface in reset
+    283              UCB0CTL0 = UCCKPH | UCMSB | UCMST | UCSYNC;     //clock polarity = inactive is LOW (CPOL=0); Clock Phase = 0; MSB first; Master Mode; Synchronous Mode    
+    284              UCB0BR0 = 2;  UCB0BR1 = 0;                      //SPI running at 2MHz (SMCLK / 2)
+    285              UCB0CTL1 &= ~UCSWRST;                           //start USCI_B1 state machine  
+    286          }
+    287          
+    288          /**
+    289          Sends a message over SPI to the Module.
+    290          The Module uses a "write-to-read" approach: to read data out, you must write data in.
+    291          This is a private method that gets wrapped by other methods, e.g. spiSreq(), spiAreq, etc.
+    292          To Write, set *bytes and numBytes. To Read, set *bytes only. Don't need to set numBytes because the 
+    293          Module will stop when no more bytes are received.
+    294          @param bytes the data to be sent or received.
+    295          @param numBytes the number of bytes to be sent. This same buffer will be overwritten with the received data.
+    296          @pre SPI port configured for the Module and Module has been initialized properly
+    297          @post bytes contains received data, if any
+    298          */
+    299          void spiWrite(uint8_t *bytes, uint8_t numBytes)
+    300          {
+    301              while (numBytes--)
+    302              {  
+    303                  UCB0TXBUF = *bytes;
+    304                  while (!(IFG2 & UCB0RXIFG)) ;     //WAIT for a character to be received, if any
+    305                  *bytes++ = UCB0RXBUF;             //read bytes
+    306              }
+    307          }
+    308          
+    309          /** 
+    310          A fairly accurate blocking delay for waits in the millisecond range. Good for 1mSec to 1000mSec. 
+    311          @note At 1MHz, error of zero for 100mSec or 1000mSec. For 10mSec, error of 100uSec. At 1mSec, error is 20uSec.
+    312          @note At 8MHz, error of zero for 1000mSec.
+    313          @note Accuracy will depend on the clock source. MSP430F2xx internal DCO is typically +/-1%. 
+    314          For better timing accuracy, use a timer, or a crystal.
+    315          @pre TICKS_PER_MS is defined correctly for the clock setting used.
+    316          @param delay number of milliseconds to delay
+    317          */
+    318          void delayMs(uint16_t delay)
+    319          {
+    320              while (delay--)
+    321              {
+    322                  __delay_cycles(TICKS_PER_MS);
+    323              }
+    324          }
+    325          
+    326          /** 
+    327          Turns ON the specified LED. 
+    328          @param led the LED to turn on
+    329          @post The specified LED is turned on. 
+    330          @return 0 if success, -1 if invalid LED specified
+    331          */
+    332          int16_t setLed(uint8_t led)
+    333          {
+    334              switch (led)
+    335              {
+    336              case 0:
+    337                  P1OUT |= BIT0;
+    338                  return 0;
+    339              case 1:
+    340                  P2OUT &= ~BIT1;      // RGB Red
+    341                  return 0;
+    342              case 2:
+    343                  P2OUT &= ~BIT5;     // RGB Green
+    344                  return 0;
+    345              case 3:
+    346                  P2OUT &= ~BIT6;      // RGB Blue
+    347                  return 0;
+    348              default:
+    349                  return -1;
+    350              }
+    351          }
+    352          
+    353          /**
+    354          Turns OFF the specified LED.
+    355          @param led the LED to turn off
+    356          @post The specified LED is turned off.
+    357          @return 0 if success, -1 if invalid LED specified
+    358          */
+    359          int16_t clearLed(uint8_t led)
+    360          {
+    361              switch (led)
+    362              {
+    363              case 0:
+    364                  P1OUT &= BIT0;
+    365                  return 0;
+    366              case 1:
+    367                  P2OUT |= BIT1;      // RGB Red
+    368                  return 0;
+    369              case 2:
+    370                  P2OUT |= BIT5;     // RGB Green
+    371                  return 0;
+    372              case 3:
+    373                  P2OUT |= BIT6;      // RGB Blue
+    374                  return 0;
+    375              default:
+    376                  return -1;
+    377              }
+    378          }
+    379          
+    380          /** 
+    381          Turns OFF LEDs. 
+    382          @post LEDs are turned off. 
+    383          */
+    384          void clearLeds()
+    385          { 
+    386              P1OUT &= ~BIT0;
+    387              P2OUT |= (BIT1 | BIT5 | BIT6);
+    388          }
+    389          
+    390          /** 
+    391          Toggles the specified LED. 
+    392          @param led the LED to toggle
+    393          @post The specified LED is toggled. 
+    394          @return 0 if success, -1 if invalid LED specified
+    395          */
+    396          int16_t toggleLed(uint8_t led)
+    397          {
+    398              switch (led)
+    399              {
+    400              case 0:
+    401                  P1OUT ^= BIT0;
+    402                  return 0;
+    403              case 1:
+    404                  P2OUT ^= BIT1;      // RGB Red
+    405                  return 0;
+    406              case 2:
+    407                  P2OUT ^= BIT5;     // RGB Green        
+    408                  return 0;
+    409              case 3:
+    410                  P2OUT ^= BIT6;      // RGB Blue
+    411                  return 0;
+    412              default:
+    413                  return -1;
+    414              }
+    415          }
+    416          
+    417          //
+    418          //
+    419          //          LAUNCHPAD PERIPHERALS
+    420          //          NOT REQUIRED FOR MODULE OPERATION
+    421          //
+    422          //
+    423          
+    424          /** 
+    425          Reads the MSP430 supply voltage using the Analog to Digital Converter (ADC) and internal voltage reference. 
+    426          @return Vcc supply voltage, in millivolts
+    427          */
+    428          uint16_t getVcc3()
+    429          {
+    430              ADC10CTL0 = SREF_1 + REFON + REF2_5V + ADC10ON + ADC10SHT_3;  // use internal ref, turn on 2.5V ref, set samp time = 64 cycles
+    431              ADC10CTL1 = INCH_11;                         
+    432              delayMs(1);                                     // Allow internal reference to stabilize
+    433              ADC10CTL0 |= ENC + ADC10SC;                     // Enable conversions
+    434              while (!(ADC10CTL0 & ADC10IFG));                // Conversion done?   
+    435              // Note: result is now ready in ADC10MEM
+    436          #define REF2_5V_VOLTAGE_MV    2500l
+    437          #define VCC_DIVIDED_BY_2        2
+    438          #define ADC_TO_MV_MULTIPLIER    (REF2_5V_VOLTAGE_MV * VCC_DIVIDED_BY_2)
+    439              unsigned long temp = (ADC10MEM * ADC_TO_MV_MULTIPLIER);        // Convert raw ADC value to millivolts
+    440              return ((uint16_t) (temp / 1024l));
+    441          }
+    442          
+    443          /** 
+    444          Reads the current sense amplifier output using the Analog to Digital Converter (ADC). 
+    445          Current sense resistor is 0.2 ohms, amplifier multiplies voltage drop by 50. Therefore, every mA of
+    446          current translates into 10mV measured by MSP430.
+    447          @note Current sense input is on P1.4/A4 on MSP430G2553
+    448          @pre Current sense shunt is installed on the BoosterPack
+    449          @return Current in mA multiplied by 10 (e.g. return value of 713 = 71.3mA)
+    450          */
+    451          uint16_t getCurrentSensor()
+    452          {
+    453              ADC10CTL0 = SREF_1 + REFON + ADC10ON + ADC10SHT_3;  // use internal ref, set samp time = 64 cycles
+    454              ADC10CTL1 = INCH_4;                         
+    455              delayMs(1);                                     // Allow internal reference to stabilize
+    456              ADC10CTL0 |= ENC + ADC10SC;                     // Enable conversions
+    457              while (!(ADC10CTL0 & ADC10IFG));                // Conversion done?   
+    458              // Note: result is now ready in ADC10MEM
+    459              uint32_t temp = (ADC10MEM * 1500l);        // Convert raw ADC value to milliamperes
+    460              return ((uint16_t) (temp / 1024l));    
+    461          }
+    462          
+    463          /** 
+    464          Configures all module interface signals as inputs to allow the module to be programmed.
+    465          Toggles LED0 quickly to indicate application is running. 
+    466          */
+    467          void halSetAllPinsToInputs(void)
+    468          {
+    469              WDTCTL = WDTPW + WDTHOLD; // Stop WDT
+    470              if (CALBC1_8MHZ ==0xFF || CALDCO_8MHZ == 0xFF)                                     
+    471              {  
+    472                  while(1); // Stop if calibration constants erased
+    473              }   
+    474              BCSCTL1 = CALBC1_8MHZ; // Set DCO = 8MHz for MCLK
+    475              DCOCTL = CALDCO_8MHZ;
+    476              BCSCTL2 |= DIVS_1;     //SMCLK = DCO/2 (4MHz)    
+    477              
+    478              P1DIR = 1; P1REN = 0; P1IE = 0; P1SEL = 0; 
+    479              P2DIR = 0; P2REN = 0; P2IE = 0; P2SEL = 0; 
+    480              P3REN = 0xFF;
+    481              for (;;)
+    482              {
+    483                  toggleLed(0);
+    484                  delayMs(100);   
+    485              }
+    486          }
+    487          
+    488          /** Configures which events will wake up the processor if sleeping. */
+    489          void halSetWakeupFlags(uint16_t wakeupFlagsToSet)
+    490          {
+    491              wakeupFlags |= wakeupFlagsToSet;  
+    492          }
+    493          
+    494          /** No flags will wakeup the processor while it is sleeping. */
+    495          void halClearWakeupFlags(uint16_t wakeupFlagsToClear)
+    496          {
+    497              wakeupFlags &= ~wakeupFlagsToClear;  
+    498          }
+    499          
+    500          /** The longest delay allowed by the timer, in seconds. */
+    501          #define TIMER_MAX_SECONDS 4
+    502          
+    503          /** 
+    504          Configures timer.
+    505          @pre ACLK sourced from VLO
+    506          @pre VLO has been calibrated; number of VLO counts in one second is in vloFrequency.
+    507          @param seconds period of the timer. Maximum is 0xFFFF / vloFrequency; or about 4 since VLO varies between 9kHz - 15kHz. 
+    508          @note Use a prescaler on timer (e.g. set IDx bits in TACTL register) for longer times. 
+    509          @note Maximum prescaling of Timer A is divide by 8. Even longer times can be obtained by prescaling ACLK 
+    510          if this doesn't affect other system peripherals.
+    511          @return 0 if success; -1 if illegal parameter or -2 if VLO not calibrated
+    512          */
+    513          int16_t initTimer(uint8_t seconds)
+    514          {  
+    515              if ((seconds > TIMER_MAX_SECONDS) || (seconds == 0))
+    516                  return -1;
+    517              if (vloFrequency == 0)
+    518                  return -2;
+    519          
+    520              wakeupFlags |= WAKEUP_AFTER_TIMER;
+    521              TACCTL0 = CCIE;
+    522              TACCR0 = vloFrequency * (seconds);
+    523              TACTL = TASSEL_1 + MC_1;
+    524              return 0;
+    525          }
+    526          
+    527          /** Halts the timer. Leaves period unchanged. */
+    528          void stopTimer()
+    529          {
+    530              TACTL = MC_0; 
+    531          }
+    532          
+    533          /** Interrupt Service Routine called by Timer A0. May wakeup processor based on value of wakeupFlags. */
+    534          #pragma vector=  TIMER0_A0_VECTOR
+    535          __interrupt void Timer_A0 (void)
+    536          {
+    537              timerIsr();
+    538              if (wakeupFlags & WAKEUP_AFTER_TIMER)    
+    539              {
+    540                  HAL_WAKEUP();     
+    541              }
+    542          }
+    543          
+    544          /** 
+    545          Calibrate VLO. Once this is done, the VLO can be used semi-accurately for timers etc. 
+    546          Once calibrated, VLO is within ~2% of actual when using a 1% calibrated DCO frequency and temperature and supply voltage remain unchanged.
+    547          @return VLO frequency (number of VLO counts in 1sec), or -1 if out of range
+    548          @pre SMCLK is 4MHz
+    549          @pre MCLK is 8MHz
+    550          @pre ACLK sourced by VLO (BCSCTL3 = LFXT1S_2 in MSP430F2xxx)
+    551          @note Calibration is only as good as MCLK source. Obviously, if using the internal DCO (+/- 1%) then this value will only be as good as +/- 1%. YMMV.
+    552          @note On MSP430F248 or MSP430F22x2 or MSP430F22x4, must use TACCR2. On MSP430F20x2, must use TACCR0. On MSP430G2553, must use CCI0B on CCR0
+    553          Check device-specific datasheet to see which module block has ACLK as a compare input.
+    554          Modify TACCTLx, TACCRx, and CCIS_x accordingly
+    555          For example, see page 23 of the MSP430F24x datasheet or page 17 of the MSP430F20x2 datasheet, or page 18 of the MSP430F22x4 datasheet.
+    556          @note If application will require accuracy over change in temperature or supply voltage, recommend calibrating VLO more often.
+    557          @post Timer A settings restored to what they were beforehand except for TACCR0 which is reset.
+    558          */
+    559          int16_t calibrateVlo()
+    560          {
+    561              WDTCTL = WDTPW + WDTHOLD;             // Stop watchdog timer
+    562              delayMs(1000);                        // Wait for oscillators to settle
+    563              uint16_t temp_BCSCTL1 = BCSCTL1;
+    564              uint16_t temp_TACCTL0 = TACCTL0;
+    565              uint16_t temp_TACTL = TACTL;
+    566              
+    567              BCSCTL1 |= DIVA_3;                    // Divide ACLK by 8
+    568              TACCTL0 = CM_1 + CCIS_1 + CAP;        // Capture on ACLK
+    569              TACTL = TASSEL_2 + MC_2 + TACLR;      // Start TA, SMCLK(DCO), Continuous
+    570              while ((TACCTL0 & CCIFG) == 0);       // Wait until capture
+    571              
+    572              TACCR0 = 0;                           // Ignore first capture
+    573              TACCTL0 &= ~CCIFG;                    // Clear CCIFG
+    574              
+    575              while ((TACCTL0 & CCIFG) == 0);       // Wait for next capture
+    576              unsigned int firstCapture = TACCR0;   // Save first capture
+    577              TACCTL0 &= ~CCIFG;                    // Clear CCIFG
+    578              
+    579              while ((TACCTL0 & CCIFG) ==0);        // Wait for next capture
+    580              
+    581              unsigned long counts = (TACCR0 - firstCapture);        // # of VLO clocks in 8Mhz
+    582              BCSCTL1 = temp_BCSCTL1;                  // Restore original settings
+    583              TACCTL0 = temp_TACCTL0;
+    584              TACTL = temp_TACTL;
+    585              
+    586              //TACCTL0 = 0; TACTL = 0;                 // Clear Timer settings
+    587              
+    588              vloFrequency = ((uint16_t) (32000000l / counts));
+    589              if ((vloFrequency > VLO_MIN) && (vloFrequency < VLO_MAX))
+    590                  return vloFrequency;
+    591              else
+    592                  return -1;
+    593          }
+    594          
+    595          /** Required for compatibility with processors (like Stellaris) that have a UART FIFO */
+    596          uint8_t halUartBusy()
+    597          {
+    598          	return (0);
+    599          }
+    600          
+    601          //
+    602          //RGB LEDs:
+    603          //
+    604          #define RED_PWM                 TA1CCR1
+    605          #define BLUE_PWM                TA0CCR1
+    606          #define GREEN_PWM               TA1CCR2  
+    607          
+    608          /**
+    609          Initializes the PWM engine used for the RGB LED. This allows the RGB LED to display many colors.
+    610          @post RGB LED may be used, with halRgbSetLeds().
+    611          */
+    612          void halRgbLedPwmInit()
+    613          {
+    614              P2SEL |= BIT1 | BIT5 | BIT6;    // Select Timer functionality
+    615              P2DIR |= BIT1 | BIT5 | BIT6;    // Output
+    616              P2SEL2 = 0;
+    617              
+    618              TA1CCR0 = RGB_LED_PWM_PERIOD - 1;                             // PWM Period
+    619              TA1CCTL1 = OUTMOD_7;                         // CCR1 reset/set
+    620              TA1CCTL2 = OUTMOD_7;                         // CCR1 reset/set    
+    621              TA1CTL = TASSEL_2 + MC_1;                  // SMCLK, up mode
+    622              
+    623              TA0CCR0 = RGB_LED_PWM_PERIOD - 1;                             // PWM Period
+    624              TA0CCTL1 = OUTMOD_7;                         // CCR1 reset/set
+    625              TA0CTL = TASSEL_2 + MC_1;                  // SMCLK, up mode
+    626              
+    627              halRgbSetLeds(0,0,0);                   // Initialization done, turn them off
+    628          }
+    629          
+    630          /* Multiply given values by this to get true white. Measured empirically. */
+    631          #define COLOR_BALANCE_RED (0.27f)
+    632          #define COLOR_BALANCE_BLUE (0.75f)
+    633          #define COLOR_BALANCE_GREEN (1.0f)
+    634          
+    635          /** 
+    636          Sets RGB LED color to the selected values. Adjusts intensities so that illuminance of each color is 
+    637          even. This way calling the function with (0xFF, 0xFF, 0xFF) will result in a fairly good white.
+    638          @param red the amount of red - 0 to 0xFF
+    639          @param blue the amount of blue - 0 to 0xFF
+    640          @param green the amount of green - 0 to 0xFF
+    641          @pre halRgbLedPwmInit() has been called to initialize the PWM engine.
+    642          @post RGB LED displays the selected colors.
+    643          */
+    644          void halRgbSetLeds(uint8_t red, uint8_t blue, uint8_t green)
+    645          {
+    646              /* Adjust intensity of each color for white balance */
+    647              float colorBalancedRed = COLOR_BALANCE_RED * ((float) red);
+    648              float colorBalancedGreen = COLOR_BALANCE_GREEN * ((float) green);
+    649              float colorBalancedBlue = COLOR_BALANCE_BLUE * ((float) blue);
+    650          
+    651              /* Now, need to set the PWM cycle. 
+    652              PWM register of 0 = LED totally ON (LEDs are active-low)
+    653              PWM register of RGB_LED_PWM_PERIOD means LED is totally OFF. */
+    654              RED_PWM  = RGB_LED_PWM_PERIOD - ((uint8_t) colorBalancedRed);
+    655              GREEN_PWM  = RGB_LED_PWM_PERIOD - ((uint8_t) colorBalancedGreen);
+    656              BLUE_PWM  = RGB_LED_PWM_PERIOD - ((uint8_t) colorBalancedBlue);
+    657          }
+    658          
+    659          /** Simple test of RGB LED. */
+    660          void halRgbLedTest()
+    661          {
+    662              int i;
+    663              for (i=0; i< 0xFF; i++)
+    664              {
+    665                  halRgbSetLeds(0xFF-i,0xFF,0xFF);
+    666                  delayMs(5);
+    667              }
+    668              for (i=0; i< 0xFF; i++)
+    669              {
+    670                  halRgbSetLeds(i,0xFF,0xFF);
+    671                  delayMs(5);
+    672              }
+    673              
+    674              for (i=0; i< 0xFF; i++)
+    675              {
+    676                  halRgbSetLeds(0xFF,0xFF-i,0xFF);
+    677                  delayMs(5);
+    678              }        
+    679              for (i=0; i< 0xFF; i++)
+    680              {
+    681                  halRgbSetLeds(0xFF,i,0xFF);
+    682                  delayMs(5);
+    683              }
+    684              
+    685              for (i=0; i< 0xFF; i++)
+    686              {
+    687                  halRgbSetLeds(0xFF,0xFF,0xFF-i);
+    688                  delayMs(5);
+    689              }        
+    690              for (i=0; i< 0xFF; i++)
+    691              {
+    692                  halRgbSetLeds(0xFF,0xFF,i);
+    693                  delayMs(5);
+    694              }
+    695              
+    696          }
+    697          
+    698          /* @} */
+    699          
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+     12   PORT1_ISR
+       12   -- Indirect call
+     12   PORT2_ISR
+       12   -- Indirect call
+     12   Timer_A0
+       12   -- Indirect call
+     12   USCIAB0RX_ISR
+       12   -- Indirect call
+      2   buttonIsPressed
+      4   calibrateVlo
+        4   -> delayMs
+      2   clearLed
+      2   clearLeds
+      2   delayMs
+      6   displayVersion
+        4   -> tfp_printf
+        6   -> tfp_printf
+      4   doNothing
+      2   getCurrentSensor
+        2   -> delayMs
+      2   getVcc3
+        2   -> delayMs
+      2   halClearWakeupFlags
+      2   halInit
+        2   -> clearLeds
+        2   -> displayVersion
+        2   -> halUartInit
+        2   -> oscInit
+        2   -> portInit
+      2   halRgbLedPwmInit
+        2   -> halRgbSetLeds
+      4   halRgbLedTest
+        4   -> delayMs
+        4   -> halRgbSetLeds
+     16   halRgbSetLeds
+       16   -> _Cast32fto32u
+       16   -> _Cast32uto32f
+       16   -> _Mul32f
+      2   halSetAllPinsToInputs
+        2   -> delayMs
+        2   -> toggleLed
+      2   halSetWakeupFlags
+      2   halSpiInitModule
+      2   halUartBusy
+      2   halUartInit
+      2   initTimer
+      2   oscInit
+      2   portInit
+      2   putchar
+      2   setLed
+      2   spiWrite
+      2   stopTimer
+      2   toggleLed
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      35  ?<Constant " Module Interface and...">
+      13  ?<Constant "$Rev: 1643 $">
+       3  ?<Constant "%s">
+       2  ?<Constant "-">
+      58  ?<Constant "See www.anaren.com/ai...">
+       3  ?<Constant "\r\n">
+       2  ??PORT1_ISR??INTVEC 4
+       2  ??PORT2_ISR??INTVEC 6
+       2  ??Timer_A0??INTVEC 18
+       2  ??USCIAB0RX_ISR??INTVEC 14
+       2  ADC10CTL0
+       2  ADC10CTL1
+       2  ADC10MEM
+       1  BCSCTL1
+       1  BCSCTL2
+       1  BCSCTL3
+       1  CALBC1_8MHZ
+       1  CALDCO_8MHZ
+       1  DCOCTL
+       1  IE2
+       1  IFG2
+       1  P1DIR
+       1  P1IE
+       1  P1IES
+       1  P1IFG
+       1  P1IN
+       1  P1OUT
+       1  P1REN
+       1  P1SEL
+       1  P1SEL2
+       1  P2DIR
+       1  P2IE
+       1  P2IFG
+       1  P2OUT
+       1  P2REN
+       1  P2SEL
+       1  P2SEL2
+       1  P3REN
+      46  PORT1_ISR
+      44  PORT2_ISR
+       2  TA0CCR0
+       2  TA0CCR1
+       2  TA0CCTL0
+       2  TA0CCTL1
+       2  TA0CTL
+       2  TA1CCR0
+       2  TA1CCR1
+       2  TA1CCR2
+       2  TA1CCTL1
+       2  TA1CCTL2
+       2  TA1CTL
+      34  Timer_A0
+       1  UCA0BR0
+       1  UCA0BR1
+       1  UCA0CTL0
+       1  UCA0CTL1
+       1  UCA0MCTL
+       1  UCA0RXBUF
+       1  UCA0TXBUF
+       1  UCB0BR0
+       1  UCB0BR1
+       1  UCB0CTL0
+       1  UCB0CTL1
+       1  UCB0RXBUF
+       1  UCB0TXBUF
+      32  USCIAB0RX_ISR
+       2  WDTCTL
+      24  buttonIsPressed
+       2  buttonIsr
+     144  calibrateVlo
+      58  clearLed
+      12  clearLeds
+       2  debugConsoleIsr
+      22  delayMs
+      88  displayVersion
+      10  doNothing
+      50  getCurrentSensor
+      50  getVcc3
+       6  halClearWakeupFlags
+      40  halInit
+      68  halRgbLedPwmInit
+     210  halRgbLedTest
+     154  halRgbSetLeds
+      88  halSetAllPinsToInputs
+       6  halSetWakeupFlags
+      26  halSpiInitModule
+       4  halUartBusy
+      40  halUartInit
+      62  initTimer
+      44  oscInit
+      52  portInit
+      12  putchar
+      58  setLed
+      32  spiWrite
+       2  srdyIsr
+       6  stopTimer
+       2  timerIsr
+      58  toggleLed
+       2  vloFrequency
+       2  wakeupFlags
+
+ 
+ 1 580 bytes in segment CODE
+    68 bytes in segment DATA16_AN
+   114 bytes in segment DATA16_C
+    12 bytes in segment DATA16_Z
+     8 bytes in segment INTVEC
+ 
+ 1 580 bytes of CODE  memory
+   114 bytes of CONST memory (+  8 bytes shared)
+    12 bytes of DATA  memory (+ 68 bytes shared)
+
+Errors: none
+Warnings: none

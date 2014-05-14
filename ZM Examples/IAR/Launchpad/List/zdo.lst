@@ -1,0 +1,513 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:22 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\zdo.c                                 #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\zdo.c" -D LAUNCHPAD -D ZM_PHY_SPI -D  #
+#                     REGION_NORTH_AMERICA -D DISPLAY_NETWORK_INFORMATION     #
+#                     -lc "C:\Documents and Settings\Nisrina                  #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\" -o      #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\"          #
+#                     --no_cse --no_unroll --no_inline --no_code_motion       #
+#                     --no_tbaa --debug -D__MSP430G2553__ -e --double=32      #
+#                     --dlib_config "C:\Program Files\IAR Systems\Embedded    #
+#                     Workbench 6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents  #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\zdo.lst   #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\zdo.r43    #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM\zdo.c
+      1          /**
+      2          * @file zdo.c
+      3          *
+      4          * @brief Methods that implement the Zigbee Device Objects (ZDO) interface.
+      5          * 
+      6          * The AF/ZDO interface is a more powerful version of the Simple API and allows you to configure, send, and receive Zigbee data.
+      7          * This file acts as an interface between the user's application and the Module physical interface.
+      8          * Module interface could be either SPI or UART.
+      9          * Refer to Interface Specification for more information.
+     10          *
+     11          * @note For more information, define ZDO_VERBOSE. It is recommended to define this on a per-project basis. 
+     12          * In IAR, this can be done in Project Options : C/C++ compiler : Preprocessor
+     13          * In the defined symbols box, add:
+     14          * ZDO_VERBOSE
+     15          *
+     16          * $Rev: 1642 $
+     17          * $Author: dsmith $
+     18          * $Date: 2012-10-31 11:17:04 -0700 (Wed, 31 Oct 2012) $
+     19          *
+     20          * @section support Support
+     21          * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     22          * is available via email at the following addresses:
+     23          * - Questions on how to use the product: AIR@anaren.com
+     24          * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     25          * - Consulting engagements: sales@teslacontrols.com
+     26          *
+     27          * @section license License
+     28          * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     29          * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     30          * source and binary forms, with or without modification, are subject to the Software License 
+     31          * Agreement in the file "anaren_eula.txt"
+     32          * 
+     33          * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     34          * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     35          * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     36          * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     37          * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     38          * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     39          * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     40          * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     41          * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     42          */
+     43          
+     44          #include "zdo.h"
+     45          #include "module.h"
+     46          #include "../HAL/hal.h"
+     47          #include "../Common/utilities.h"
+     48          #include "module_errors.h"
+     49          #include "zm_phy_spi.h"
+     50          #include <string.h>                 //for memcpy()
+     51          #include <stdint.h>
+     52          
+     53          extern uint8_t zmBuf[ZIGBEE_MODULE_BUFFER_SIZE];
+     54          
+     55          #define METHOD_ZDO_STARTUP_FROM_APP                    0x31
+     56          /** Starts the Zigbee stack in the Module using the settings from a previous afRegisterApplication().
+     57          After this start request process completes, the device is ready to send, receive, and route network traffic.
+     58          @note On a coordinator in a trivial test setup, it takes approximately 300mSec between sending 
+     59          START_REQUEST and receiving START_REQUEST_SRSP and then another 200-1000mSec from when we receive 
+     60          START_REQUEST_SRSP to when we receive START_CONFIRM. Set START_CONFIRM_TIMEOUT based on size of your network.
+     61          @note ZDO_STARTUP_FROM_APP field StartDelay not used
+     62          @pre afRegisterApplication() was a success.
+     63          @post We will see Device Status change to DEV_ROUTER, DEV_ZB_COORD, or DEV_END_DEVICE correspondingly if everything was ok.
+     64          */
+     65          moduleResult_t zdoStartApplication()
+     66          {
+     67          #ifdef ZDO_VERBOSE    
+     68              printf("Start Application with AF/ZDO...");
+     69          #endif    
+     70          #define ZDO_STARTUP_FROM_APP_PAYLOAD_LEN 1    
+     71              zmBuf[0] = ZDO_STARTUP_FROM_APP_PAYLOAD_LEN;
+     72              zmBuf[1] = MSB(ZDO_STARTUP_FROM_APP);
+     73              zmBuf[2] = LSB(ZDO_STARTUP_FROM_APP);      
+     74              
+     75          #define NO_START_DELAY 0
+     76              zmBuf[3] = NO_START_DELAY;
+     77              RETURN_RESULT(sendMessage(), ZDO_STARTUP_FROM_APP);
+     78          }
+     79          
+     80          #define METHOD_ZDO_IEEE_ADDR_REQ                    0x32
+     81          #define METHOD_ZDO_IEEE_ADDR_RSP                    0x33
+     82          /** Requests a remote device's MAC Address (64-bit IEEE Address) given a short address.
+     83          @param shortAddress the short address to locate
+     84          @param requestType must be SINGLE_DEVICE_RESPONSE or INCLUDE_ASSOCIATED_DEVICES. 
+     85          If SINGLE_DEVICE_RESPONSE is selected, then only information about the requested device will be returned. 
+     86          If INCLUDE_ASSOCIATED_DEVICES is selected, then the short addresses of the selected device's children will be returned too.
+     87          @param startIndex If INCLUDE_ASSOCIATED_DEVICES was selected, then there may be too many children to 
+     88          fit in one ZDO_IEEE_ADDR_RSP message. So, use startIndex to get the next set of children's short addresses.
+     89          @post zmBuf contains the ZDO_IEEE_ADDR_RSP message.
+     90          */
+     91          moduleResult_t zdoRequestIeeeAddress(uint16_t shortAddress, uint8_t requestType, uint8_t startIndex)
+     92          {
+     93              RETURN_INVALID_PARAMETER_IF_TRUE(((requestType != SINGLE_DEVICE_RESPONSE) && (requestType != INCLUDE_ASSOCIATED_DEVICES)), METHOD_ZDO_IEEE_ADDR_REQ);
+     94          #ifdef ZDO_VERBOSE     
+     95              printf("Requesting IEEE Address for short address %04X, requestType %s, startIndex %u\r\n", 
+     96                     shortAddress, (requestType == 0) ? "Single" : "Extended", startIndex);
+     97          #endif 
+     98              
+     99          #define ZDO_IEEE_ADDR_REQ_PAYLOAD_LEN 4
+    100              zmBuf[0] = ZDO_IEEE_ADDR_REQ_PAYLOAD_LEN;
+    101              zmBuf[1] = MSB(ZDO_IEEE_ADDR_REQ);             
+    102              zmBuf[2] = LSB(ZDO_IEEE_ADDR_REQ);      
+    103              
+    104              zmBuf[3] = LSB(shortAddress);
+    105              zmBuf[4] = MSB(shortAddress);
+    106              zmBuf[5] = requestType;
+    107              zmBuf[6] = startIndex;
+    108              
+    109          #ifdef ZDO_IEEE_ADDR_RSP_HANDLED_BY_APPLICATION           //Return control to main application
+    110              RETURN_RESULT(sendMessage(), METHOD_ZDO_IEEE_ADDR_REQ);
+    111          #else
+    112              RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_ZDO_IEEE_ADDR_REQ);     
+    113              
+    114          #define ZDO_IEEE_ADDR_RSP_TIMEOUT 10
+    115              RETURN_RESULT_IF_FAIL(waitForMessage(ZDO_IEEE_ADDR_RSP, ZDO_IEEE_ADDR_RSP_TIMEOUT), METHOD_ZDO_IEEE_ADDR_RSP);
+    116              RETURN_RESULT(zmBuf[ZDO_IEEE_ADDR_RSP_STATUS_FIELD], METHOD_ZDO_IEEE_ADDR_RSP);
+    117          #endif
+    118          }
+    119          
+    120          #define METHOD_ZDO_NWK_ADDR_REQ                     0x34
+    121          #define METHOD_ZDO_NWK_ADDR_RSP                     0x35
+    122          /** Requests a remote device's Short Address for a given long address.
+    123          @param ieeeAddress the long address to locate, LSB first!
+    124          @param requestType must be SINGLE_DEVICE_RESPONSE or INCLUDE_ASSOCIATED_DEVICES. 
+    125          If SINGLE_DEVICE_RESPONSE is selected, then only information about the requested device will be returned. 
+    126          If INCLUDE_ASSOCIATED_DEVICES is selected, then the short addresses of the selected device's children will be returned too.
+    127          @param startIndex If INCLUDE_ASSOCIATED_DEVICES was selected, then there may be too many children to 
+    128          fit in one ZDO_NWK_ADDR_RSP message. So, use startIndex to get the next set of children's short addresses.
+    129          @note DOES NOT WORK FOR SLEEPING END DEVICES
+    130          @note may not work correctly when using UART interface
+    131          @post An ZDO_NWK_ADDR_RSP message will be received, with one or more entries.
+    132          @return a pointer to the beginning of the payload, or a pointer to indeterminate data if error.
+    133          */
+    134          moduleResult_t zdoNetworkAddressRequest(uint8_t* ieeeAddress, uint8_t requestType, uint8_t startIndex)
+    135          {
+    136              RETURN_INVALID_PARAMETER_IF_TRUE(((requestType != SINGLE_DEVICE_RESPONSE) && (requestType != INCLUDE_ASSOCIATED_DEVICES)), METHOD_ZDO_NWK_ADDR_REQ);
+    137              
+    138          #ifdef ZDO_VERBOSE     
+    139              printf("Requesting Network Address for long address ");
+    140              printHexBytes(ieeeAddress, 8);
+    141              printf("requestType %s, startIndex %u\r\n", (requestType == 0) ? "Single" : "Extended", startIndex);
+    142          #endif
+    143          #define ZDO_NWK_ADDR_REQ_PAYLOAD_LEN 10
+    144              zmBuf[0] = ZDO_NWK_ADDR_REQ_PAYLOAD_LEN;
+    145              zmBuf[1] = MSB(ZDO_NWK_ADDR_REQ);
+    146              zmBuf[2] = LSB(ZDO_NWK_ADDR_REQ);      
+    147              
+    148              memcpy(zmBuf+3, ieeeAddress, 8);
+    149              zmBuf[11] = requestType;
+    150              zmBuf[12] = startIndex;
+    151              
+    152          #ifdef ZDO_NWK_ADDR_RSP_HANDLED_BY_APPLICATION  //Main application will wait for ZDO_NWK_ADDR_RSP message.    
+    153              RETURN_RESULT(sendMessage(), METHOD_ZDO_NWK_ADDR_REQ);
+    154          #else
+    155              RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_ZDO_NWK_ADDR_REQ);     
+    156              
+    157          #define ZDO_NWK_ADDR_RSP_TIMEOUT 10
+    158              RETURN_RESULT_IF_FAIL(waitForMessage(ZDO_NWK_ADDR_RSP, ZDO_NWK_ADDR_RSP_TIMEOUT), METHOD_ZDO_NWK_ADDR_RSP);
+    159              RETURN_RESULT(zmBuf[ZDO_NWK_ADDR_RSP_STATUS_FIELD], METHOD_ZDO_NWK_ADDR_RSP);
+    160          #endif
+    161          }
+    162          
+    163          /** Displays the returned value of ZdoUserDescriptorRequest()
+    164          @param rsp points to the beginning of the response
+    165          @pre rsp holds a valid response
+    166          */
+    167          void displayZdoUserDescriptorResponse(uint8_t* rsp)
+    168          {
+    169              
+    170              if (rsp[2] != MODULE_SUCCESS)
+    171              {
+    172                  printf("Failed (Error Code %02X)\r\n", rsp[0]);
+    173                  return;
+    174              }
+    175              
+    176                  printf("User Descriptor Response Received - Source Address=0x%04X, Network Address=0x%04X\r\n", CONVERT_TO_INT(rsp[0], rsp[1]), CONVERT_TO_INT(rsp[3], rsp[4]));
+    177                  printf("Length=%u, User Descriptor=", rsp[5]);
+    178                  // Display the user descriptor
+    179                  int i;
+    180                  for (i=0; i<rsp[5]; i++)
+    181                      printf("%c", rsp[6+i]);
+    182                  printf("\r\n");
+    183              
+    184          }
+    185          
+    186          /** Displays the returned value of ZdoNodeDescriptorRequest()
+    187          @param rsp points to the beginning of the response
+    188          @pre rsp holds a valid response
+    189          */
+    190          void displayZdoNodeDescriptorResponse(uint8_t* rsp)
+    191          {
+    192              
+    193              if (rsp[2] != MODULE_SUCCESS)
+    194              {
+    195                  printf("Failed (Error Code %02X)\r\n", rsp[0]);
+    196                  return;
+    197              }
+    198              
+    199                  printf("Node Descriptor Response Received - Source Address=0x%04X, Network Address=0x%04X\r\n", CONVERT_TO_INT(rsp[0], rsp[1]), CONVERT_TO_INT(rsp[3], rsp[4]));
+    200              printf("    Logical Type / ComplexDesc / User Desc = 0x%02X\r\n", rsp[5]);
+    201              printf("    APSFlags / Frequency Band = %02X\r\n", rsp[6]);
+    202              printf("    Mac Capabilities = 0x%02X\r\n", rsp[7]);
+    203              printf("    Manufacturer Code = 0x%04X\r\n", CONVERT_TO_INT(rsp[8], rsp[9]));
+    204              printf("    Max Buffer Size = 0x%02X\r\n", rsp[10]);
+    205              printf("    Max In Transfer Size = 0x%04X\r\n", CONVERT_TO_INT(rsp[11], rsp[12]));
+    206              printf("    Server Mask = 0x%04X\r\n", CONVERT_TO_INT(rsp[13], rsp[14]));
+    207              printf("    Max Out Transfer Size = 0x%04X\r\n", CONVERT_TO_INT(rsp[15], rsp[16]));
+    208              printf("    Descriptor Capabilities = 0x%02X\r\n", rsp[17]);    
+    209              
+    210          }
+    211          
+    212          /** Displays the returned value of zdoNetworkAddressRequest() or zdoRequestIeeeAddress()
+    213          Both response messages use the same format.
+    214          @param rsp points to the beginning of the response
+    215          @pre rsp holds a valid response
+    216          */
+    217          void displayZdoAddressResponse(uint8_t* rsp)
+    218          {
+    219              if (rsp[0] != MODULE_SUCCESS)
+    220              {
+    221                  printf("Failed to find that device (Error Code %02X)\r\n", rsp[0]);
+    222              }
+    223              else
+    224              {
+    225                  printf("Device Found! MAC (MSB first): ");
+    226                  int i;
+    227                  for (i=8; i>0; i--)
+    228                      printf("%02X ", rsp[i]);
+    229                  printf(", Short Address:%04X\r\n", CONVERT_TO_INT(rsp[9], rsp[10]));
+    230                  if (rsp[12] > 0)
+    231                  {
+    232                      printf("%u Associated Devices, starting at #%u:", rsp[12], rsp[11]);
+    233                      int j;
+    234                      for (j=0; j<rsp[12]; j++)
+    235                          printf("(%04X) ", CONVERT_TO_INT(rsp[(j+13)], rsp[(j+14)]));
+    236                      printf("\r\n");
+    237                  } else {
+    238                      printf("\r\n");
+    239                  }
+    240              }
+    241          }
+    242          
+    243          /** Displays the parsed fields in a ZDO_END_DEVICE_ANNCE_IND message 
+    244          @param announce points to the start of a ZDO_END_DEVICE_ANNCE_IND: (zmBuf)
+    245          */
+    246          void displayZdoEndDeviceAnnounce(uint8_t* announce)
+    247          {    
+    248              if (announce[ZDO_END_DEVICE_ANNCE_IND_CAPABILITIES_FIELD] & 
+    249                  ZDO_END_DEVICE_ANNCE_IND_CAPABILITIES_FLAG_DEVICETYPE_ROUTER)
+    250                  printf("ROUTER ");
+    251              else
+    252                  printf("END DEVICE ");
+    253              printf("Announce From:%04X Addr:%04X MAC:", GET_ZDO_END_DEVICE_ANNCE_IND_FROM_ADDRESS(), GET_ZDO_END_DEVICE_ANNCE_IND_SRC_ADDRESS());
+    254              int i;
+    255              for (i=11; i>3; i--)
+    256                  printf("%02X", announce[i]);
+    257              printf(" Capabilities:%02X\r\n", announce[ZDO_END_DEVICE_ANNCE_IND_CAPABILITIES_FIELD]);
+    258          }
+    259          
+    260          #define METHOD_ZDO_USER_DESC_REQ                    0x36
+    261          #define METHOD_ZDO_USER_DESC_RSP                    0x37
+    262          /** Requests a remote device's user descriptor. This is a 16 byte text field that may be used for
+    263          anything and may be read/written remotely.
+    264          @param destinationAddress the short address of the destination
+    265          @param networkAddressOfInterest the short address of the device the query is intended for
+    266          @post zmBuf contains the ZDO_USER_DESC_RSP message.
+    267          */
+    268          moduleResult_t zdoUserDescriptorRequest(uint16_t destinationAddress, uint16_t networkAddressOfInterest)
+    269          {
+    270          #ifdef ZDO_VERBOSE     
+    271              printf("Requesting User Descriptor for destination %04X, NWK address %04X\r\n", destinationAddress, networkAddressOfInterest);
+    272          #endif 
+    273              
+    274          #define ZDO_USER_DESC_REQ_PAYLOAD_LEN 4
+    275              zmBuf[0] = ZDO_USER_DESC_REQ_PAYLOAD_LEN;
+    276              zmBuf[1] = MSB(ZDO_USER_DESC_REQ);             
+    277              zmBuf[2] = LSB(ZDO_USER_DESC_REQ);      
+    278              
+    279              zmBuf[3] = LSB(destinationAddress);
+    280              zmBuf[4] = MSB(destinationAddress);
+    281              zmBuf[5] = LSB(networkAddressOfInterest);
+    282              zmBuf[6] = MSB(networkAddressOfInterest);
+    283              
+    284          #ifdef ZDO_USER_DESC_RSP_HANDLED_BY_APPLICATION           //Return control to main application
+    285              RETURN_RESULT(sendMessage(), METHOD_ZDO_USER_DESC_REQ);
+    286          #else
+    287              RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_ZDO_USER_DESC_REQ);     
+    288              
+    289              // Now wait for the response...
+    290          #define ZDO_USER_DESC_RSP_TIMEOUT 10
+    291              RETURN_RESULT_IF_FAIL(waitForMessage(ZDO_USER_DESC_RSP, ZDO_USER_DESC_RSP_TIMEOUT), METHOD_ZDO_USER_DESC_RSP);
+    292              RETURN_RESULT(zmBuf[ZDO_USER_DESC_RSP_STATUS_FIELD], METHOD_ZDO_USER_DESC_RSP);
+    293          #endif
+    294          }
+    295          
+    296          #define METHOD_ZDO_NODE_DESC_REQ                    0x38
+    297          #define METHOD_ZDO_NODE_DESC_RSP                    0x39
+    298          /** Requests a remote device's node descriptor. 
+    299          @param destinationAddress the short address of the destination
+    300          @param networkAddressOfInterest the short address of the device the query is intended for
+    301          @post zmBuf contains the ZDO_NODE_DESC_RSP message.
+    302          */
+    303          moduleResult_t zdoNodeDescriptorRequest(uint16_t destinationAddress, uint16_t networkAddressOfInterest)
+    304          {
+    305          #ifdef ZDO_VERBOSE     
+    306              printf("Requesting Node Descriptor for destination %04X, NWK address %04X\r\n", destinationAddress, networkAddressOfInterest);
+    307          #endif 
+    308              
+    309          #define ZDO_NODE_DESC_REQ_PAYLOAD_LEN 4
+    310              zmBuf[0] = ZDO_USER_DESC_REQ_PAYLOAD_LEN;
+    311              zmBuf[1] = MSB(ZDO_NODE_DESC_REQ);             
+    312              zmBuf[2] = LSB(ZDO_NODE_DESC_REQ);      
+    313              
+    314              zmBuf[3] = LSB(destinationAddress);
+    315              zmBuf[4] = MSB(destinationAddress);
+    316              zmBuf[5] = LSB(networkAddressOfInterest);
+    317              zmBuf[6] = MSB(networkAddressOfInterest);
+    318              
+    319          #ifdef ZDO_NODE_DESC_RSP_HANDLED_BY_APPLICATION           //Return control to main application
+    320              RETURN_RESULT(sendMessage(), METHOD_ZDO_NODE_DESC_REQ);
+    321          #else
+    322              RETURN_RESULT_IF_FAIL(sendMessage(), METHOD_ZDO_NODE_DESC_REQ);     
+    323              
+    324              // Now wait for the response...
+    325          #define ZDO_NODE_DESC_RSP_TIMEOUT 10
+    326              RETURN_RESULT_IF_FAIL(waitForMessage(ZDO_NODE_DESC_RSP, ZDO_NODE_DESC_RSP_TIMEOUT), METHOD_ZDO_NODE_DESC_RSP);
+    327              RETURN_RESULT(zmBuf[ZDO_NODE_DESC_RSP_STATUS_FIELD], METHOD_ZDO_NODE_DESC_RSP);
+    328          #endif
+    329          }
+    330          
+    331          #define METHOD_ZDO_USER_DESC_SET                    0x3A
+    332          /** Sets a remote device's user descriptor. 
+    333          @param destinationAddress the short address of the destination
+    334          @param networkAddressOfInterest the short address of the device
+    335          */
+    336          moduleResult_t zdoUserDescriptorSet(uint16_t destinationAddress, uint16_t networkAddressOfInterest, 
+    337                                              uint8_t* userDescriptor, uint8_t userDescriptorLength)
+    338          {
+    339          #ifdef ZDO_VERBOSE     
+    340              printf("Setting User Descriptor for destination %04X, NWK address %04X, length %u\r\n", 
+    341                     destinationAddress, networkAddressOfInterest, userDescriptorLength);
+    342          #endif 
+    343              
+    344          #define ZDO_USER_DESC_SET_PAYLOAD_LEN_HEADER   5
+    345              zmBuf[0] = ZDO_USER_DESC_REQ_PAYLOAD_LEN + userDescriptorLength;
+    346              zmBuf[1] = MSB(ZDO_USER_DESC_SET);             
+    347              zmBuf[2] = LSB(ZDO_USER_DESC_SET);      
+    348              
+    349              zmBuf[3] = LSB(destinationAddress);
+    350              zmBuf[4] = MSB(destinationAddress);
+    351              zmBuf[5] = LSB(networkAddressOfInterest);
+    352              zmBuf[6] = MSB(networkAddressOfInterest);
+    353              zmBuf[7] = userDescriptorLength;
+    354              memcpy(zmBuf+8, userDescriptor, userDescriptorLength);
+    355              
+    356              displayZmBuf();
+    357          
+    358              RETURN_RESULT(sendMessage(), METHOD_ZDO_USER_DESC_SET);
+    359          }
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+     10   displayZdoAddressResponse
+       10   -> tfp_printf
+        6   -> tfp_printf
+        8   -> tfp_printf
+     10   displayZdoEndDeviceAnnounce
+       10   -> tfp_printf
+        6   -> tfp_printf
+        8   -> tfp_printf
+     26   displayZdoNodeDescriptorResponse
+       10   -> tfp_printf
+       12   -> tfp_printf
+       14   -> tfp_printf
+       16   -> tfp_printf
+       18   -> tfp_printf
+       20   -> tfp_printf
+       22   -> tfp_printf
+       24   -> tfp_printf
+       26   -> tfp_printf
+        6   -> tfp_printf
+        8   -> tfp_printf
+     12   displayZdoUserDescriptorResponse
+       10   -> tfp_printf
+       12   -> tfp_printf
+        6   -> tfp_printf
+        8   -> tfp_printf
+      6   zdoNetworkAddressRequest
+        6   -> memcpy
+        6   -> sendMessage
+        6   -> waitForMessage
+      2   zdoNodeDescriptorRequest
+        2   -> sendMessage
+        2   -> waitForMessage
+      2   zdoRequestIeeeAddress
+        2   -> sendMessage
+        2   -> waitForMessage
+      2   zdoStartApplication
+        2   -> sendMessage
+      2   zdoUserDescriptorRequest
+        2   -> sendMessage
+        2   -> waitForMessage
+      4   zdoUserDescriptorSet
+        4   -> displayZmBuf
+        4   -> memcpy
+        4   -> sendMessage
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      39  ?<Constant "    APSFlags / Freque...">
+      39  ?<Constant "    Descriptor Capabi...">
+      54  ?<Constant "    Logical Type / Co...">
+      32  ?<Constant "    Mac Capabilities ...">
+      33  ?<Constant "    Manufacturer Code...">
+      31  ?<Constant "    Max Buffer Size =...">
+      36  ?<Constant "    Max In Transfer S...">
+      37  ?<Constant "    Max Out Transfer ...">
+      27  ?<Constant "    Server Mask = 0x%...">
+      21  ?<Constant " Capabilities:%02X\r\n">
+       6  ?<Constant "%02X ">
+       5  ?<Constant "%02X">
+       3  ?<Constant "%c">
+      40  ?<Constant "%u Associated Devices...">
+       8  ?<Constant "(%04X) ">
+      23  ?<Constant ", Short Address:%04X\r\n">
+      34  ?<Constant "Announce From:%04X Ad...">
+      32  ?<Constant "Device Found! MAC (MS...">
+      12  ?<Constant "END DEVICE ">
+      27  ?<Constant "Failed (Error Code %0...">
+      47  ?<Constant "Failed to find that d...">
+      28  ?<Constant "Length=%u, User Descr...">
+      84  ?<Constant "Node Descriptor Respo...">
+       8  ?<Constant "ROUTER ">
+      84  ?<Constant "User Descriptor Respo...">
+       3  ?<Constant "\r\n">
+     212  displayZdoAddressResponse
+     140  displayZdoEndDeviceAnnounce
+     286  displayZdoNodeDescriptorResponse
+     152  displayZdoUserDescriptorResponse
+     122  zdoNetworkAddressRequest
+     102  zdoNodeDescriptorRequest
+     110  zdoRequestIeeeAddress
+      34  zdoStartApplication
+     102  zdoUserDescriptorRequest
+      88  zdoUserDescriptorSet
+
+ 
+ 1 348 bytes in segment CODE
+   793 bytes in segment DATA16_C
+ 
+ 1 348 bytes of CODE  memory
+   793 bytes of CONST memory
+
+Errors: none
+Warnings: none

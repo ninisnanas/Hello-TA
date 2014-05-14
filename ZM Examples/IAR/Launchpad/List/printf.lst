@@ -1,0 +1,232 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:21 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\Common\printf.c                          #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\Common\printf.c" -D LAUNCHPAD -D         #
+#                     ZM_PHY_SPI -D REGION_NORTH_AMERICA -D                   #
+#                     DISPLAY_NETWORK_INFORMATION -lc "C:\Documents and       #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\List\" -o "C:\Documents and      #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\Obj\" --no_cse --no_unroll       #
+#                     --no_inline --no_code_motion --no_tbaa --debug          #
+#                     -D__MSP430G2553__ -e --double=32 --dlib_config          #
+#                     "C:\Program Files\IAR Systems\Embedded Workbench        #
+#                     6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents and        #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\printf.ls #
+#                     t                                                       #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\printf.r43 #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\Common\printf.c
+      1          /**
+      2           @file printf.c
+      3          
+      4           @brief small printf() implementation
+      5          
+      6           Requires ~506B of Flash, ~18B of RAM when compiled on IAR, or about 1/3 the size of IAR-Small.
+      7          
+      8           @see http://www.sparetimelabs.com/printfrevisited/index.html
+      9          
+     10          Copyright (C) 2004,2008  Kustaa Nyholm
+     11          
+     12          This library is free software; you can redistribute it and/or
+     13          modify it under the terms of the GNU Lesser General Public
+     14          License as published by the Free Software Foundation; either
+     15          version 2.1 of the License, or (at your option) any later version.
+     16          
+     17          This library is distributed in the hope that it will be useful,
+     18          but WITHOUT ANY WARRANTY; without even the implied warranty of
+     19          MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     20          Lesser General Public License for more details.
+     21          
+     22          You should have received a copy of the GNU Lesser General Public
+     23          License along with this library; if not, write to the Free Software
+     24          Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+     25          */
+     26          #include "printf.h"
+     27          
+     28          //void putchar(char c);
+     29          int putchar(int c);  //Note: Changed to match stdio.h putchar declaration
+     30          
+     31          static char* bf;
+     32          static char buf[12];
+     33          static unsigned int num;
+     34          static char uc;
+     35          static char zs;
+     36          
+     37          static void out(char c) {
+     38              *bf++ = c;
+     39              }
+     40          
+     41          static void outDgt(char dgt) {
+     42          	out(dgt+(dgt<10 ? '0' : (uc ? 'A' : 'a')-10));
+     43          	zs=1;
+     44              }
+     45          	
+     46          static void divOut(unsigned int div) {
+     47              unsigned char dgt=0;
+     48          	num &= 0xffff; // just for testing the code  with 32 bit ints
+     49          	while (num>=div) {
+     50          		num -= div;
+     51          		dgt++;
+     52          		}
+     53          	if (zs || dgt>0) 
+     54          		outDgt(dgt);
+     55              }	
+     56          
+     57          void tfp_printf(char *fmt, ...)
+     58          	{
+     59          	va_list va;
+     60          	char ch;
+     61          	char* p;
+     62          	
+     63          	va_start(va,fmt);
+     64          	
+     65          	while ((ch=*(fmt++))) {
+     66          		if (ch!='%') {
+     67          			putchar(ch);
+     68          			}
+     69          		else {
+     70          			char lz=0;
+     71          			char w=0;
+     72          			ch=*(fmt++);
+     73          			if (ch=='0') {
+     74          				ch=*(fmt++);
+     75          				lz=1;
+     76          				}
+     77          			if (ch>='0' && ch<='9') {
+     78          				w=0;
+     79          				while (ch>='0' && ch<='9') {
+     80          					w=(((w<<2)+w)<<1)+ch-'0';
+     81          					ch=*fmt++;
+     82          					}
+     83          				}
+     84          			bf=buf;
+     85          			p=bf;
+     86          			zs=0;
+     87          			switch (ch) {
+     88          				case 0: 
+     89          					goto abort;
+     90          				case 'u':
+     91          				case 'd':
+     92                                          case 'i':
+     93          					num=va_arg(va, unsigned int);
+     94          					if (((ch=='d')||(ch=='i')) && (int)num<0) {
+     95          						num = -(int)num;
+     96          						out('-');
+     97          						}
+     98          					divOut(10000);
+     99          					divOut(1000);
+    100          					divOut(100);
+    101          					divOut(10);
+    102          					outDgt(num);
+    103          					break;
+    104          				case 'x': 
+    105          				case 'X' : 
+    106          				    uc= ch=='X';
+    107          					num=va_arg(va, unsigned int);
+    108          					divOut(0x1000);
+    109          					divOut(0x100);
+    110          					divOut(0x10);
+    111          					outDgt(num);
+    112          					break;
+    113          				case 'c' : 
+    114          					out((char)(va_arg(va, int)));
+    115          					break;
+    116          				case 's' : 
+    117          					p=va_arg(va, char*);
+    118          					break;
+    119          				case '%' :
+    120          					out('%');
+    121          				default:
+    122          					break;
+    123          				}
+    124          			*bf=0;
+    125          			bf=p;
+    126          			while (*bf++ && w > 0)
+    127          				w--;
+    128          			while (w-- > 0) 
+    129          				putchar(lz ? '0' : ' ');
+    130          			while ((ch= *p++))
+    131          				putchar(ch);
+    132          			}
+    133          		}
+    134          	abort:;
+    135          	va_end(va);
+    136          	}
+    137          
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      2   divOut
+        2   -> outDgt
+      2   out
+      2   outDgt
+        2   -> out
+     12   tfp_printf
+       12   -> divOut
+       12   -> out
+       12   -> outDgt
+       12   -> putchar
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       2  bf
+      12  buf
+      40  divOut
+       2  num
+      14  out
+      44  outDgt
+     468  tfp_printf
+       1  uc
+       1  zs
+
+ 
+ 566 bytes in segment CODE
+  18 bytes in segment DATA16_Z
+ 
+ 566 bytes of CODE memory
+  18 bytes of DATA memory
+
+Errors: none
+Warnings: none

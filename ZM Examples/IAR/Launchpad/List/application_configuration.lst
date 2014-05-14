@@ -1,0 +1,209 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:16 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\application_configuration.c           #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM\application_configuration.c" -D       #
+#                     LAUNCHPAD -D ZM_PHY_SPI -D REGION_NORTH_AMERICA -D      #
+#                     DISPLAY_NETWORK_INFORMATION -lc "C:\Documents and       #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\List\" -o "C:\Documents and      #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\Obj\" --no_cse --no_unroll       #
+#                     --no_inline --no_code_motion --no_tbaa --debug          #
+#                     -D__MSP430G2553__ -e --double=32 --dlib_config          #
+#                     "C:\Program Files\IAR Systems\Embedded Workbench        #
+#                     6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents and        #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\applicati #
+#                     on_configuration.lst                                    #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\applicatio #
+#                     n_configuration.r43                                     #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\ZM\application_configuration.c
+      1          /**
+      2          * @file application_configuration.c
+      3          *
+      4          * @brief Contains Zigbee Application Configuration methods. 
+      5          *
+      6          * An Application Configuration defines how the Module will function on the Zigbee Network. This
+      7          * includes which profile is used, which endpoints are used, whether you want binding, etc.
+      8          * This is used by both Simple API and AFZDO to configure the Module for the particular application.
+      9          * Simple API can register one applicationConfiguration.
+     10          * AFZDO can register multiple applicationConfigurations, each having its own endpoint.
+     11          * Refer to documentation for more information.
+     12          * @note if using Simple API, the method sapiRegisterGenericApplication() does most of what you need.
+     13          * @note if using AF, the method afRegisterGenericApplication() does most of what you need.
+     14          * @note binding is unsupported.
+     15          * @note to configure a Coordinator with one binding input cluster 0x0001, then configure the ac with:
+     16           -  ac.numberOfBindingInputClusters =   1; 
+     17           -  ac.bindingInputClusters[0] =        0x0001;    
+     18           -  ac.numberOfBindingOutputClusters =  0;   
+     19          *
+     20          * @note to configure a Router with one binding output cluster 0x0001, then configure the ac with:
+     21           -  ac.numberOfBindingInputClusters =   0;   
+     22           -  ac.numberOfBindingOutputClusters =  1;
+     23           -  ac.bindingOutputClusters[0] =       0x0001;
+     24          *
+     25          *
+     26          * @see sapiRegisterApplication() and sapiRegisterGenericApplication()
+     27          * @see afRegisterApplication() and afRegisterGenericApplication()
+     28          *
+     29          * $Rev: 1642 $
+     30          * $Author: dsmith $
+     31          * $Date: 2012-10-31 11:17:04 -0700 (Wed, 31 Oct 2012) $
+     32          *
+     33          * @section support Support
+     34          * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     35          * is available via email at the following addresses:
+     36          * - Questions on how to use the product: AIR@anaren.com
+     37          * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     38          * - Consulting engagements: sales@teslacontrols.com
+     39          *
+     40          * @section license License
+     41          * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     42          * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     43          * source and binary forms, with or without modification, are subject to the Software License 
+     44          * Agreement in the file "anaren_eula.txt"
+     45          * 
+     46          * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     47          * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     48          * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     49          * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     50          * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     51          * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     52          * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     53          * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     54          * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     55          */
+     56          
+     57          #include "../HAL/hal.h"
+     58          #include "application_configuration.h"  
+     59          #include <stdint.h>
+     60          
+     61          /** Displays the applicationConfiguration in a human readable format
+     62          @param ac the applicationConfiguration to display
+     63          @see applicationConfiguration 
+     64          */
+     65          void printApplicationConfiguration(struct applicationConfiguration ac)
+     66          {
+     67              printf("Application Configuration:\r\n");    
+     68              printf("    endpoint = 0x%02X\r\n", ac.endPoint);
+     69              printf("    profileId = 0x%04X\r\n", ac.profileId);
+     70              printf("    deviceId = 0x%04X\r\n", ac.deviceId);
+     71              printf("    deviceVersion = 0x%04X\r\n", ac.deviceVersion);
+     72              printf("    latencyRequested = "); 
+     73              switch (ac.latencyRequested)
+     74              {
+     75              case LATENCY_NORMAL: 
+     76                  printf("NORMAL");
+     77              break;
+     78              case LATENCY_FAST_BEACONS: 
+     79                  printf("FAST_BEACONS"); 
+     80              break;
+     81              case LATENCY_SLOW_BEACONS: 
+     82                  printf("SLOW_BEACONS"); 
+     83              break;
+     84              default: 
+     85                  printf("UNKNOWN"); 
+     86              break;
+     87              }
+     88              printf("\r\n");
+     89              printf("    Number of Binding Input Clusters = %u ", ac.numberOfBindingInputClusters);
+     90              if (ac.numberOfBindingInputClusters > 0)
+     91              {
+     92                  printf("{");
+     93                  int i;
+     94                  for (i=0; i< ac.numberOfBindingInputClusters; i++)
+     95                      printf("0x%02X ", ac.bindingInputClusters[i]);
+     96                  printf("}");
+     97              }
+     98              printf("\r\n");
+     99              printf("    Number of Binding Output Clusters = %u ", ac.numberOfBindingOutputClusters);
+    100              if (ac.numberOfBindingOutputClusters > 0)
+    101              {
+    102                  printf("{");
+    103                  int i;
+    104                  for (i=0; i< ac.numberOfBindingOutputClusters; i++)
+    105                      printf("0x%02X ", ac.bindingOutputClusters[i]);
+    106                  printf("}");
+    107              }
+    108                  printf("\r\n");
+    109          }
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+     12   printApplicationConfiguration
+       10   -> tfp_printf
+       12   -> tfp_printf
+        4   -> tfp_printf
+        6   -> tfp_printf
+        8   -> tfp_printf
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      43  ?<Constant "    Number of Binding...">
+      44  ?<Constant "    Number of Binding...">_1
+      24  ?<Constant "    deviceId = 0x%04X\r\n">
+      29  ?<Constant "    deviceVersion = 0...">
+      24  ?<Constant "    endpoint = 0x%02X\r\n">
+      24  ?<Constant "    latencyRequested = ">
+      25  ?<Constant "    profileId = 0x%04X\r\n">
+       8  ?<Constant "0x%02X ">
+      29  ?<Constant "Application Configura...">
+      13  ?<Constant "FAST_BEACONS">
+       7  ?<Constant "NORMAL">
+      13  ?<Constant "SLOW_BEACONS">
+       8  ?<Constant "UNKNOWN">
+       3  ?<Constant "\r\n">
+       2  ?<Constant "{">
+       2  ?<Constant "}">
+     320  printApplicationConfiguration
+
+ 
+ 320 bytes in segment CODE
+ 298 bytes in segment DATA16_C
+ 
+ 320 bytes of CODE  memory
+ 298 bytes of CONST memory
+
+Errors: none
+Warnings: none

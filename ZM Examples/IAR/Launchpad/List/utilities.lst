@@ -1,0 +1,235 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.60.5.50814/W32 for MSP430       15/May/2014  04:06:21 #
+# Copyright 1996-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    __rt_version  =  3                                                       #
+#    __double_size =  32                                                      #
+#    __reg_r4      =  free                                                    #
+#    __reg_r5      =  free                                                    #
+#    __pic         =  no                                                      #
+#    __core        =  430                                                     #
+#    Source file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\Common\utilities.c                       #
+#    Command line  =  "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\Common\utilities.c" -D LAUNCHPAD -D      #
+#                     ZM_PHY_SPI -D REGION_NORTH_AMERICA -D                   #
+#                     DISPLAY_NETWORK_INFORMATION -lc "C:\Documents and       #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\List\" -o "C:\Documents and      #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR\Launchpad\Obj\" --no_cse --no_unroll       #
+#                     --no_inline --no_code_motion --no_tbaa --debug          #
+#                     -D__MSP430G2553__ -e --double=32 --dlib_config          #
+#                     "C:\Program Files\IAR Systems\Embedded Workbench        #
+#                     6.5\430\LIB\DLIB\dl430fn.h" -I "C:\Documents and        #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM Examples\IAR\" -I    #
+#                     "C:\Documents and Settings\Nisrina                      #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR/..\" -I "C:\Documents    #
+#                     and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP      #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../ZM\" -I "C:\Documents and               #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../HAL\" -I "C:\Documents and              #
+#                     Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP          #
+#                     FirmwareExamples v2070-20140306\ZM                      #
+#                     Examples\IAR/../Common\" -Ol                            #
+#    List file     =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\List\utilities #
+#                     .lst                                                    #
+#    Object file   =  C:\Documents and Settings\Nisrina                       #
+#                     Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples          #
+#                     v2070-20140306\ZM Examples\IAR\Launchpad\Obj\utilities. #
+#                     r43                                                     #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+C:\Documents and Settings\Nisrina Rahmah\Desktop\Anaren AIR-ZNP FirmwareExamples v2070-20140306\Common\utilities.c
+      1          /**
+      2          *  @file utilities.c
+      3          *
+      4          *  @brief Miscellaneous utility methods
+      5          *
+      6          *  Miscellaneous helper utilities.
+      7          * 
+      8          * $Rev: 1642 $
+      9          * $Author: dsmith $
+     10          * $Date: 2012-10-31 11:17:04 -0700 (Wed, 31 Oct 2012) $
+     11          *
+     12          * @section support Support
+     13          * Please refer to the wiki at www.anaren.com/air-wiki-zigbee for more information. Additional support
+     14          * is available via email at the following addresses:
+     15          * - Questions on how to use the product: AIR@anaren.com
+     16          * - Feature requests, comments, and improvements:  featurerequests@teslacontrols.com
+     17          * - Consulting engagements: sales@teslacontrols.com
+     18          *
+     19          * @section license License
+     20          * Copyright (c) 2012 Tesla Controls. All rights reserved. This Software may only be used with an 
+     21          * Anaren A2530E24AZ1, A2530E24CZ1, A2530R24AZ1, or A2530R24CZ1 module. Redistribution and use in 
+     22          * source and binary forms, with or without modification, are subject to the Software License 
+     23          * Agreement in the file "anaren_eula.txt"
+     24          * 
+     25          * YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE PROVIDED “AS IS” 
+     26          * WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY 
+     27          * WARRANTY OF MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO 
+     28          * EVENT SHALL ANAREN MICROWAVE OR TESLA CONTROLS BE LIABLE OR OBLIGATED UNDER CONTRACT, NEGLIGENCE, 
+     29          * STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR 
+     30          * INDIRECT DAMAGES OR EXPENSE INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, 
+     31          * PUNITIVE OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF SUBSTITUTE 
+     32          * GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY 
+     33          * DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
+     34          */
+     35          
+     36          #include "../HAL/hal.h"
+     37          
+     38          void printHexBytes(uint8_t* toPrint, uint16_t numBytes)
+     39          {
+     40              int i = 0;
+     41              for (i=0; i<numBytes; i++)
+     42                  printf("%02X ", toPrint[i]);
+     43              printf("\r\n");
+     44          }
+     45          
+     46          /** Fills the messagePartBuffer with DEADBEEF to aid in debugging */
+     47          void initializeBuffer(uint8_t* buf, uint16_t len)
+     48          {
+     49              int i = 0;
+     50            for (i=0; i<len; i+=4)  // initialize buffer
+     51            {
+     52              buf[i] = 0xDE;
+     53              buf[(i+1)] = 0xAD;
+     54              buf[(i+2)] = 0xBE;
+     55              buf[(i+3)] = 0xEF;
+     56            }
+     57          }
+     58          
+     59          
+     60          /** Prints a number in its binary form */
+     61          void printBinary(uint8_t n)
+     62          {
+     63              unsigned int i;
+     64              i = 1<<(sizeof(n) * 8 - 1);
+     65              while (i > 0) {
+     66                  if (n & i)
+     67                      printf("1");
+     68                  else
+     69                      printf("0");
+     70                  i >>= 1;
+     71              }
+     72          }
+     73          
+     74          /** returns >1 if is printable: ASCII values 0x20 (space) through 0x7E (~) */
+     75          char isAsciiPrintableCharacter(uint8_t c)
+     76          {
+     77              return ((c >= 0x20) && (c <= 0x7E));
+     78          }
+     79          
+     80          
+     81          /** Returns the mean from the array of values */
+     82          uint16_t getAverage(uint16_t* values, uint8_t numValues)
+     83          {
+     84              unsigned long sum = 0;
+     85              uint8_t i = 0;
+     86              for (i=0; i<numValues; i++)
+     87                  sum += values[i];
+     88              float average = sum / ((float) numValues);
+     89              return (unsigned int) average;
+     90          }
+     91          
+     92          /** Rounds an integer to the given number of places */
+     93          uint16_t roundInteger(uint16_t number, uint16_t place)
+     94          {
+     95              unsigned int i = 1;
+     96              while (place > 0)
+     97              {
+     98                  i = i * 10;
+     99                  place--;
+    100              }
+    101              int r = number % i;
+    102              if (r < (i / 2))
+    103                  return number - r;
+    104              else
+    105                  return number - r + i;
+    106          }
+    107          
+    108          /** Returns the maximum value from the array of values */
+    109          uint16_t max(uint16_t values[], uint16_t numValues)
+    110          {
+    111              uint16_t maximum = 0;
+    112              uint16_t i = 0;
+    113              for (i=0; i<numValues; i++)
+    114              {
+    115                  if (values[i] > maximum)
+    116                      maximum = values[i];
+    117              }  
+    118              return maximum;
+    119          }
+    120          
+    121          /** Returns the minimum value from the array of values */
+    122          uint16_t min(uint16_t values[], uint16_t numValues)
+    123          {
+    124              uint16_t minimum = 0xFFFF;
+    125              uint16_t i = 0;
+    126              for (i=0; i<numValues; i++)
+    127              {
+    128                  if (values[i] < minimum)
+    129                      minimum = values[i];
+    130              }
+    131              return minimum;
+    132          }
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+     10   getAverage
+       10   -> _Cast32fto32u
+       10   -> _Cast32uto32f
+       10   -> _Div32f
+      2   initializeBuffer
+      2   isAsciiPrintableCharacter
+      6   max
+      6   min
+      6   printBinary
+        6   -> tfp_printf
+     10   printHexBytes
+       10   -> tfp_printf
+        8   -> tfp_printf
+      6   roundInteger
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       6  ?<Constant "%02X ">
+       2  ?<Constant "0">
+       2  ?<Constant "1">
+       3  ?<Constant "\r\n">
+      76  getAverage
+      54  initializeBuffer
+      18  isAsciiPrintableCharacter
+      48  max
+      50  min
+      48  printBinary
+      54  printHexBytes
+      62  roundInteger
+
+ 
+ 410 bytes in segment CODE
+  13 bytes in segment DATA16_C
+ 
+ 410 bytes of CODE  memory
+  13 bytes of CONST memory
+
+Errors: none
+Warnings: none

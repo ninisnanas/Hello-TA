@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>3307985331</fileChecksum>
+  <configuration>
+    <name>Launchpad</name>
+    <outputs>
+      <file>$PROJ_DIR$\Launchpad\Obj\example_basic_comms_coordinator.r43</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\module_errors.pbi</file>
+      <file>$PROJ_DIR$\..\..\ZM\module.c</file>
+      <file>$PROJ_DIR$\..\..\ZM\module_errors.c</file>
+      <file>$PROJ_DIR$\..\..\ZM\module_utilities.c</file>
+      <file>$PROJ_DIR$\..\..\ZM\zm_phy_spi.c</file>
+      <file>$PROJ_DIR$\..\..\ZM\zdo.c</file>
+      <file>$PROJ_DIR$\..\example_basic_comms_coordinator.c</file>
+      <file>$PROJ_DIR$\..\module_example_utils.c</file>
+      <file>$PROJ_DIR$\..\..\ZM\module_errors.h</file>
+      <file>$PROJ_DIR$\..\..\Common\utilities.c</file>
+      <file>$PROJ_DIR$\..\..\ZM\af.c</file>
+      <file>$PROJ_DIR$\..\..\Common\printf.c</file>
+      <file>$PROJ_DIR$\..\..\ZM\module_utilities.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\printf.r43</file>
+      <file>$PROJ_DIR$\Launchpad\Exe\Basic Comms - Coordinator - AFZDO.ulp</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\zdo.r43</file>
+      <file>$TOOLKIT_DIR$\inc\in430.h</file>
+      <file>$PROJ_DIR$\..\Messages\kvp.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\printf.pbi</file>
+      <file>$PROJ_DIR$\..\..\HAL\hal.h</file>
+      <file>$PROJ_DIR$\Launchpad\Exe\Basic Comms - Coordinator - AFZDO.d43</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Product.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\stdint.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\xtgmath.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\module_utilities.r43</file>
+      <file>$PROJ_DIR$\..\Messages\oids.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\stdlib.h</file>
+      <file>$PROJ_DIR$\..\..\HAL\hal_TI_TMP006_IR_temperature_sensor.h</file>
+      <file>$TOOLKIT_DIR$\inc\msp430g2553.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\ycheck.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\example_basic_comms_coordinator.pbi</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\zdo.pbi</file>
+      <file>$PROJ_DIR$\..\module_example_utils.h</file>
+      <file>$PROJ_DIR$\..\..\ZM\zm_phy.h</file>
+      <file>$TOOLKIT_DIR$\config\lnk430G2553.xcl</file>
+      <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.h</file>
+      <file>$PROJ_DIR$\..\..\Common\utilities.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Defaults.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\af.pbi</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\module_errors.r43</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\application_configuration.r43</file>
+      <file>$PROJ_DIR$\..\..\ZM\module_commands.h</file>
+      <file>$PROJ_DIR$\..\..\Common\printf.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\stdbool.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\utilities.pbi</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\zm_phy_spi.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\stdarg.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.r43</file>
+      <file>$PROJ_DIR$\..\..\HAL\hal_version.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\application_configuration.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\stddef.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Threads.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\string.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\module.pbi</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\module_example_utils.r43</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\hal_launchpad.r43</file>
+      <file>$PROJ_DIR$\..\..\ZM\zm_phy_spi.h</file>
+      <file>$PROJ_DIR$\..\..\ZM\application_configuration.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\af.r43</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\module.r43</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\utilities.r43</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\yvals.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\ysizet.h</file>
+      <file>$PROJ_DIR$\..\..\ZM\af.h</file>
+      <file>$PROJ_DIR$\..\..\HAL\hal_bit_bang_i2c.h</file>
+      <file>$PROJ_DIR$\..\..\HAL\hal_launchpad.h</file>
+      <file>$PROJ_DIR$\..\..\ZM\application_configuration.c</file>
+      <file>$PROJ_DIR$\..\..\HAL\hal_launchpad.c</file>
+      <file>$PROJ_DIR$\..\..\HAL\hal_AMS_TCS3414_color_sensor.h</file>
+      <file>$PROJ_DIR$\..\..\ZM\module.h</file>
+      <file>$PROJ_DIR$\..\..\ZM\zdo.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\module_example_utils.pbi</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\module_utilities.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\hal_launchpad.pbi</file>
+      <file>$PROJ_DIR$\Launchpad\Obj\zm_phy_spi.r43</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\math.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\ymath.h</file>
+    </outputs>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 21</file>
+        </tool>
+        <tool>
+          <name>ULP430</name>
+          <file> 15</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\ZM\module.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 55</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 61</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 71 42 9 23 30 63 38 36 22 48 53 54 64 20 50 67 29 17 75 43 47 66 37 44 34 58 52</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 71 42 9 23 30 63 38 36 22 48 53 54 64 20 50 67 29 17 75 43 47 66 37 44 34 58 52</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\ZM\module_errors.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 1</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 40</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 9 23 30 63 38 36 22 48 53 20 50 67 29 17 75 43 47 66</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 9 23 30 63 38 36 22 48 53 20 50 67 29 17 75 43 47 66</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\ZM\module_utilities.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 74</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 25</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 20 50 67 29 17 75 43 47 30 63 38 36 22 48 53 23 66 71 42 9 65 59 72 13 52 64 34 58 37 44</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 20 50 67 29 17 75 43 47 30 63 38 36 22 48 53 23 66 71 42 9 65 59 72 13 52 64 34 58 37 44</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\ZM\zm_phy_spi.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 46</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 77</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 20 50 67 29 17 75 43 47 30 63 38 36 22 48 53 23 66 58 9 37 44</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 20 50 67 29 17 75 43 47 30 63 38 36 22 48 53 23 66 58 9 37 44</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\ZM\zdo.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 32</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 16</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 72 59 23 30 63 38 36 22 48 53 9 71 42 20 50 67 29 17 75 43 47 66 37 44 58 54 64</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 72 59 23 30 63 38 36 22 48 53 9 71 42 20 50 67 29 17 75 43 47 66 37 44 58 54 64</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\example_basic_comms_coordinator.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 31</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 0</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 20 50 67 29 17 75 43 47 30 63 38 36 22 48 53 23 66 71 42 9 65 59 72 13 52 64 34 58 33 18</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 20 50 67 29 17 75 43 47 30 63 38 36 22 48 53 23 66 71 42 9 65 59 72 13 52 64 34 58 33 18</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\module_example_utils.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 73</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 56</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 20 50 67 29 17 75 43 47 30 63 38 36 22 48 53 23 66 71 42 9 65 59 72 34 58 37 44 26 18 33 70 28 78 79 24</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 20 50 67 29 17 75 43 47 30 63 38 36 22 48 53 23 66 71 42 9 65 59 72 34 58 37 44 26 18 33 70 28 78 79 24</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Common\utilities.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 45</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 62</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 23 30 63 38 36 22 48 53 44 20 50 67 29 17 75 43 47 66 37 27 64</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 23 30 63 38 36 22 48 53 44 20 50 67 29 17 75 43 47 66 37 27 64</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\ZM\af.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 39</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 60</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 65 59 23 30 63 38 36 22 48 53 9 71 42 20 50 67 29 17 75 43 47 66 37 44 58 54 64</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 65 59 23 30 63 38 36 22 48 53 9 71 42 20 50 67 29 17 75 43 47 66 37 44 58 54 64</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Common\printf.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 19</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 14</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 43 47 30 63 38 36 22 48 53</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 43 47 30 63 38 36 22 48 53</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Launchpad\Exe\Basic Comms - Coordinator - AFZDO.d43</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 35 60 41 0 57 61 40 56 25 14 62 16 77 49</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\ZM\application_configuration.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 51</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 41</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 20 50 67 29 17 75 43 47 30 63 38 36 22 48 53 23 66 59</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 20 50 67 29 17 75 43 47 30 63 38 36 22 48 53 23 66 59</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\HAL\hal_launchpad.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 76</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 57</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 67 29 17 75 43 47 30 63 38 36 22 48 53 23 50</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 67 29 17 75 43 47 30 63 38 36 22 48 53 23 50</file>
+        </tool>
+      </inputs>
+    </file>
+  </configuration>
+</project>
+
+
